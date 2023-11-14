@@ -4,13 +4,11 @@ import br.com.ecoguardian.models.Unidade;
 import br.com.ecoguardian.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
-    @Query("")
-    Optional<Usuario> findByCPF(String CPF);
+    @Query("SELECT u.unidadePertencente FROM Usuario u WHERE u = :usuario")
+    Optional<Unidade> getUnidadeByUsuario(Usuario usuario);
 }
