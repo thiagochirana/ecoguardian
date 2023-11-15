@@ -1,5 +1,6 @@
 package br.com.ecoguardian.services;
 
+import br.com.ecoguardian.models.Unidade;
 import br.com.ecoguardian.models.Usuario;
 import br.com.ecoguardian.repositories.UnidadeRepository;
 import br.com.ecoguardian.repositories.UsuarioRepository;
@@ -30,6 +31,20 @@ public class UsuarioService {
             return Optional.empty();
         }
         return Optional.of(user.get());
+    }
+
+    public Optional<Usuario> vincularUnidadeAUsuario(Unidade unidade, Usuario usuario){
+        Unidade un = unidades.save(unidade);
+        usuario.adicionarUnidadeAUsuario(un);
+        Usuario us = usuarios.save(usuario);
+        return Optional.of(us);
+    }
+
+
+    public void ativarOuDesativar(String id, boolean atividade){
+        Usuario us = usuarios.findById(Long.parseLong(id)).get();
+        us.setAtivo(atividade);
+        usuarios.save(us);
     }
 
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head th:replace="~{base-elem :: head-padrao}"></head>
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
 <body>
     <div>
         <div>
@@ -11,16 +11,39 @@
                     <th scope="col">Id</th>
                     <th scope="col">Unidade</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Municipio</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="unidade : ${unidades}">
                     <td th:text="${unidade.id}"></td>
                     <td th:text="${unidade.nome}"></td>
-                    <td th:text="${unidade.estado.get()}"></td>
+<!--                    <td th:text="${unidade.localizacao.estado.getNome()}"></td>-->
+<!--                    <td th:text="${unidade.localizacao.municipio.nome}"></td>-->
                 </tr>
                 </tbody>
             </table>
+            <form action="/admin/novaUnidade" method="post">
+                <label for="nome-un" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="nome-un" name="nome"/>
+
+                <label for="estado" class="form-label">Estado:</label>
+                <select id="estado" name="estado" >
+                    <option th:each="estado : ${estados}" th:value="${estado.id}" th:text="${estado.getNome()}"></option>
+                </select>
+
+                <label for="municipio" class="form-label">Municipio:</label>
+                <select id="municipio" name="municipio">
+                    <option th:each="municipio : ${municipios}" th:value="${municipio}" th:text="${municipio.nome}"></option>
+                </select>
+
+                <label for="usuarios" class="form-label">Usuario Vinculado:</label>
+                <select id="usuarios" name="usuarioVinculado">
+                    <option th:each="user : ${usuarios}" th:value="${user.id}" th:text="${user.nome}"></option>
+                </select>
+
+                <button type="submit">Cadastrar Unidade</button>
+            </form>
 
         </div>
         <div>
@@ -33,6 +56,8 @@
                     <th scope="col">CPF</th>
                     <th scope="col">Senha</th>
                     <th scope="col">Perfil</th>
+                    <th scope="col">Ativo?</th>
+                    <th scope="col">Mais Acões</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,6 +67,32 @@
                     <td th:text="${usuario.CPF}"></td>
                     <td th:text="${usuario.senha}"></td>
                     <td th:text="${usuario.perfil.getTipoPerfil().get()}"></td>
+                    <td>
+                        <div th:if="${usuario.ativo}">
+                            <p>Ativo</p>
+                        </div>
+                        <div th:unless="${usuario.ativo}">
+                            <p>Desativado</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:if="${usuario.ativo}">
+                            <form th:action="@{'/usuarios/desativar/' + ${usuario.id} }" method="post">
+                                <button type="submit" class="btn btn-danger">Desativar</button>
+                            </form>
+                        </div>
+                        <div th:unless="${usuario.ativo}">
+                            <form th:action="@{'/usuarios/ativar/' + ${usuario.id} }" method="post">
+                                <button type="submit" class="btn btn-success">Ativar</button>
+                            </form>
+                        </div>
+
+                        <div>
+                            <form th:action="@{'/usuarios/' + ${usuario.id} }" method="post">
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
 
@@ -53,7 +104,7 @@
                 <input type="text" class="form-control" id="nome" name="nome"/>
 
                 <label for="cpf" class="form-label">CPF:</label>
-                <input type="text" class="form-control" id="cpf" name="cpf"/>
+                <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this)"/>
 
                 <label for="senha" class="form-label">Senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha"/>
@@ -67,6 +118,6 @@
             </form>
         </div>
     </div>
-    <div th:replace="~{base-elem :: script-padrao}"></div>
+    <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>
 </html>

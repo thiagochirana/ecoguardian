@@ -49,4 +49,8 @@ public class Log {
     public void info(String info){
         LOG.info(info);
     }
+
+    public void warn(String warn){
+        LOG.warn(warn);
+    }
 }

@@ -1,6 +1,7 @@
 package br.com.ecoguardian.models;
 
 import br.com.ecoguardian.models.enums.TipoPerfil;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,17 +26,27 @@ public class Usuario {
 
     private String senha;
 
+    private String email;
+
+    private String telefone;
+
+    @Column(nullable = true)
+    private Boolean ativo;
+
     @OneToOne
     private Perfil perfil;
 
     @ManyToMany
     private List<Unidade> unidadesPertencentes;
 
-    public Usuario() {}
+    public Usuario() {
+        this.ativo = true;
+    }
 
     public Usuario(String nome, Perfil perfil){
         this.nome = nome;
         this.perfil = perfil;
+        this.ativo = true;
     }
 
     public void setId(Long id) {
@@ -44,6 +55,10 @@ public class Usuario {
 
     public Long getId() {
         return id;
+    }
+
+    public void adicionarUnidadeAUsuario(Unidade unidade){
+        unidadesPertencentes.add(unidade);
     }
 
 }

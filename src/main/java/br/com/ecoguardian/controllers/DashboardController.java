@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class DashboardController {
 
     @Autowired
-    private BaseController base;
+    private ViewBase base;
 
     @GetMapping
     public ModelAndView getDashboard(){
