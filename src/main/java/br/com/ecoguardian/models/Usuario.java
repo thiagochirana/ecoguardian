@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @Getter
@@ -26,8 +28,8 @@ public class Usuario {
     @OneToOne
     private Perfil perfil;
 
-    @OneToOne
-    private Unidade unidadePertencente;
+    @ManyToMany
+    private List<Unidade> unidadesPertencentes;
 
     public Usuario() {}
 

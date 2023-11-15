@@ -1,6 +1,7 @@
 package br.com.ecoguardian.utils;
 
 import br.com.ecoguardian.models.Usuario;
+import br.com.ecoguardian.models.records.SenhaCriptoDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -22,16 +23,16 @@ public class Cripto {
         return textoCriptografado;
     }
 
-    public String descriptografar(Usuario usuario, String textoCriptografado) {
+    public SenhaCriptoDTO descriptografar(String textoCriptografado) {
         long start = System.nanoTime();
 
         byte[] bytesDescriptografados = Base64.getDecoder().decode(textoCriptografado);
         String textoDescriptografado = new String(bytesDescriptografados);
 
         long end = System.nanoTime();
-        long tempoExec = end - start;
+        Long tempoExec = end - start;
 
-        return textoDescriptografado;
+        return new SenhaCriptoDTO(textoDescriptografado, tempoExec);
     }
 
     public String conversorTempoParaNano(long tempoExecutado){

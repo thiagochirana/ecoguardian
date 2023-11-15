@@ -1,11 +1,13 @@
 package br.com.ecoguardian.services;
 
-import br.com.ecoguardian.models.Unidade;
+import br.com.ecoguardian.models.Usuario;
 import br.com.ecoguardian.repositories.UnidadeRepository;
 import br.com.ecoguardian.repositories.UsuarioRepository;
 import br.com.ecoguardian.utils.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -17,19 +19,17 @@ public class UsuarioService {
     private UnidadeRepository unidades;
 
     @Autowired
-    private UnidadeServiceWrapper unidadeWrapper;
+    private SessaoServiceWrapper sessaoServiceWrapper;
 
-    public boolean validarUsuario(String cpf, String senha){
+    public Optional<Usuario> validarObterUsuario(String cpf, String senha){
         if (!CPF.validarCPF(cpf)){
-            return false;
+            return Optional.empty();
         }
         var user = usuarios.findByCPF(CPF.retirarMascara(cpf));
         if (user.isEmpty()){
-            return false;
+            return Optional.empty();
         }
-        var unidadeUsuario = unidades.getUnidadeByUsuario(user.get());
-        unidadeWrapper.setUnidadeLogada(unidadeUsuario.get());
-        return true;
+        return Optional.of(user.get());
     }
 
 }
