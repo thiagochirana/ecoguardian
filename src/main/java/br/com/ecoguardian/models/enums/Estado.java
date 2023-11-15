@@ -35,7 +35,7 @@ public enum Estado {
         this.nomeCompleto = nomeCompleto;
     }
 
-    public String getNome() {
+    public String get() {
         return nomeCompleto;
     }
 }

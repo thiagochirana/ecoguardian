@@ -33,6 +33,11 @@ public class Usuario {
 
     public Usuario() {}
 
+    public Usuario(String nome, Perfil perfil){
+        this.nome = nome;
+        this.perfil = perfil;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

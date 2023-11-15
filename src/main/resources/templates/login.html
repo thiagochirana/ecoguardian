@@ -8,21 +8,24 @@
 </head>
 <body>
     <div class="formulario">
-        <div class="div-form">
-            <div id="error-message" class="hidden"></div>
-            <form id="login-form">
-                <div>
+        <div class="div-form box bordas-radius form-centralizado">
+            <div class="mensagem-de-erro" th:if="${mostrarErro}">
+                <p>Credenciais inválidas. Tente novamente.</p>
+            </div>
+            <form id="login-form" action="/login" method="post">
+                <div class="div-form-centralizado">
                     <label for="cpf-login" class="form-label">CPF:</label>
                     <input type="text" class="form-control" id="cpf-login" name="cpf"/>
                 </div>
 
-                <div>
+                <div class="div-form-centralizado">
                     <label for="senha-login" class="form-label">Senha:</label>
                     <input type="password" class="form-control" id="senha-login" name="senha"/>
                 </div>
 
-                <div>
-                    <button class="btn btn-primary" onclick="realizarLogin()">LOGIN</button>
+                <div class="div-form-centralizado">
+                    <button class="btn btn-outline-secondary" >Esqueci a senha</button>
+                    <button class="btn btn-success">LOGIN</button>
                 </div>
             </form>
         </div>

@@ -35,4 +35,8 @@ public class Perfil {
     public void setTipoPerfil(TipoPerfil tipoPerfil){
         this.tipoPerfil = tipoPerfil;
     }
+
+    public TipoPerfil getTipoPerfil(){
+        return this.tipoPerfil;
+    }
 }

@@ -1,0 +1,39 @@
+:root {
+    --principal: #2be334; /* Definindo uma variável de cor chamada --cor-primaria */
+    --linhas: #009b3f;
+    --linhas-bordas: #8bffba;
+    --verde-claro: #57de8f;
+    --vermelho-fundo: #fff4f4;
+    --vermelho-escuro: #fd3c3c;
+}
+
+.form-centralizado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10vw;
+    margin-left: 40vw;
+    margin-right: 40vw;
+}
+
+.div-form-centralizado{
+    margin-bottom: 10px;
+}
+
+.box {
+    padding: 1vw;
+}
+
+.bordas-radius {
+    border: 1px solid var(--linhas-bordas);
+    border-radius: 12px;
+}
+
+.mensagem-de-erro {
+    border-radius: 18px;
+    padding: 0.8vh;
+    color: var(--vermelho-escuro);
+    background-color: var(--vermelho-fundo);
+    font-size: 12px;
+}

@@ -18,7 +18,7 @@ public class Log {
     public void request(HttpServletRequest request){
         String params = request.getParameterMap().entrySet().stream()
                 .map(entry -> entry.getKey() + ": " + Arrays.toString(entry.getValue()))
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(" | "));
 
         LOG.info("Endpoint requisitada: ["+request.getMethod().toUpperCase()+"] -> "+request.getRequestURL().toString());
         if (params.length() > 0) LOG.info("Parametros da requisição: "+ params);
@@ -27,7 +27,7 @@ public class Log {
     public void request(HttpServletRequest request, Record dados){
         String params = request.getParameterMap().entrySet().stream()
                 .map(entry -> entry.getKey() + ": " + Arrays.toString(entry.getValue()))
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(" | "));
 
         LOG.info("Endpoint requisitada: ["+request.getMethod().toUpperCase()+"] "+request.getRequestURL().toString());
         if (params.length() > 0) LOG.info("Parametros da requisição recebida: "+ params);
@@ -38,7 +38,7 @@ public class Log {
     public void request(HttpServletRequest request, Object dados){
         String params = request.getParameterMap().entrySet().stream()
                 .map(entry -> entry.getKey() + ": " + Arrays.toString(entry.getValue()))
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(" | "));
 
         LOG.info("Endpoint requisitada: ["+request.getMethod().toUpperCase()+"] "+request.getRequestURL().toString());
         if (params.length() > 0) LOG.info("Parametros da requisição recebida: "+ params);

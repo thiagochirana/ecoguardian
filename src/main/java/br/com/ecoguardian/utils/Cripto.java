@@ -9,9 +9,7 @@ import java.util.Base64;
 @Component
 public class Cripto {
 
-
-
-    public String criptografar(Usuario usuario, String texto) {
+    public static SenhaCriptoDTO criptografar(String texto) {
         long start = System.nanoTime();
 
         byte[] bytes = texto.getBytes();
@@ -20,10 +18,10 @@ public class Cripto {
         long end = System.nanoTime();
         long tempoExec = end - start;
 
-        return textoCriptografado;
+        return new SenhaCriptoDTO(textoCriptografado, tempoExec);
     }
 
-    public SenhaCriptoDTO descriptografar(String textoCriptografado) {
+    public static SenhaCriptoDTO descriptografar(String textoCriptografado) {
         long start = System.nanoTime();
 
         byte[] bytesDescriptografados = Base64.getDecoder().decode(textoCriptografado);
@@ -35,7 +33,7 @@ public class Cripto {
         return new SenhaCriptoDTO(textoDescriptografado, tempoExec);
     }
 
-    public String conversorTempoParaNano(long tempoExecutado){
+    public static String conversorTempoParaNano(long tempoExecutado){
         long tempoEmMilissegundos = 0L;
         long tempoEmMicrossegundos = 0L;
         String tempoTotal = "";

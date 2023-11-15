@@ -11,8 +11,5 @@ import java.util.Optional;
 public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
     @Query("SELECT u.unidadesPertencentes FROM Usuario u WHERE u = :usuario")
-    Optional<List<Unidade>> getUnidadeByUsuario(Usuario usuario);
-
-    @Query("SELECT u.unidadesPertencentes FROM Usuario u WHERE u = :usuario")
     Optional<List<Unidade>> getUnidadesByUsuario(Usuario usuario);
 }

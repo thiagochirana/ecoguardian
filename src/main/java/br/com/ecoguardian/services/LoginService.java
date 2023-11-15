@@ -14,13 +14,15 @@ public class LoginService {
     @Autowired
     private SessaoServiceWrapper sessaoServiceWrapper;
 
+    @Autowired
+    private UnidadeService unidadeService;
+
     public boolean senhaPertenceAUser(Usuario usuario, String senha){
-        Cripto cripto = new Cripto();
-        return senha.equals(cripto.descriptografar(usuario.getSenha()).texto());
+        return senha.equals(Cripto.descriptografar(usuario.getSenha()).texto());
     }
 
-    public List<Unidade> listarUnidadesDoUsuarioLogado(){
-
+    public List<Unidade> listarTodosDoUsuarioLogado(){
+        return unidadeService.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado());
     }
 
 }
