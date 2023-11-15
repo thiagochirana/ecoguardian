@@ -32,13 +32,22 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/login")
+    public String redirectPaliativo(){
+        return "redirect:/";
+    }
+
     @PostMapping("/login")
     public ModelAndView login(@ModelAttribute LoginJSON json, HttpServletRequest request){
         LOG.request(request);
+        ModelAndView mav = new ModelAndView();
+        if (json == null || !request.getMethod().equalsIgnoreCase("post")){
+            mav.setViewName("login");
+            return mav;
+        }
         String cpf = json.cpf();
         String senha = json.senha();
 
-        ModelAndView mav = new ModelAndView();
         mav.addObject("mostrarErro", false);
 
         Optional<Usuario> usuarioLogado = usuarios.validarObterUsuario(cpf,senha);
@@ -58,11 +67,6 @@ public class HomeController {
 //        model.addAttribute("unidades",logins.listarTodosDoUsuarioLogado());
         model.addAttribute("unidades", Arrays.asList("Opção 1", "Opção 2", "Opção 3"));
         return "selecionarUnidade";
-    }
-
-    @GetMapping("/dashboard")
-    public String getDashboard(Model model){
-        return "/dashboard";
     }
     
 }

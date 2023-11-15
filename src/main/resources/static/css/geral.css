@@ -1,7 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', serif;
+}
+
 :root {
     --principal: #2be334; /* Definindo uma variável de cor chamada --cor-primaria */
-    --linhas: #009b3f;
+    --verde-escuro: #009b3f;
     --linhas-bordas: #8bffba;
+    --verde-fundo: #ecfff4;
     --verde-claro: #57de8f;
     --vermelho-fundo: #fff4f4;
     --vermelho-escuro: #fd3c3c;
