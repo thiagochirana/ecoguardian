@@ -1,10 +1,9 @@
 package br.com.ecoguardian.controllers;
 
-import br.com.ecoguardian.models.Unidade;
 import br.com.ecoguardian.models.Usuario;
 import br.com.ecoguardian.models.records.LoginJSON;
 import br.com.ecoguardian.services.LoginService;
-import br.com.ecoguardian.services.UnidadeService;
+import br.com.ecoguardian.services.SessaoServiceWrapper;
 import br.com.ecoguardian.services.UsuarioService;
 import br.com.ecoguardian.utils.Log;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +25,9 @@ public class HomeController {
 
     @Autowired
     private LoginService logins;
+
+    @Autowired
+    private SessaoServiceWrapper sessao;
 
     @GetMapping
     public String getHomePage() {
@@ -53,7 +55,8 @@ public class HomeController {
         Optional<Usuario> usuarioLogado = usuarios.validarObterUsuario(cpf,senha);
 
         if (usuarioLogado.isPresent() && logins.senhaPertenceAUser(usuarioLogado.get(), senha)){
-            mav.setViewName("dashboard");
+            sessao.setUsuarioLogado(usuarioLogado.get());
+            mav.setViewName("dashboard/dashboard");
         } else {
             mav.setViewName("login"); // Página de login
             mav.addObject("mensagem", "Credenciais inválidas. Tente novamente.");

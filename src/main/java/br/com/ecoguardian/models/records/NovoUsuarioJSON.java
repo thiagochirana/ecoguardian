@@ -9,6 +9,10 @@ public record NovoUsuarioJSON(
 
         String senha,
 
+        String email,
+
+        String telefone,
+
         TipoPerfil tipoPerfil
 ) {
 }

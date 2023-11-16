@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+
+<body>
+    <div th:replace="~{base/head-page :: menu-lateral}"></div>
+    <div th:replace="~{base/head-page :: topo-pagina}"></div>
+
+    <div class = "body-geral">
+        <h4>Nova Denúncia</h4>
+        <form action="/denuncia/novo" method="post">
+            <div class="mb-3">
+                <label for="sigilo" class="form-label">Sigilo:</label>
+                <select id="sigilo" name="sigilo">
+                    <option value="true">Sim</option>
+                    <option value="false">Não</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="logradouro-den" class="form-label">Logradouro:</label>
+                <input type="text" class="form-control" id="logradouro-den" name="logradouro"/>
+            </div>
+            <div class="mb-3">
+                <label for="bairro-den" class="form-label">Bairro:</label>
+                <input type="text" class="form-control" id="bairro-den" name="bairro"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="pontoDeReferencia-den" class="form-label">Ponto de Referencia:</label>
+                <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="estado" class="form-label">Estado:</label>
+                <select id="estado" name="estado" >
+                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="idIBGE" class="form-label">Municipio:</label>
+                <select id="idIBGE" name="idIBGE">
+                    <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="pontoDeReferencia" class="form-label">Ponto de Referencia:</label>
+                <input type="text" class="form-control" id="pontoDeReferencia" name="pontoDeReferencia"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título:</label>
+                <textarea id="titulo" class="form-control" name="titulo"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição:</label>
+                <textarea id="descricao" class="form-control" name="descricao"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Fotos</label>
+                <input class="form-control" type="file" id="formFile" name="fotos">
+            </div>
+
+            <input type="hidden" th:value="${usuarioLogado}">
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input th:value="${usuarioLogado.email}" type="text" class="form-control" id="email" name="email"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input th:value="${usuarioLogado.telefone}" type="text" class="form-control" id="telefone" name="telefone"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="outrasInformacoes" class="form-label">Descrição:</label>
+                <textarea id="outrasInformacoes" class="form-control" name="outrasInformacoes"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="provavelAutorNome" class="form-label">Nome do(a) provável autor:</label>
+                <input type="text" class="form-control" id="provavelAutorNome" name="provavelAutorNome"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="provavelAutorDescricao" class="form-label">Informaçoes sobre ele(a):</label>
+                <input type="text" class="form-control" id="provavelAutorDescricao" name="provavelAutorDescricao"/>
+            </div>
+
+            <button type="submit">Cadastrar Usuario</button>
+        </form>
+
+        <div th:replace="~{base/base-elem :: script-padrao}"></div>
+    </div>
+</body>
+</html>

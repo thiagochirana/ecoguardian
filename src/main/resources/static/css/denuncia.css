@@ -1,0 +1,43 @@
+@import "geral.css";
+
+.quadro-denuncias{
+    display: flex; /* Torna o container flexível */
+    gap: 10px;
+}
+
+.card-denuncia {
+    flex: 1;
+    padding: 10px;
+    width: 300px;
+    height: 150px;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.card-denuncia span.titulo-card-denuncia {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 13px;
+}
+
+.contagem-denuncia span.contagem-denuncia{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 16px;
+}
+
+.aberto {
+    background-color: var(--verde-fundo);
+}
+
+.emAnalise{
+    background-color: var(--vermelho-fundo);
+}
+
+.precisaAtencao {
+    background-color: var(--vermelho-fundo);
+}

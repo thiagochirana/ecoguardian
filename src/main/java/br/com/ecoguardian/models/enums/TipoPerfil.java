@@ -12,7 +12,7 @@ public enum TipoPerfil {
         this.valor = valor;
     }
 
-    public String get() {
+    public String getNome() {
         return valor;
     }
 }

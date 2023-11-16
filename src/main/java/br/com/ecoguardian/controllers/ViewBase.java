@@ -2,15 +2,12 @@ package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.TipoPerfil;
-import br.com.ecoguardian.repositories.PerfilRepository;
 import br.com.ecoguardian.repositories.UnidadeRepository;
-import br.com.ecoguardian.repositories.UsuarioRepository;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;

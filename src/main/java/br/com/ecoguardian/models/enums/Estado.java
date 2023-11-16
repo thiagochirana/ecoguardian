@@ -43,7 +43,20 @@ public enum Estado {
         return nomeCompleto;
     }
 
+    public String getSigla(){
+        return this.toString();
+    }
+
     public int getId(){
         return id;
+    }
+
+    public Estado getById(int id){
+        for (Estado e : this.values()){
+            if (e.getId() == id){
+                return e;
+            }
+        }
+        return null;
     }
 }

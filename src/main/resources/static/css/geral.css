@@ -15,6 +15,11 @@
     --vermelho-escuro: #fd3c3c;
 }
 
+.body-geral{
+    padding-left: 10vw;
+    margin-right: 10vw;
+}
+
 .form-centralizado {
     display: flex;
     flex-direction: column;

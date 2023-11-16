@@ -1,6 +1,7 @@
 package br.com.ecoguardian.models;
 
 import br.com.ecoguardian.models.enums.TipoPerfil;
+import br.com.ecoguardian.utils.CPFUtils;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,15 +27,17 @@ public class Usuario {
 
     private String senha;
 
+    @Column(nullable = true)
     private String email;
 
+    @Column(nullable = true)
     private String telefone;
 
     @Column(nullable = true)
     private Boolean ativo;
 
-    @OneToOne
-    private Perfil perfil;
+    @Enumerated(EnumType.STRING)
+    private TipoPerfil tipoPerfil;
 
     @ManyToMany
     private List<Unidade> unidadesPertencentes;
@@ -43,9 +46,9 @@ public class Usuario {
         this.ativo = true;
     }
 
-    public Usuario(String nome, Perfil perfil){
+    public Usuario(String nome, TipoPerfil perfil){
         this.nome = nome;
-        this.perfil = perfil;
+        this.tipoPerfil = perfil;
         this.ativo = true;
     }
 
@@ -61,4 +64,23 @@ public class Usuario {
         unidadesPertencentes.add(unidade);
     }
 
+    public boolean isAnalista(){
+        return this.tipoPerfil == TipoPerfil.ANALISTA;
+    }
+
+    public boolean isAdmin(){
+        return this.tipoPerfil == TipoPerfil.ADMIN;
+    }
+
+    public boolean isDenunciante(){
+        return this.tipoPerfil == TipoPerfil.DENUNCIANTE;
+    }
+
+    public boolean isAnonimo(){
+        return this.tipoPerfil == TipoPerfil.ANONIMO;
+    }
+
+    public String getCPFcomMascara(){
+        return CPFUtils.inserirMascara(this.CPF);
+    }
 }

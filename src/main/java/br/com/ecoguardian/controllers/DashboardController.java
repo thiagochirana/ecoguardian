@@ -15,7 +15,7 @@ public class DashboardController {
 
     @GetMapping
     public ModelAndView getDashboard(){
-        ModelAndView model = base.novaView("dashboard");
+        ModelAndView model = base.novaView("dashboard/dashboard");
         return model;
     }
 

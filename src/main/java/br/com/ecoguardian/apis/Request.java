@@ -1,5 +1,6 @@
 package br.com.ecoguardian.apis;
 
+import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.records.MunicipioDTO;
 import br.com.ecoguardian.utils.Log;
 import org.springframework.stereotype.Component;
@@ -19,8 +20,15 @@ public class Request {
 
     Log LOG = new Log(Request.class);
 
-    public List<MunicipioDTO> municipiosDoEstado(int id){
+    public List<MunicipioDTO> municipiosDoEstado(String sigla){
+        int id = 0;
+        for (Estado e : Estado.values()){
+            if (e.getSigla().equals(sigla.toUpperCase())){
+                id = e.getId();
+            }
+        }
         String url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/"+id+"/municipios";
+        System.out.println(url);
         String resp = realizarRequest(url, "GET", null);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -35,6 +43,16 @@ public class Request {
     }
 
 
+    public MunicipioDTO obterMunicipioByIdIBGE(String idIBGE){
+        String URL = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios/"+idIBGE;
+        String resp = realizarRequest(URL, "GET", null);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(resp, MunicipioDTO.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     private String realizarRequest(String urlApi, String metodo, Map<String, Object> params){
         try {

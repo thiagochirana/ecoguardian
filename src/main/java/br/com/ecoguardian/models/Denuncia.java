@@ -1,5 +1,6 @@
 package br.com.ecoguardian.models;
 
+import br.com.ecoguardian.models.enums.StatusDenuncia;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +21,12 @@ public class Denuncia {
 
     private boolean sigilo = false;
 
-    private Date dataDaDenuncia;
+    private Date dataAbertura;
 
     @OneToOne
     private Localizacao localizacao;
+
+    private String titulo;
 
     private String descricao;
 
@@ -35,6 +38,9 @@ public class Denuncia {
     private String provavelAutorNome;
 
     private String provavelAutorDescricao;
+
+    @Enumerated(EnumType.STRING)
+    private StatusDenuncia statusDenuncia;
 
     public Denuncia(){}
 

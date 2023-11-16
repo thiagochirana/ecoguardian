@@ -18,8 +18,8 @@
                 <tr th:each="unidade : ${unidades}">
                     <td th:text="${unidade.id}"></td>
                     <td th:text="${unidade.nome}"></td>
-<!--                    <td th:text="${unidade.localizacao.estado.getNome()}"></td>-->
-<!--                    <td th:text="${unidade.localizacao.municipio.nome}"></td>-->
+                    <td th:text="${unidade.localizacao.municipio.estado.getNome()}"></td>
+                    <td th:text="${unidade.localizacao.municipio.nome}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -29,18 +29,27 @@
 
                 <label for="estado" class="form-label">Estado:</label>
                 <select id="estado" name="estado" >
-                    <option th:each="estado : ${estados}" th:value="${estado.id}" th:text="${estado.getNome()}"></option>
+                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
                 </select>
 
-                <label for="municipio" class="form-label">Municipio:</label>
-                <select id="municipio" name="municipio">
-                    <option th:each="municipio : ${municipios}" th:value="${municipio}" th:text="${municipio.nome}"></option>
+                <label for="idIBGE" class="form-label">Municipio:</label>
+                <select id="idIBGE" name="idIBGE">
+                    <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
                 </select>
 
                 <label for="usuarios" class="form-label">Usuario Vinculado:</label>
                 <select id="usuarios" name="usuarioVinculado">
                     <option th:each="user : ${usuarios}" th:value="${user.id}" th:text="${user.nome}"></option>
                 </select>
+
+                <label for="logradouro-un" class="form-label">Logradouro:</label>
+                <input type="text" class="form-control" id="logradouro-un" name="logradouro"/>
+
+                <label for="bairro-un" class="form-label">Bairro:</label>
+                <input type="text" class="form-control" id="bairro-un" name="bairro"/>
+
+                <label for="pontoDeReferencia-un" class="form-label">Ponto De Referencia:</label>
+                <input type="text" class="form-control" id="pontoDeReferencia-un" name="pontoDeReferencia"/>
 
                 <button type="submit">Cadastrar Unidade</button>
             </form>
@@ -55,6 +64,8 @@
                     <th scope="col">Nome</th>
                     <th scope="col">CPF</th>
                     <th scope="col">Senha</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Telefone</th>
                     <th scope="col">Perfil</th>
                     <th scope="col">Ativo?</th>
                     <th scope="col">Mais Acões</th>
@@ -64,15 +75,17 @@
                 <tr th:each="usuario : ${usuarios}">
                     <td th:text="${usuario.id}"></td>
                     <td th:text="${usuario.nome}"></td>
-                    <td th:text="${usuario.CPF}"></td>
+                    <td th:text="${usuario.getCPFcomMascara()}"></td>
                     <td th:text="${usuario.senha}"></td>
-                    <td th:text="${usuario.perfil.getTipoPerfil().get()}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td th:text="${usuario.telefone}"></td>
+                    <td th:text="${usuario.tipoPerfil.getNome()}"></td>
                     <td>
                         <div th:if="${usuario.ativo}">
-                            <p>Ativo</p>
+                            <p>Sim</p>
                         </div>
                         <div th:unless="${usuario.ativo}">
-                            <p>Desativado</p>
+                            <p>Não</p>
                         </div>
                     </td>
                     <td>
@@ -109,9 +122,15 @@
                 <label for="senha" class="form-label">Senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha"/>
 
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" class="form-control" id="email" name="email"/>
+
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input type="text" class="form-control" id="telefone" name="telefone"/>
+
                 <label for="perfil" class="form-label">Perfil:</label>
                 <select id="perfil" name="tipoPerfil">
-                    <option th:each="perfil : ${tiposPerfil}" th:value="${perfil}" th:text="${perfil.get()}"></option>
+                    <option th:each="perfil : ${tiposPerfil}" th:value="${perfil}" th:text="${perfil.getNome()}"></option>
                 </select>
 
                 <button type="submit">Cadastrar Usuario</button>

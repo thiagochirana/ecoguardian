@@ -17,9 +17,6 @@ public class Localizacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Estado estado;
-
     @OneToOne
     private Municipio municipio;
 
@@ -30,10 +27,14 @@ public class Localizacao {
 
     private String longitude;
 
-    public Localizacao(Estado estado, Municipio municipio){
-        this.estado = estado;
+    public Localizacao(Municipio municipio){
         this.municipio = municipio;
     }
 
     public Localizacao(){}
+
+    public Localizacao(Municipio municipio, Endereco endereco){
+        this.municipio = municipio;
+        this.endereco = endereco;
+    }
 }

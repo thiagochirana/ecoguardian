@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+<body>
+<div th:replace="~{base/head-page :: menu-lateral}"></div>
+<div th:replace="~{base/head-page :: topo-pagina}"></div>
+
+    <div class="body-geral">
+
+        <h3>Denúncias</h3>
+        <div class="quadro-denuncias">
+            <div class="card-denuncia aberto">
+                <span class="titulo-card-denuncia">Abertas</span>
+                <span class="contagem-denuncia" th:text="${qtdeDenunciasAbertas}"></span>
+            </div>
+            <div class="card-denuncia emAnalise">
+                <span class="titulo-card-denuncia">Em análise</span>
+                <span class="contagem-denuncia" th:text="${qtdeDenunciasEmAnalise}"></span>
+            </div>
+            <div class="card-denuncia precisaAtencao">
+                <span class="titulo-card-denuncia">Precisa de Atenção</span>
+                <span class="contagem-denuncia" th:text="${qtdeDenunciasPrecisaAtencao}"></span>
+            </div>
+        </div>
+        <div>
+            <button>Nova</button>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <h5>Ultimos registros</h5>
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Abertura</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="denuncia : ${todasDenuncias}">
+                        <td th:text="${denuncia.id}"></td>
+                        <td th:text="${denuncia.titulo}"></td>
+                        <td th:text="${denuncia.dataAbertura}"></td>
+                        <td th:text="${denuncia.statusDenuncia.nome}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<div th:replace="~{base/base-elem :: script-padrao}"></div>
+</body>
+</html>
