@@ -23,6 +23,7 @@ public class Usuario {
 
     private String nome;
 
+    @Column(unique = true)
     private String CPF;
 
     private String senha;

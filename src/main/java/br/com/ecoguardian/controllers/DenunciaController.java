@@ -21,7 +21,7 @@ public class DenunciaController {
     private DenunciaService denuncias;
 
     @GetMapping
-    public ModelAndView novaDenuncia(){
+    public ModelAndView getTelaDashboardDenuncia(){
         ModelAndView model = view.novaView("denuncia/denuncia");
         model.addObject("qtdeDenunciasAbertas",1);
         model.addObject("qtdeDenunciasEmAnalise",4);
@@ -30,7 +30,13 @@ public class DenunciaController {
         return model;
     }
 
-    @PostMapping("/novo")
+    @GetMapping("/nova")
+    public ModelAndView novaDenuncia(){
+        ModelAndView model = view.novaView("denuncia/novaDenuncia");
+        return model;
+    }
+
+    @PostMapping("/nova")
     public ModelAndView registrarDenuncia(NovaDenunciaJSON json, HttpServletRequest request){
         return null;
     }

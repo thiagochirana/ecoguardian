@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/municipio")
+@RequestMapping("/municipios")
 public class MunicipioController {
 
     @Autowired
