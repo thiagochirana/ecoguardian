@@ -38,6 +38,7 @@ class Atividade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
     public void setId(Long id) {

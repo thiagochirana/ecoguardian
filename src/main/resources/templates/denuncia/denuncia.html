@@ -23,7 +23,7 @@
             </div>
         </div>
         <div>
-            <button>Nova</button>
+            <button onclick="novaDenuncia()" class="novo-btn btn btn-success">Nova</button>
         </div>
         <div>
             <table class="table table-striped">
@@ -47,6 +47,12 @@
             </table>
         </div>
     </div>
+
+    <script>
+        function novaDenuncia() {
+            window.location.href = "/denuncia/nova";
+        }
+    </script>
 
 <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>

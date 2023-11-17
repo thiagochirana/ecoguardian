@@ -1,7 +1,7 @@
 @import "geral.css";
 
 .quadro-denuncias{
-    display: flex; /* Torna o container flexível */
+    display: flex;
     gap: 10px;
 }
 
