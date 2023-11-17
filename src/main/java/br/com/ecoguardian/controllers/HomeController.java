@@ -29,6 +29,9 @@ public class HomeController {
     @Autowired
     private SessaoServiceWrapper sessao;
 
+    @Autowired
+    private ViewBase view;
+
     @GetMapping
     public String getHomePage() {
         return "login";
@@ -36,12 +39,12 @@ public class HomeController {
 
     @GetMapping("/login")
     public String redirectPaliativo(){
+        sessao.setUsuarioLogado(null);
         return "redirect:/";
     }
 
     @PostMapping("/login")
     public ModelAndView login(@ModelAttribute LoginJSON json, HttpServletRequest request){
-        LOG.request(request);
         ModelAndView mav = new ModelAndView();
         if (json == null || !request.getMethod().equalsIgnoreCase("post")){
             mav.setViewName("login");
@@ -55,21 +58,16 @@ public class HomeController {
         Optional<Usuario> usuarioLogado = usuarios.validarObterUsuario(cpf,senha);
 
         if (usuarioLogado.isPresent() && logins.senhaPertenceAUser(usuarioLogado.get(), senha)){
-            sessao.setUsuarioLogado(usuarioLogado.get());
-            mav.setViewName("dashboard/dashboard");
+            Usuario user = usuarioLogado.get();
+            sessao.setUsuarioLogado(user);
+            LOG.info("Realizando login do usuário "+user.getNome());
+            return view.novaView("dashboard/dashboard");
         } else {
             mav.setViewName("login"); // Página de login
             mav.addObject("mensagem", "Credenciais inválidas. Tente novamente.");
             mav.addObject("mostrarErro", true);
         }
         return mav;
-    }
-
-    @GetMapping("/selecionarUnidade")
-    public String selecionarUnidade(Model model){
-//        model.addAttribute("unidades",logins.listarTodosDoUsuarioLogado());
-        model.addAttribute("unidades", Arrays.asList("Opção 1", "Opção 2", "Opção 3"));
-        return "selecionarUnidade";
     }
     
 }

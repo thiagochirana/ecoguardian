@@ -3,7 +3,7 @@
 
         <ul class="lista-de-itens-menu">
             <li class="item-menu">
-                <a href="#">
+                <a href="/dashboard">
                     <span class="icon-item"><i class="bi bi-columns-gap"></i></span>
                     <span class="nome-item">Dashboard</span>
                 </a>
@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="item-menu">
-                <a href="#">
+                <a href="/minhaConta">
                     <span class="icon-item"><i class="bi bi-person-circle"></i></span>
                     <span class="nome-item">Sua Conta</span>
                 </a>
@@ -25,9 +25,15 @@
 </nav>
 
 <div class="container text-center" th:fragment="topo-pagina">
-    <div>
-        <div>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
             EcoGuardian
+        </div>
+        <div class="col">
+            <p th:text="${usuarioLogado.nome}"></p>
         </div>
     </div>
 </div>

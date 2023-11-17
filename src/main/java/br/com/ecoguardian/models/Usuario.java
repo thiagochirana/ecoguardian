@@ -2,14 +2,10 @@ package br.com.ecoguardian.models;
 
 import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.utils.CPFUtils;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -40,9 +36,6 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoPerfil tipoPerfil;
 
-    @ManyToMany
-    private List<Unidade> unidadesPertencentes;
-
     public Usuario() {
         this.ativo = true;
     }
@@ -59,10 +52,6 @@ public class Usuario {
 
     public Long getId() {
         return id;
-    }
-
-    public void adicionarUnidadeAUsuario(Unidade unidade){
-        unidadesPertencentes.add(unidade);
     }
 
     public boolean isAnalista(){
@@ -83,5 +72,9 @@ public class Usuario {
 
     public String getCPFcomMascara(){
         return CPFUtils.inserirMascara(this.CPF);
+    }
+
+    public String getNome(){
+        return this.nome;
     }
 }

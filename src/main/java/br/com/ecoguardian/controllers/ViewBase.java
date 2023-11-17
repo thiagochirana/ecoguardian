@@ -2,7 +2,6 @@ package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.TipoPerfil;
-import br.com.ecoguardian.repositories.UnidadeRepository;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import java.util.Map;
 @Controller
 public class ViewBase {
 
-    @Autowired
-    private UnidadeRepository unidadesDB;
 
     @Autowired
     private SessaoServiceWrapper sessaoServiceWrapper;
@@ -24,10 +21,8 @@ public class ViewBase {
     public ModelAndView novaView(String view){
         ModelAndView modelAndView = new ModelAndView(view);
         modelAndView.addObject("usuarioLogado", sessaoServiceWrapper.getUsuarioLogado());
-        modelAndView.addObject("unidadeLogada", sessaoServiceWrapper.getUnidadeLogada());
         modelAndView.addObject("tiposPerfil", List.of(TipoPerfil.values()));
         modelAndView.addObject("estados", List.of(Estado.values()));
-        modelAndView.addObject("unidadesDoUsuarioLogado", unidadesDB.getUnidadesByUsuario(sessaoServiceWrapper.getUsuarioLogado()));
         return modelAndView;
     }
 

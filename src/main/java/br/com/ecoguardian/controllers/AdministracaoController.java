@@ -7,10 +7,8 @@ import br.com.ecoguardian.models.records.NovaUnidadeJSON;
 import br.com.ecoguardian.models.records.NovoUsuarioJSON;
 import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.repositories.MunicipioRepository;
-import br.com.ecoguardian.repositories.UnidadeRepository;
 import br.com.ecoguardian.repositories.UsuarioRepository;
 import br.com.ecoguardian.services.AdministracaoService;
-import br.com.ecoguardian.services.UnidadeService;
 import br.com.ecoguardian.services.UsuarioService;
 import br.com.ecoguardian.utils.CPFUtils;
 import br.com.ecoguardian.utils.Cripto;
@@ -27,9 +25,6 @@ import java.util.List;
 public class AdministracaoController {
 
     @Autowired
-    private UnidadeRepository unidadesDB;
-
-    @Autowired
     private UsuarioRepository usuariosDB;
 
     @Autowired
@@ -42,7 +37,6 @@ public class AdministracaoController {
     @GetMapping
     public ModelAndView getAdminPage(){
         ModelAndView modelAndView = base.novaView("administracao");
-        modelAndView.addObject("unidades", unidadesDB.findAll());
         modelAndView.addObject("usuarios", usuariosDB.findAll());
         modelAndView.addObject("tiposPerfil", List.of(TipoPerfil.values()));
         return modelAndView;
@@ -56,12 +50,6 @@ public class AdministracaoController {
         usuario.setEmail(json.email());
         usuario.setTelefone(json.telefone());
         usuariosDB.save(usuario);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/novaUnidade")
-    public String novaUnidade(NovaUnidadeJSON json){
-        administracao.cadastrarNovaUnidade(json);
         return "redirect:/admin";
     }
 

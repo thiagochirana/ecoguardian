@@ -1,8 +1,6 @@
 package br.com.ecoguardian.services;
 
-import br.com.ecoguardian.models.Unidade;
 import br.com.ecoguardian.models.Usuario;
-import br.com.ecoguardian.repositories.UnidadeRepository;
 import br.com.ecoguardian.repositories.UsuarioRepository;
 import br.com.ecoguardian.utils.CPFUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarios;
 
-    @Autowired
-    private UnidadeRepository unidades;
 
     public Optional<Usuario> validarObterUsuario(String cpf, String senha){
         if (!CPFUtils.validarCPF(cpf)){
@@ -28,13 +24,6 @@ public class UsuarioService {
             return Optional.empty();
         }
         return Optional.of(user.get());
-    }
-
-    public Optional<Usuario> vincularUnidadeAUsuario(Unidade unidade, Usuario usuario){
-        Unidade un = unidades.save(unidade);
-        usuario.adicionarUnidadeAUsuario(un);
-        Usuario us = usuarios.save(usuario);
-        return Optional.of(us);
     }
 
 

@@ -3,59 +3,59 @@
 <head th:replace="~{base/base-elem :: head-padrao}"></head>
 <body>
     <div>
-        <div>
-            <table class="table table-striped">
-                <h4>Unidades</h4>
-                <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Unidade</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Municipio</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="unidade : ${unidades}">
-                    <td th:text="${unidade.id}"></td>
-                    <td th:text="${unidade.nome}"></td>
-                    <td th:text="${unidade.localizacao.municipio.estado.getNome()}"></td>
-                    <td th:text="${unidade.localizacao.municipio.nome}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <form action="/admin/novaUnidade" method="post">
-                <label for="nome-un" class="form-label">Nome:</label>
-                <input type="text" class="form-control" id="nome-un" name="nome"/>
+<!--        <div>-->
+<!--            <table class="table table-striped">-->
+<!--                <h4>Unidades</h4>-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th scope="col">Id</th>-->
+<!--                    <th scope="col">Unidade</th>-->
+<!--                    <th scope="col">Estado</th>-->
+<!--                    <th scope="col">Municipio</th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr th:each="unidade : ${unidades}">-->
+<!--                    <td th:text="${unidade.id}"></td>-->
+<!--                    <td th:text="${unidade.nome}"></td>-->
+<!--                    <td th:text="${unidade.localizacao.municipio.estado.getNome()}"></td>-->
+<!--                    <td th:text="${unidade.localizacao.municipio.nome}"></td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--            <form action="/admin/novaUnidade" method="post">-->
+<!--                <label for="nome-un" class="form-label">Nome:</label>-->
+<!--                <input type="text" class="form-control" id="nome-un" name="nome"/>-->
 
-                <label for="estado" class="form-label">Estado:</label>
-                <select id="estado" name="estado" >
-                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
-                </select>
+<!--                <label for="estado" class="form-label">Estado:</label>-->
+<!--                <select id="estado" name="estado" >-->
+<!--                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>-->
+<!--                </select>-->
 
-                <label for="idIBGE" class="form-label">Municipio:</label>
-                <select id="idIBGE" name="idIBGE">
-                    <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
-                </select>
+<!--                <label for="idIBGE" class="form-label">Municipio:</label>-->
+<!--                <select id="idIBGE" name="idIBGE">-->
+<!--                    <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>-->
+<!--                </select>-->
 
-                <label for="usuarios" class="form-label">Usuario Vinculado:</label>
-                <select id="usuarios" name="usuarioVinculado">
-                    <option th:each="user : ${usuarios}" th:value="${user.id}" th:text="${user.nome}"></option>
-                </select>
+<!--                <label for="usuarios" class="form-label">Usuario Vinculado:</label>-->
+<!--                <select id="usuarios" name="usuarioVinculado">-->
+<!--                    <option th:each="user : ${usuarios}" th:value="${user.id}" th:text="${user.nome}"></option>-->
+<!--                </select>-->
 
-                <label for="logradouro-un" class="form-label">Logradouro:</label>
-                <input type="text" class="form-control" id="logradouro-un" name="logradouro"/>
+<!--                <label for="logradouro-un" class="form-label">Logradouro:</label>-->
+<!--                <input type="text" class="form-control" id="logradouro-un" name="logradouro"/>-->
 
-                <label for="bairro-un" class="form-label">Bairro:</label>
-                <input type="text" class="form-control" id="bairro-un" name="bairro"/>
+<!--                <label for="bairro-un" class="form-label">Bairro:</label>-->
+<!--                <input type="text" class="form-control" id="bairro-un" name="bairro"/>-->
 
-                <label for="pontoDeReferencia-un" class="form-label">Ponto De Referencia:</label>
-                <input type="text" class="form-control" id="pontoDeReferencia-un" name="pontoDeReferencia"/>
+<!--                <label for="pontoDeReferencia-un" class="form-label">Ponto De Referencia:</label>-->
+<!--                <input type="text" class="form-control" id="pontoDeReferencia-un" name="pontoDeReferencia"/>-->
 
-                <button type="submit">Cadastrar Unidade</button>
-            </form>
+<!--                <button type="submit">Cadastrar Unidade</button>-->
+<!--            </form>-->
 
-        </div>
-        <div>
+<!--        </div>-->
+        <div style="padding: 20px">
             <table class="table table-striped">
                 <h4>Usuarios</h4>
                 <thead>
@@ -111,7 +111,7 @@
 
             </table>
         </div>
-        <div>
+        <div style="padding: 20px">
             <form action="/admin/novoUsuario" method="post">
                 <label for="nome" class="form-label">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome"/>
