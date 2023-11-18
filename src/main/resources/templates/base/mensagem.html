@@ -1,0 +1,25 @@
+<div th:fragment="notificacao">
+    <div th:if="${notificacao.notificar}">
+        <div class="notify-centro animado-down-up">
+            <div th:class="${notificacao.sucesso} ? 'ntf-sucesso' : 'ntf-erro'">
+                <div class="notify-titulo">
+                    <span th:text="${notificacao.titulo}"></span>
+                </div>
+                <div class="notify-texto">
+                    <span th:text="${notificacao.mensagem}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="notificacao-top-dir">
+    <div class="notify-top-dir animado-left-right">
+        <div class="notify-titulo">
+            <span th:text="${notificacao.titulo}"></span>
+        </div>
+        <div class="notify-texto">
+            <span th:text="${notificacao.mensagem}"></span>
+        </div>
+    </div>
+</div>

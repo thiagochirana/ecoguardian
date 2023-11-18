@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @Getter
@@ -23,6 +26,9 @@ public class Usuario {
     private String CPF;
 
     private String senha;
+
+    @OneToMany
+    private List<Criptografia> criptografias = new ArrayList<>();
 
     @Column(nullable = true)
     private String email;
@@ -76,5 +82,9 @@ public class Usuario {
 
     public String getNome(){
         return this.nome;
+    }
+
+    public void adicionarCriptografia(Criptografia criptografia){
+        criptografias.add(criptografia);
     }
 }

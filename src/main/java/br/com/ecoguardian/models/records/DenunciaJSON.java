@@ -3,7 +3,7 @@ package br.com.ecoguardian.models.records;
 import br.com.ecoguardian.models.Municipio;
 import br.com.ecoguardian.models.Usuario;
 
-public record NovaDenunciaJSON(
+public record DenunciaJSON(
         boolean sigilo,
 
         String logradouro,

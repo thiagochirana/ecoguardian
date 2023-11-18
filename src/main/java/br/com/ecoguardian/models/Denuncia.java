@@ -1,6 +1,8 @@
 package br.com.ecoguardian.models;
 
 import br.com.ecoguardian.models.enums.StatusDenuncia;
+import br.com.ecoguardian.models.records.DenunciaJSON;
+import br.com.ecoguardian.utils.Datas;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,5 +47,20 @@ public class Denuncia {
     private StatusDenuncia statusDenuncia;
 
     public Denuncia(){}
+
+    public Denuncia(DenunciaJSON json){
+        this.sigilo = json.sigilo();
+        this.dataAbertura = Datas.agora();
+        Endereco end = new Endereco(json.logradouro(), json.bairro(), json.pontoDeReferencia());
+        this.localizacao = new Localizacao(json.municipio(), end);
+        this.titulo = json.titulo();
+        this.descricao = json.descricao();
+        this.denunciante = json.denunciante();
+        this.denunciante.setEmail(json.email());
+        this.denunciante.setTelefone(json.telefone());
+        this.outrasInformacoes = json.outrasInformacoes();
+        this.provavelAutorNome = json.provavelAutorNome();
+        this.provavelAutorDescricao = json.provavelAutorDescricao();
+    }
 
 }

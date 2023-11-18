@@ -1,0 +1,77 @@
+@import "geral.css";
+
+
+
+.notify-titulo span {
+    font-weight: bold;
+}
+
+.notify-texto span {
+    padding-top: 5px;
+    font-size: 14px;
+}
+
+.ntf-sucesso {
+    background-color: var(--verde-fundo-box);
+    color: #fff;
+}
+
+.ntf-erro {
+    background-color: var(--vermelho-fundo-box);
+    color: #fff;
+}
+
+.notify-centro {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    translate: -50%;
+    width: 20%;
+    margin: 0;
+    text-align: center;
+}
+
+.notify-top-dir {
+    position: fixed;
+    padding: 0;
+    top: 3vh;
+    right: 0;
+    translate: -50%;
+    width: 30%;
+    margin: 0;
+    text-align: center;
+}
+
+.animado-down-up {
+    animation: fadeInDown 1s ease-out 1s forwards;
+    animation: fadeOutUp 0.4s ease-in 4s forwards;
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+}
+
+.animado-left-right {
+
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes fadeOutUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}

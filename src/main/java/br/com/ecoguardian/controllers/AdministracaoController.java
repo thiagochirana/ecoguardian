@@ -25,31 +25,22 @@ import java.util.List;
 public class AdministracaoController {
 
     @Autowired
-    private UsuarioRepository usuariosDB;
-
-    @Autowired
     private ViewBase base;
 
-
     @Autowired
-    private AdministracaoService administracao;
+    private UsuarioService usuarios;
 
     @GetMapping
     public ModelAndView getAdminPage(){
         ModelAndView modelAndView = base.novaView("administracao");
-        modelAndView.addObject("usuarios", usuariosDB.findAll());
+        modelAndView.addObject("usuarios", usuarios.listarTodos());
         modelAndView.addObject("tiposPerfil", List.of(TipoPerfil.values()));
         return modelAndView;
     }
 
     @PostMapping("/novoUsuario")
     public String novoUser(NovoUsuarioJSON json){
-        Usuario usuario = new Usuario(json.nome(), json.tipoPerfil());
-        usuario.setCPF(CPFUtils.retirarMascara(json.cpf()));
-        usuario.setSenha(Cripto.criptografar(json.senha()).texto());
-        usuario.setEmail(json.email());
-        usuario.setTelefone(json.telefone());
-        usuariosDB.save(usuario);
+        usuarios.salvar(json);
         return "redirect:/admin";
     }
 

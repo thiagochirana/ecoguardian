@@ -1,11 +1,17 @@
 package br.com.ecoguardian.services;
 
+import br.com.ecoguardian.models.Criptografia;
 import br.com.ecoguardian.models.Usuario;
+import br.com.ecoguardian.models.enums.ExecucaoCripto;
+import br.com.ecoguardian.models.records.NovoUsuarioJSON;
+import br.com.ecoguardian.models.records.SenhaCriptoDTO;
 import br.com.ecoguardian.repositories.UsuarioRepository;
 import br.com.ecoguardian.utils.CPFUtils;
+import br.com.ecoguardian.utils.Cripto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +20,32 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarios;
 
+    @Autowired
+    private CriptografiaService criptografias;
+
+    public Usuario salvar(NovoUsuarioJSON json){
+        Usuario usuario = new Usuario(json.nome(), json.tipoPerfil());
+        usuario.setCPF(CPFUtils.retirarMascara(json.cpf()));
+        SenhaCriptoDTO senhaCripto = Cripto.criptografar(json.senha());
+        Criptografia criptografia = new Criptografia(ExecucaoCripto.CRIPTOGRAFIA, senhaCripto);
+        usuario.setSenha(senhaCripto.texto());
+        usuario.setEmail(json.email());
+        usuario.setTelefone(json.telefone());
+        Criptografia cripSalvo = criptografias.salvar(criptografia);
+        usuario.adicionarCriptografia(cripSalvo);
+        Usuario usSalvo =  usuarios.save(usuario);
+        cripSalvo.setUsuario(usSalvo);
+        criptografias.salvar(cripSalvo);
+        return usSalvo;
+    }
+
+    public Usuario salvar(Usuario usuario){
+        return usuarios.save(usuario);
+    }
+
+    public List<Usuario> listarTodos(){
+        return usuarios.findAll();
+    }
 
     public Optional<Usuario> validarObterUsuario(String cpf, String senha){
         if (!CPFUtils.validarCPF(cpf)){
@@ -22,6 +54,8 @@ public class UsuarioService {
         var user = usuarios.findByCPF(CPFUtils.retirarMascara(cpf));
         if (user.isEmpty()){
             return Optional.empty();
+        } else {
+
         }
         return Optional.of(user.get());
     }

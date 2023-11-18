@@ -2,11 +2,9 @@
 <html lang="pt-BR">
 <head th:replace="~{base/base-elem :: head-padrao}"></head>
 <body>
+    <div th:replace="~{base/mensagem :: notificacao}"></div>
     <div class="formulario">
         <div class="div-form box bordas-radius form-centralizado">
-            <div class="mensagem-de-erro" th:if="${mostrarErro}">
-                <p>Credenciais inválidas. Tente novamente.</p>
-            </div>
             <form id="login-form" action="/login" method="post">
                 <div class="div-form-centralizado">
                     <label for="cpf-login" class="form-label">CPF:</label>

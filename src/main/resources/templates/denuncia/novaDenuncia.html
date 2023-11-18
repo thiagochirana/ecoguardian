@@ -10,57 +10,52 @@
         <h4>Nova Denúncia</h4>
         <form action="/denuncia/novo" method="post">
             <div class="mb-3">
-                <label for="sigilo" class="form-label">Sigilo:</label>
+                <label for="sigilo" class="form-label obrigatorio">Sigilo:</label>
                 <select id="sigilo" name="sigilo">
                     <option value="true">Sim</option>
                     <option value="false">Não</option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="logradouro-den" class="form-label">Logradouro:</label>
+                <label for="logradouro-den" class="form-label obrigatorio">Logradouro:</label>
                 <input type="text" class="form-control" id="logradouro-den" name="logradouro"/>
             </div>
             <div class="mb-3">
-                <label for="bairro-den" class="form-label">Bairro:</label>
+                <label for="bairro-den" class="form-label obrigatorio">Bairro:</label>
                 <input type="text" class="form-control" id="bairro-den" name="bairro"/>
             </div>
 
             <div class="mb-3">
-                <label for="pontoDeReferencia-den" class="form-label">Ponto de Referencia:</label>
+                <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
                 <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia"/>
             </div>
 
             <div class="mb-3">
-                <label for="estado" class="form-label">Estado:</label>
+                <label for="estado" class="form-label obrigatorio">Estado:</label>
                 <select id="estado" name="estado" >
                     <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label for="idIBGE" class="form-label">Municipio:</label>
+                <label for="idIBGE" class="form-label obrigatorio">Municipio:</label>
                 <select id="idIBGE" name="idIBGE">
                     <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label for="pontoDeReferencia" class="form-label">Ponto de Referencia:</label>
-                <input type="text" class="form-control" id="pontoDeReferencia" name="pontoDeReferencia"/>
-            </div>
-
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Título:</label>
+                <label for="titulo" class="form-label obrigatorio">Título:</label>
                 <textarea id="titulo" class="form-control" name="titulo"></textarea>
             </div>
 
             <div class="mb-3">
-                <label for="descricao" class="form-label">Descrição:</label>
+                <label for="descricao" class="form-label obrigatorio">Descrição da Denúncia:</label>
                 <textarea id="descricao" class="form-control" name="descricao"></textarea>
             </div>
 
             <div class="mb-3">
-                <label for="formFile" class="form-label">Fotos</label>
+                <label for="formFile" class="form-label obrigatorio">Fotos</label>
                 <input class="form-control" type="file" id="formFile" name="fotos">
             </div>
 
@@ -77,11 +72,6 @@
             </div>
 
             <div class="mb-3">
-                <label for="outrasInformacoes" class="form-label">Descrição:</label>
-                <textarea id="outrasInformacoes" class="form-control" name="outrasInformacoes"></textarea>
-            </div>
-
-            <div class="mb-3">
                 <label for="provavelAutorNome" class="form-label">Nome do(a) provável autor:</label>
                 <input type="text" class="form-control" id="provavelAutorNome" name="provavelAutorNome"/>
             </div>
@@ -89,6 +79,11 @@
             <div class="mb-3">
                 <label for="provavelAutorDescricao" class="form-label">Informaçoes sobre ele(a):</label>
                 <input type="text" class="form-control" id="provavelAutorDescricao" name="provavelAutorDescricao"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="outrasInformacoes" class="form-label">Outras Informações:</label>
+                <textarea id="outrasInformacoes" class="form-control" name="outrasInformacoes"></textarea>
             </div>
 
             <button class="salvar-btn btn btn-success">Registrar Denuncia</button>

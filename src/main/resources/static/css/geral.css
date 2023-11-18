@@ -10,8 +10,10 @@
     --verde-escuro: #009b3f;
     --linhas-bordas: #8bffba;
     --verde-fundo: #ecfff4;
+    --verde-fundo-box: #5abf5a;
     --verde-claro: #57de8f;
     --vermelho-fundo: #fff4f4;
+    --vermelho-fundo-box: #fa4b4b;
     --vermelho-escuro: #fd3c3c;
 }
 
@@ -59,4 +61,8 @@ button.salvar {
     padding-left: 20px;
     padding-right: 10px;
     border: none;
+}
+
+label.obrigatorio {
+    color: #fd3c3c;
 }

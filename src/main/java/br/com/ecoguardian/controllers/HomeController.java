@@ -2,6 +2,7 @@ package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.Usuario;
 import br.com.ecoguardian.models.records.LoginJSON;
+import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.services.LoginService;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
 import br.com.ecoguardian.services.UsuarioService;
@@ -33,8 +34,8 @@ public class HomeController {
     private ViewBase view;
 
     @GetMapping
-    public String getHomePage() {
-        return "login";
+    public ModelAndView getHomePage() {
+        return view.novaView("login");
     }
 
     @GetMapping("/login")
@@ -53,7 +54,9 @@ public class HomeController {
         String cpf = json.cpf();
         String senha = json.senha();
 
-        mav.addObject("mostrarErro", false);
+        MensagemView msg = new MensagemView(false, true,null, null, null);
+
+        mav.addObject("notificacao", false);
 
         Optional<Usuario> usuarioLogado = usuarios.validarObterUsuario(cpf,senha);
 
@@ -64,9 +67,9 @@ public class HomeController {
             return view.novaView("dashboard/dashboard");
         } else {
             mav.setViewName("login"); // Página de login
-            mav.addObject("mensagem", "Credenciais inválidas. Tente novamente.");
-            mav.addObject("mostrarErro", true);
+            msg = new MensagemView(true, false, "Ops! Ocorreu um erro", "Credenciais inválidas", null);
         }
+        mav.addObject("notificacao", msg);
         return mav;
     }
     

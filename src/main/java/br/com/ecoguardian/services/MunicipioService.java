@@ -20,6 +20,10 @@ public class MunicipioService {
     @Autowired
     private MunicipioRepository municipios;
 
+    public Municipio salvar(Municipio municipio){
+        return municipios.save(municipio);
+    }
+
     public Municipio obterMunicipio(String idIBGE){
         Optional<Municipio> munOpt = municipios.obterByIdIBGE(Long.parseLong(idIBGE));
         if (munOpt.isPresent()){

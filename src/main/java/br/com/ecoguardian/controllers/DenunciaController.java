@@ -1,6 +1,6 @@
 package br.com.ecoguardian.controllers;
 
-import br.com.ecoguardian.models.records.NovaDenunciaJSON;
+import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.services.DenunciaService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,8 @@ public class DenunciaController {
     }
 
     @PostMapping("/nova")
-    public ModelAndView registrarDenuncia(NovaDenunciaJSON json, HttpServletRequest request){
+    public ModelAndView registrarDenuncia(DenunciaJSON json, HttpServletRequest request){
+        denuncias.salvar(json);
         return null;
     }
 }

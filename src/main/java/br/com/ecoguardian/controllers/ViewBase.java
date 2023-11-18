@@ -2,6 +2,7 @@ package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.TipoPerfil;
+import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.Map;
 @Controller
 public class ViewBase {
 
-
     @Autowired
     private SessaoServiceWrapper sessaoServiceWrapper;
 
@@ -23,6 +23,8 @@ public class ViewBase {
         modelAndView.addObject("usuarioLogado", sessaoServiceWrapper.getUsuarioLogado());
         modelAndView.addObject("tiposPerfil", List.of(TipoPerfil.values()));
         modelAndView.addObject("estados", List.of(Estado.values()));
+        modelAndView.addObject("notificacao", new MensagemView(false, true,null, null, null));
+        modelAndView.addObject("notificacaoTopDir", new MensagemView(false, true,null, null, null));
         return modelAndView;
     }
 

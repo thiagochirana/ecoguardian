@@ -28,7 +28,6 @@ public class Request {
             }
         }
         String url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/"+id+"/municipios";
-        System.out.println(url);
         String resp = realizarRequest(url, "GET", null);
         try {
             ObjectMapper objectMapper = new ObjectMapper();
