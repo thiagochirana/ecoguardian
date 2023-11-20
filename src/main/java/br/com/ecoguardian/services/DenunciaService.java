@@ -27,14 +27,23 @@ public class DenunciaService {
     @Autowired
     private MunicipioService municipioService;
 
-    public Denuncia salvar(DenunciaJSON json){
+    @Autowired
+    private RegistroDenunciaService registroDenunciaService;
+
+    public Denuncia abrir(DenunciaJSON json){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
         Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
-        denNova.getLocalizacao().setEndereco(new Endereco(json.logradouro(), json.numero(), json.CEP(), json.bairro(), json.pontoDeReferencia()));
-        denNova.getLocalizacao().setMunicipio(municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
         denNova.setLocalizacao(local);
-        return denuncias.save(denNova);
+
+        Denuncia denSalva = denuncias.save(denNova);
+        registroDenunciaService.abrir(denSalva);
+        denSalva.adicionarRegistro(registroDenunciaService.abrir(denSalva));
+        return denuncias.save(denSalva);
+    }
+
+    public Optional<Denuncia> obter(Long id){
+        return denuncias.findById(id);
     }
 
     public Denuncia alterar(Denuncia denuncia){

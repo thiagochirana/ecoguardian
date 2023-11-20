@@ -110,6 +110,29 @@
             event.target.value = cep;
         });
 
+        //DINAMIZAR TITULOS DE PÁGINAS HTML
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateTitle() {
+                let titulo = document.querySelector('h4.titulo-pagina');
+                if (titulo) {
+                    document.title = titulo.innerText + " | EcoGuardian";
+                }
+            }
+
+            let observer = new MutationObserver(function(mudancas) {
+                mudancas.forEach(function(mudou) {
+                    if (mudou.type === 'childList' && mudou.addedNodes.length > 0) {
+                        // Se novos elementos foram adicionados, atualizar o título
+                        updateTitle();
+                    }
+                });
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
+
+            updateTitle();
+        });
+
 
 
         // ============================================

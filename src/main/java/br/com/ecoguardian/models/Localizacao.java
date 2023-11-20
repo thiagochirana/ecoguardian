@@ -18,11 +18,14 @@ public class Localizacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Municipio municipio;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
+
+    @OneToMany
+    private List<Denuncia> denuncias;
 
     private String latitude;
 

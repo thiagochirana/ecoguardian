@@ -21,7 +21,15 @@ public class MunicipioService {
     private MunicipioRepository municipios;
 
     public Municipio salvar(Municipio municipio){
-        return municipios.save(municipio);
+        if (municipio.getId() == null){
+            return municipios.save(municipio);
+        } else {
+            Optional<Municipio> munSalvo = municipios.findById(municipio.getId());
+            if (munSalvo.isPresent() && municipio.equals(munSalvo.get())) {
+                return munSalvo.get();
+            }
+            return municipios.save(municipio);
+        }
     }
 
     public Municipio obterMunicipio(String idIBGE){
@@ -30,7 +38,7 @@ public class MunicipioService {
             return munOpt.get();
         }
         Municipio m = new Municipio(requestAPI.obterMunicipioByIdIBGE(idIBGE));
-        return municipios.save(m);
+        return this.salvar(m);
     }
 
     public List<Municipio> listarMunicipiosDaUF(String id){

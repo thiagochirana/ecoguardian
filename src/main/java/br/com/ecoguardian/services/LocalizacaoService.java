@@ -16,24 +16,21 @@ public class LocalizacaoService {
     private LocalizacaoRepository localizacao;
 
     @Autowired
-    private MunicipioService municipioService;
-
-    @Autowired
     private EnderecoService enderecoService;
 
     @Autowired
     private Geolocalizacao geolocalizacao;
 
     public Localizacao salvar(Localizacao local){
-        local.setMunicipio(municipioService.salvar(local.getMunicipio()));
+        // Obs: o municipio não é salvo, porque ele já está salvo, quando é obtido da API já é persistido
         local.setEndereco(enderecoService.salvar(local.getEndereco()));
         return localizacao.save(local);
     }
 
     public Localizacao salvar(Localizacao local, Municipio mun, Endereco endereco){
-        local.setMunicipio(municipioService.salvar(mun));
-        local.setEndereco(enderecoService.salvar(endereco));
-        return localizacao.save(local);
+        local.setMunicipio(mun);
+        local.setEndereco(endereco);
+        return this.salvar(local);
     }
 
     public CoordenadasDTO obterCoordenadasDoEndereco(String enderecoCompleto){

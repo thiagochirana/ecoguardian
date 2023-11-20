@@ -4,10 +4,10 @@
 <body>
 <div th:replace="~{base/head-page :: menu-lateral}"></div>
 <div th:replace="~{base/head-page :: topo-pagina}"></div>
+<div th:replace="~{base/mensagem :: notificacao}"></div>
 
     <div class="body-geral">
-
-        <h3>Denúncias</h3>
+        <h4 class="titulo-pagina">Denúncias</h4>
         <div class="quadro-denuncias">
             <div class="card-denuncia aberto">
                 <span class="titulo-card-denuncia">Abertas</span>
@@ -27,7 +27,7 @@
         </div>
         <div>
             <table class="table table-striped">
-                <h5>Ultimos registros</h5>
+                <h5>Últimas Denúncias registradas</h5>
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -54,7 +54,20 @@
                         <td th:text="${denuncia.localizacao.municipio.estado.getNome()}"></td>
                         <td th:text="${denuncia.dataAbertura}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
-                        <td></td>
+                        <td>
+                            <div class="col-md-auto">
+                                <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/verRegistros' }" method="post">
+                                    <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</button>
+                                </form>
+                            </div>
+                            <div th:if="${usuarioLogadoIsAdminOuAnalista}">
+                                <div class="col-md-auto">
+                                    <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/registrar' }" method="post">
+                                        <button type="submit" class="btn btn-success"><i class="bi bi-pencil"></i>Registrar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

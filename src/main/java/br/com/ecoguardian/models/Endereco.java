@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Objects;
+
 @Entity
 @AllArgsConstructor
 @Getter
@@ -25,6 +28,9 @@ public class Endereco {
     private String CEP;
 
     private String pontoDeReferencia;
+
+    @OneToMany
+    private List<Localizacao> localizacoesAssociadas;
 
     public Endereco(){
     }
@@ -48,5 +54,17 @@ public class Endereco {
         this.numero = numero;
         this.CEP = CEP;
         this.pontoDeReferencia = pontoDeReferencia;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Endereco endereco)) return false;
+        return Objects.equals(id, endereco.id) && Objects.equals(logradouro, endereco.logradouro) && Objects.equals(bairro, endereco.bairro) && Objects.equals(numero, endereco.numero) && Objects.equals(CEP, endereco.CEP) && Objects.equals(pontoDeReferencia, endereco.pontoDeReferencia);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, logradouro, bairro, numero, CEP, pontoDeReferencia);
     }
 }

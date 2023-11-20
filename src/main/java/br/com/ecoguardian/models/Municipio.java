@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Objects;
+
 @Entity
 @AllArgsConstructor
 @Getter
@@ -24,6 +27,9 @@ public class Municipio {
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
+    @OneToMany
+    private List<Localizacao> localizacoesAssociadas;
+
     public Municipio() {
     }
 
@@ -37,5 +43,17 @@ public class Municipio {
         this.nome = nome;
         this.idIBGE = idIBGE;
         this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Municipio municipio)) return false;
+        return Objects.equals(id, municipio.id) && Objects.equals(nome, municipio.nome) && Objects.equals(idIBGE, municipio.idIBGE) && estado == municipio.estado;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, idIBGE, estado);
     }
 }

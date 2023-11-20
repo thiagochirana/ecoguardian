@@ -6,6 +6,8 @@
     <div th:replace="~{base/head-page :: menu-lateral}"></div>
     <div th:replace="~{base/head-page :: topo-pagina}"></div>
 
+    <div th:replace="~{base/mensagem :: notificacao}"></div>
+
     <div class = "body-geral">
         <h4 style="padding-bottom: 25px">Nova Denúncia</h4>
         <form action="/denuncia/novo" method="post">
@@ -46,14 +48,14 @@
                 <div class="mb-3 row">
                     <div class="col-md-auto">
                         <label for="estado" class="form-label obrigatorio">Estado:</label>
-                        <select id="estado" name="estado" onchange="selecionarNomeEstado()">
+                        <select id="estado" name="estado" class="form-select" onchange="selecionarNomeEstado()">
                             <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
                         </select>
                         <input type="hidden" id="estado-nome" value="">
                     </div>
                     <div class="col-md-auto">
                         <label for="idIBGE" class="form-label obrigatorio">Municipio:</label>
-                        <select id="idIBGE" name="idIBGE" onchange="selecionarNomeMunicipio()">
+                        <select id="idIBGE" class="form-select" name="idIBGE" onchange="selecionarNomeMunicipio()">
                             <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
                         </select>
                         <input id="municipio-nome" type="hidden" value=""/>

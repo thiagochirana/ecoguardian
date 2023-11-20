@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class Denuncia {
 
     private Date dataAbertura;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Localizacao localizacao;
 
     private String titulo;
@@ -32,7 +34,7 @@ public class Denuncia {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Usuario denunciante;
 
     @Column(columnDefinition = "TEXT")
@@ -45,6 +47,9 @@ public class Denuncia {
 
     @Enumerated(EnumType.STRING)
     private StatusDenuncia statusDenuncia;
+
+    @OneToMany
+    private List<RegistroDenuncia> registrosFeitos = new ArrayList<>();
 
     public Denuncia(){}
 
@@ -62,6 +67,11 @@ public class Denuncia {
         this.provavelAutorNome = json.provavelAutorNome();
         this.provavelAutorDescricao = json.provavelAutorDescricao();
         this.statusDenuncia = StatusDenuncia.ABERTA;
+    }
+
+    public void adicionarRegistro(RegistroDenuncia registro){
+        registro.setDenuncia(this);
+        registrosFeitos.add(registro);
     }
 
 }

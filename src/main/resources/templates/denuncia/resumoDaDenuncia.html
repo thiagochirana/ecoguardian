@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+<body>
+<div th:replace="~{base/head-page :: menu-lateral}"></div>
+<div th:replace="~{base/head-page :: topo-pagina}"></div>
+
+<div th:replace="~{base/mensagem :: notificacao}"></div>
+<div class="body-geral">
+
+    <h4 class="titulo-pagina" th:text="@{'Denúncia n. '+${denuncia.id}}"></h4>
+    <div>
+        <div class="row">
+            <div class="col col-lg-4">
+                <label>Denunciante:</label>
+                <div th:if="${denuncia.sigilo}">
+                    <input type="text" class="form-control-plaintext" th:value="@{'Anônimo'}" readonly/>
+                </div>
+                <div th:unless="${denuncia.sigilo}">
+                    <td th:text="${denuncia.denunciante.nome}"></td>
+                    <input type="text" class="form-control-plaintext" th:value="${denuncia.denunciante.nome}" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-4">
+                <label>Titulo:</label>
+                <input type="text" class="form-control-plaintext" th:value="${denuncia.titulo}" readonly/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-lg-4">
+                <label>Descricão Inicial:</label>
+                <textarea type="text" class="form-control-plaintext" th:value="${denuncia.descricao}" readonly></textarea>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h5>Atualizações da Denúncia</h5>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="nova-atualizacao">Nova Atualização</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#" data-target="historico">Histórico</a>
+            </li>
+        </ul>
+
+        <div id="historico" class="conteudo" style="display: none;">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Data registro</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Acões</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="registro : ${registros}">
+                    <td th:text="${registro.id}"></td>
+                    <td th:text="${registro.titulo}"></td>
+                    <td th:text="${registro.dataHoraRegistro}"></td>
+                    <td th:text="${registro.statusAtual.getNome()}"></td>
+                    <td><!--Adicionar botao de editar e excluir--></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="nova-atualizacao" class="conteudo">
+            <div th:replace="~{denuncia/formNovoRegistroDenuncia :: formNovoRegistroDenuncia}"></div>
+        </div>
+
+    </div>
+
+
+</div>
+<div th:replace="~{base/base-elem :: script-padrao}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function mostrarConteudo(guia) {
+            document.querySelectorAll('.conteudo').forEach(function(conteudo) {
+                conteudo.style.display = 'none';
+            });
+
+            var idConteudo = guia.getAttribute('data-target');
+            document.getElementById(idConteudo).style.display = 'block';
+        }
+
+        document.querySelectorAll('.nav-link').forEach(function(guia) {
+            guia.addEventListener('click', function(event) {
+                event.preventDefault();
+                mostrarConteudo(guia);
+            });
+        });
+
+        mostrarConteudo(document.querySelector('.nav-link.active'));
+    });
+</script>
+
+</body>
+</html>

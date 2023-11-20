@@ -30,6 +30,9 @@ public class Usuario {
     @OneToMany
     private List<Criptografia> criptografias = new ArrayList<>();
 
+    @OneToMany
+    private List<Denuncia> denunciasFeitas = new ArrayList<>();
+
     @Column(nullable = true)
     private String email;
 
