@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <!-- Reference to the Bing Maps SDK -->
+    <script type='text/javascript'
+            src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Av29FnwJWP4m9hn54hs-pYLlCQCy5cTLfBZpq3DrtsvGTaRrbPLzTmuWJq97oItP'
+            async defer></script>
+
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&setMkt=pt-BR' async defer></script>
+
+    <script type='text/javascript'>
+        function GetMap()
+        {
+            var map = new Microsoft.Maps.Map('#myMap', {
+                credentials: 'Av29FnwJWP4m9hn54hs-pYLlCQCy5cTLfBZpq3DrtsvGTaRrbPLzTmuWJq97oItP',
+                center: new Microsoft.Maps.Location(51.50632, -0.12714),
+                mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                zoom: 2
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="myMap" style="position:relative;width:600px;height:400px;"></div>
+</body>
+</html>

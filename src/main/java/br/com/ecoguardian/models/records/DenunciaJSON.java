@@ -8,9 +8,17 @@ public record DenunciaJSON(
 
         String logradouro,
 
+        String numero,
+
+        String CEP,
+
         String bairro,
 
-        Municipio municipio,
+        String idIBGE,
+
+        String latitude,
+
+        String longitude,
 
         String pontoDeReferencia,
 
@@ -18,7 +26,7 @@ public record DenunciaJSON(
 
         String descricao,
 
-        Usuario denunciante,
+        String denuncianteId,
 
         String email,
 

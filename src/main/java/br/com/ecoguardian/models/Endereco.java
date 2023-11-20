@@ -35,4 +35,18 @@ public class Endereco {
         this.pontoDeReferencia = pontoDeReferencia;
     }
 
+    public Endereco(String logradouro, String bairro, String CEP, String pontoDeReferencia){
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.CEP = CEP;
+        this.pontoDeReferencia = pontoDeReferencia;
+    }
+
+    public Endereco(String logradouro, String numero, String CEP, String bairro, String pontoDeReferencia) {
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.CEP = CEP;
+        this.pontoDeReferencia = pontoDeReferencia;
+    }
 }

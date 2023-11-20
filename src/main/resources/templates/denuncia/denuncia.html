@@ -31,17 +31,30 @@
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
+                        <th scope="col">Anônimo</th>
                         <th scope="col">Título</th>
+                        <th scope="col">Municipio</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Abertura</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="denuncia : ${todasDenuncias}">
                         <td th:text="${denuncia.id}"></td>
+                        <div th:if="${denuncia.sigilo}">
+                            <td>Sim</td>
+                        </div>
+                        <div th:unless="${denuncia.sigilo}">
+                            <td>Não</td>
+                        </div>
                         <td th:text="${denuncia.titulo}"></td>
+                        <td th:text="${denuncia.localizacao.municipio.nome}"></td>
+                        <td th:text="${denuncia.localizacao.municipio.estado.getNome()}"></td>
                         <td th:text="${denuncia.dataAbertura}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>

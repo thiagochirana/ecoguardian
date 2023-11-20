@@ -53,16 +53,15 @@
     font-size: 12px;
 }
 
-/*Icones de botãos tipo button*/
-button.salvar {
-    background-image: url('/static/assets/salvar.svg');
-    background-size: 24px;
-    background-repeat: no-repeat;
-    padding-left: 20px;
-    padding-right: 10px;
-    border: none;
+.legenda {
+    font-style: italic;
+    color: #878787;
+    font-size: 0.8em;
 }
 
-label.obrigatorio {
-    color: #fd3c3c;
+fieldset {
+    display: block;
+    border: 1px solid var(--verde-fundo-box);
+    border-radius: 18px;
+    padding: 10px;
 }

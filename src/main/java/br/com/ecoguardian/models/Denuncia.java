@@ -48,19 +48,20 @@ public class Denuncia {
 
     public Denuncia(){}
 
-    public Denuncia(DenunciaJSON json){
+    public Denuncia(DenunciaJSON json, Usuario denunciante, Municipio municipio){
         this.sigilo = json.sigilo();
         this.dataAbertura = Datas.agora();
-        Endereco end = new Endereco(json.logradouro(), json.bairro(), json.pontoDeReferencia());
-        this.localizacao = new Localizacao(json.municipio(), end);
+        Endereco endereco = new Endereco(json.logradouro(), json.numero(), json.CEP(), json.bairro(), json.pontoDeReferencia());
+        this.localizacao = new Localizacao(municipio, endereco, json.latitude(), json.longitude());
         this.titulo = json.titulo();
         this.descricao = json.descricao();
-        this.denunciante = json.denunciante();
+        this.denunciante = denunciante;
         this.denunciante.setEmail(json.email());
         this.denunciante.setTelefone(json.telefone());
         this.outrasInformacoes = json.outrasInformacoes();
         this.provavelAutorNome = json.provavelAutorNome();
         this.provavelAutorDescricao = json.provavelAutorDescricao();
+        this.statusDenuncia = StatusDenuncia.ABERTA;
     }
 
 }

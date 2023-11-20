@@ -44,4 +44,9 @@ public class AdministracaoController {
         return "redirect:/admin";
     }
 
+    @GetMapping("localizacao")
+    public ModelAndView localizacaoTeste(){
+        return new ModelAndView("localizacao/localizacao");
+    }
+
 }

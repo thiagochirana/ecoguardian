@@ -7,46 +7,80 @@
     <div th:replace="~{base/head-page :: topo-pagina}"></div>
 
     <div class = "body-geral">
-        <h4>Nova Denúncia</h4>
+        <h4 style="padding-bottom: 25px">Nova Denúncia</h4>
         <form action="/denuncia/novo" method="post">
-            <div class="mb-3">
-                <label for="sigilo" class="form-label obrigatorio">Sigilo:</label>
-                <select id="sigilo" name="sigilo">
-                    <option value="true">Sim</option>
-                    <option value="false">Não</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="logradouro-den" class="form-label obrigatorio">Logradouro:</label>
-                <input type="text" class="form-control" id="logradouro-den" name="logradouro"/>
-            </div>
-            <div class="mb-3">
-                <label for="bairro-den" class="form-label obrigatorio">Bairro:</label>
-                <input type="text" class="form-control" id="bairro-den" name="bairro"/>
-            </div>
+            <fieldset>
+                <legend>Endereço completo</legend>
+                <div class="mb-3">
+                    <label for="sigilo" class="form-label obrigatorio">Sigilo:</label>
+                    <select id="sigilo" name="sigilo">
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
-                <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia"/>
-            </div>
+                <div class="mb-3 row">
+                    <div class="col-sm-8">
+                        <label for="logradouro-den" class="form-label obrigatorio">Logradouro:</label>
+                        <input type="text" class="form-control" id="logradouro-den" name="logradouro" oninput="formatarEndereco(this)" placeholder="Rua, Avenida, Beco, Via, etc..."/>
+                    </div>
+                    <div class="col col-lg-2">
+                        <label for="numero-endereco-den" class="form-label obrigatorio">Número:</label>
+                        <input type="number" class="form-control" id="numero-endereco-den" name="numero"  placeholder="0, se não tiver"/>
+                    </div>
+                    <div class="col col-lg-2">
+                        <label for="cep-den" class="form-label">CEP:</label>
+                        <input type="text" class="form-control" id="cep-den" name="CEP"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="bairro-den" class="form-label obrigatorio">Bairro:</label>
+                        <input type="text" class="form-control" id="bairro-den" name="bairro" oninput="formatarEndereco(this)" placeholder="Somente o nome do bairro"/>
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="estado" class="form-label obrigatorio">Estado:</label>
-                <select id="estado" name="estado" >
-                    <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
+                    <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia" oninput="formatarEndereco(this)" placeholder="ao lado, em frente, atrás, etc..."/>
+                </div>
 
-            <div class="mb-3">
-                <label for="idIBGE" class="form-label obrigatorio">Municipio:</label>
-                <select id="idIBGE" name="idIBGE">
-                    <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
-                </select>
+                <div class="mb-3 row">
+                    <div class="col-md-auto">
+                        <label for="estado" class="form-label obrigatorio">Estado:</label>
+                        <select id="estado" name="estado" onchange="selecionarNomeEstado()">
+                            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
+                        </select>
+                        <input type="hidden" id="estado-nome" value="">
+                    </div>
+                    <div class="col-md-auto">
+                        <label for="idIBGE" class="form-label obrigatorio">Municipio:</label>
+                        <select id="idIBGE" name="idIBGE" onchange="selecionarNomeMunicipio()">
+                            <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
+                        </select>
+                        <input id="municipio-nome" type="hidden" value=""/>
+                    </div>
+                    <span class="legenda">Escolha primeiramente o Estado para depois escolher o Município</span>
+                </div>
+            </fieldset>
+
+            <div class="mb-3 row">
+                <div class="col-md-auto">
+                    <label for="latitude" class="form-label">Latitude:</label>
+                    <input type="text" class="form-control" id="latitude" name="latitude"/>
+                </div>
+                <div class="col-md-auto">
+                    <label for="longitude" class="form-label">Longitude:</label>
+                    <input type="text" class="form-control" id="longitude" name="longitude"/>
+                </div>
+<!--                <div class="col-md-auto">-->
+<!--                    <label for="obterCoordenadasBtn" class="form-label">Ação:</label>-->
+<!--                    <button id="obterCoordenadasBtn" class="btn btn-outline-success"><i class="bi bi-compass" style="margin-left: 4px"></i>Obter Coordenadas</button>-->
+<!--                </div>-->
+                <span class="legenda">Obtenha as coordenadas automaticamente clicando no botão ou senão fique a vontade para preencher</span>
             </div>
 
             <div class="mb-3">
                 <label for="titulo" class="form-label obrigatorio">Título:</label>
-                <textarea id="titulo" class="form-control" name="titulo"></textarea>
+                <input id="titulo" class="form-control" name="titulo"/>
             </div>
 
             <div class="mb-3">
@@ -56,10 +90,10 @@
 
             <div class="mb-3">
                 <label for="formFile" class="form-label obrigatorio">Fotos</label>
-                <input class="form-control" type="file" id="formFile" name="fotos">
+                    <input class="form-control" type="file" id="formFile" name="fotos">
             </div>
 
-            <input type="hidden" th:value="${usuarioLogado}">
+            <input type="hidden" th:value="${usuarioLogado.id}" name="denuncianteId">
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>

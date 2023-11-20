@@ -10,7 +10,6 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor
 @Getter
 @Setter
 public class Localizacao {
@@ -38,5 +37,12 @@ public class Localizacao {
     public Localizacao(Municipio municipio, Endereco endereco){
         this.municipio = municipio;
         this.endereco = endereco;
+    }
+
+    public Localizacao(Municipio municipio, Endereco endereco, String latitude, String longitude){
+        this.municipio = municipio;
+        this.endereco = endereco;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

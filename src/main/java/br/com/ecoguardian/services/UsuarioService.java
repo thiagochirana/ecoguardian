@@ -60,6 +60,10 @@ public class UsuarioService {
         return Optional.of(user.get());
     }
 
+    public Usuario obterPeloId(Long id){
+        return usuarios.findById(id).orElseGet(Usuario::new);
+    }
+
 
     public void ativarOuDesativar(String id, boolean atividade){
         Usuario us = usuarios.findById(Long.parseLong(id)).get();

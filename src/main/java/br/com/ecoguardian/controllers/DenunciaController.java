@@ -1,5 +1,6 @@
 package br.com.ecoguardian.controllers;
 
+import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.services.DenunciaService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,9 +37,12 @@ public class DenunciaController {
         return model;
     }
 
-    @PostMapping("/nova")
+    @PostMapping("/novo")
     public ModelAndView registrarDenuncia(DenunciaJSON json, HttpServletRequest request){
-        denuncias.salvar(json);
+        Denuncia den = denuncias.salvar(json);
+        if (den != null){
+            return view.novaView("denuncia/denunciaRegistrada");
+        }
         return null;
     }
 }

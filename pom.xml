@@ -39,6 +39,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!--OpenCage geolocalizacao-->
+		<dependency>
+			<groupId>com.opencagedata</groupId>
+			<artifactId>jopencage</artifactId>
+			<version>2.2.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
