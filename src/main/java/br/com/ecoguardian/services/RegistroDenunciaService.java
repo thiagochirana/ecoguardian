@@ -22,8 +22,6 @@ public class RegistroDenunciaService {
     @Autowired
     private UsuarioService usuarios;
 
-    @Autowired
-    private DenunciaService denuncias;
 
     public RegistroDenuncia abrir(Denuncia denuncia){
         RegistroDenuncia registro = new RegistroDenuncia();
@@ -36,13 +34,6 @@ public class RegistroDenunciaService {
     public RegistroDenuncia registrar(RegistroDenuncia registro){
         registro.setDataHoraRegistro(Datas.agora());
         return registros.save(registro);
-    }
-
-    public RegistroDenuncia registrar(RegistroDenunciaJSON json){
-        Usuario user = usuarios.obterPeloId(json.idUsuario());
-        Denuncia den = denuncias.obter(json.denunciaId()).get();
-
-        return this.registrar(new RegistroDenuncia(json, user,den));
     }
 
     public RegistroDenuncia encerrar(RegistroDenuncia registro){
