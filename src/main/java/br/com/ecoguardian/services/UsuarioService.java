@@ -71,4 +71,11 @@ public class UsuarioService {
         usuarios.save(us);
     }
 
+    public void excluir(String id){
+        Usuario us = usuarios.findById(Long.parseLong(id)).get();
+        criptografias.excluirDoUsuario(us);
+        usuarios.delete(us);
+
+    }
+
 }

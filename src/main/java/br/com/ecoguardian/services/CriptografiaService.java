@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CriptografiaService {
@@ -30,6 +31,13 @@ public class CriptografiaService {
         us.adicionarCriptografia(criptografia);
         usuarios.save(us);
         return cripSalvo;
+    }
+
+    public void excluirDoUsuario(Usuario usuario) {
+        Optional<List<Criptografia>> lista = criptografias.doUsuario(usuario);
+        if (lista.isPresent()) {
+            criptografias.deleteAll(lista.get());
+        }
     }
 
     public List<Criptografia> criptografadas(){

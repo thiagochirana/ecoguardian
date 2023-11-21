@@ -38,8 +38,7 @@ public class UsuarioController {
 
     @PostMapping("/{id}")
     public String excluir(@PathVariable String id){
-        Usuario us = usuarioRepository.findById(Long.parseLong(id)).get();
-        usuarioRepository.delete(us);
+        usuarioService.excluir(id);
         return "redirect:/admin";
     }
 }

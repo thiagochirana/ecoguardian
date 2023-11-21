@@ -26,7 +26,7 @@ public class Criptografia {
 
     private Date data;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

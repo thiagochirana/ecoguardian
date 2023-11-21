@@ -86,7 +86,6 @@ public class DenunciaController {
 
     @PostMapping("/registrar/salvar")
     public ModelAndView realizarRegistro(@RequestBody RegistroDenunciaJSON json){
-        RegistroDenuncia reg = registros.registrar(json);
         return null;
     }
 
