@@ -42,8 +42,8 @@ public class DenunciaService {
         return denuncias.save(denSalva);
     }
 
-    public Optional<Denuncia> obter(Long id){
-        return denuncias.findById(id);
+    public Denuncia obter(Long id){
+        return denuncias.findById(id).orElseGet(Denuncia::new);
     }
 
     public Denuncia alterar(Denuncia denuncia){

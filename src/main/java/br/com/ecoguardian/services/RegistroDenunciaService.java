@@ -5,6 +5,7 @@ import br.com.ecoguardian.models.RegistroDenuncia;
 import br.com.ecoguardian.models.Usuario;
 import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
+import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.repositories.RegistroDenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class RegistroDenunciaService {
     @Autowired
     private UsuarioService usuarios;
 
+    @Autowired
+    private DenunciaRepository denuncias;
 
     public RegistroDenuncia abrir(Denuncia denuncia){
         RegistroDenuncia registro = new RegistroDenuncia();
@@ -34,6 +37,13 @@ public class RegistroDenunciaService {
     public RegistroDenuncia registrar(RegistroDenuncia registro){
         registro.setDataHoraRegistro(Datas.agora());
         return registros.save(registro);
+    }
+
+    public RegistroDenuncia registrar(RegistroDenunciaJSON json){
+        Usuario usuario = usuarios.obterPeloId(json.idUsuario());
+        Denuncia denuncia = denuncias.findById(json.denunciaId()).orElseGet(Denuncia::new);
+        RegistroDenuncia registro = new RegistroDenuncia(json, usuario, denuncia);
+        return registrar(registro);
     }
 
     public RegistroDenuncia encerrar(RegistroDenuncia registro){

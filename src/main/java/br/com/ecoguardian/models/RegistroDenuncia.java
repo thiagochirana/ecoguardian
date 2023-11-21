@@ -47,11 +47,11 @@ public class RegistroDenuncia {
         this.dataHoraRegistro = Datas.agora();
     }
 
-    public RegistroDenuncia(RegistroDenunciaJSON json, Usuario usuario, Denuncia qualDenuncia) {
+    public RegistroDenuncia(RegistroDenunciaJSON json, Usuario quemAtualizou, Denuncia qualDenuncia) {
         this.dataHoraRegistro = Datas.agora();
         this.titulo = json.titulo();
         this.descricao = json.descricao();
-        this.quemAtualizou = usuario;
+        this.quemAtualizou = quemAtualizou;
         this.denuncia = qualDenuncia;
     }
 }

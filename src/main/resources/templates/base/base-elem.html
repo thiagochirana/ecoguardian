@@ -162,14 +162,21 @@
             let bairro = document.getElementById('bairro-den').value;
             let estado = document.getElementById('estado-nome').value;
             let municipio = document.getElementById('municipio-nome').value;
+            let cep = document.getElementById('cep-den').value;
+
+            //Tirar traço do cep
+            cep = cep.replace(/\D/g, '');
 
             // Cria a string de endereço
             let endereco = "";
             if (logradouro !== null && logradouro.trim() !== ""){
-                endereco += `${logradouro}, `
+                endereco += `${logradouro} `
             }
             if (numero !== null && numero.trim() !== ""){
                 endereco += `${numero}, `
+            }
+            if (cep !== null && cep.trim() !== ""){
+                endereco += `${cep}, `
             }
             if (bairro !== null && bairro.trim() !== ""){
                 endereco += `${bairro}, `
@@ -180,6 +187,7 @@
             if (estado !== null && estado.trim() !== ""){
                 endereco += `${estado}, `
             }
+
             endereco += " Brasil"
 
 

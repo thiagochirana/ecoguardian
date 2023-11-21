@@ -68,9 +68,9 @@ public class DenunciaController {
     @PostMapping("/{id}/registrar")
     public ModelAndView carregarNovoFormParaRegistro(@PathVariable String id){
         ModelAndView formRegistro = view.novaView("denuncia/registroTicketDenuncia");
-        Optional<Denuncia> den = denuncias.obter(Long.parseLong(id));
-        if (den.isPresent()){
-            Denuncia d = den.get();
+        Denuncia den = denuncias.obter(Long.parseLong(id));
+        if (den.getId() != null){
+            Denuncia d = den;
             formRegistro.addObject("resumoDenuncia", "Denúncia feita por "+d.getDenunciante().getNome()+" na data e hora "+d.getDataAbertura().toString());
             formRegistro.addObject("infoIdDenuncia","Denúncia de num. "+d.getId());
             formRegistro.addObject("denunciaId",d.getId());
@@ -85,13 +85,15 @@ public class DenunciaController {
     }
 
     @PostMapping("/registrar/salvar")
-    public ModelAndView realizarRegistro(@RequestBody RegistroDenunciaJSON json){
-        return null;
+    public ModelAndView realizarRegistro(RegistroDenunciaJSON json){
+        registros.registrar(json);
+        ModelAndView model = view.novaView("redirect:/denuncia/"+json.denunciaId()+"/verRegistros");
+        return model;
     }
 
     @PostMapping("/{id}/verRegistros")
     public ModelAndView listarRegistros(@PathVariable String id){
-        Denuncia denuncia = denuncias.obter(Long.parseLong(id)).orElseGet(Denuncia::new);
+        Denuncia denuncia = denuncias.obter(Long.parseLong(id));
         ModelAndView model = view.novaView("denuncia/resumoDaDenuncia");
         model.addObject("denuncia", denuncia);
         return model;
