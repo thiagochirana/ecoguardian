@@ -25,9 +25,10 @@
         <div>
             <button onclick="novaDenuncia()" class="novo-btn btn btn-success">Nova</button>
         </div>
-        <div>
+        <div class="table-responsive">
             <table class="table table-striped">
                 <h5>Últimas Denúncias registradas</h5>
+                <caption>Lista de Denúncias</caption>
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -71,18 +72,14 @@
                         <td th:text="${denuncia.dataAbertura}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
                         <td>
-                            <div class="col-md-auto">
-                                <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/verRegistros' }" method="post">
-                                    <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</button>
-                                </form>
+                            <div div class="d-flex">
+                                <div class="col-md-auto">
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</a>
+                                </div>
+                                <div class="col-md-auto">
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success"><i class="bi bi-chat-dots"></i>Novo Comentário</a>
+                                </div>
                             </div>
-<!--                            <div th:if="${usuarioLogadoIsAdminOuAnalista}">-->
-<!--                                <div class="col-md-auto">-->
-<!--                                    <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/registrar' }" method="post">-->
-<!--                                        <button type="submit" class="btn btn-success"><i class="bi bi-pencil"></i>Registrar</button>-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </div>-->
                         </td>
                     </tr>
                 </tbody>
@@ -93,6 +90,10 @@
     <script>
         function novaDenuncia() {
             window.location.href = "/denuncia/nova";
+        }
+
+        function abrirHistorico() {
+            window.location.href = "/denuncia/"+ ${denuncia.id} +"/registro/historico";
         }
     </script>
 

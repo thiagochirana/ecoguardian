@@ -59,39 +59,53 @@ public class DenunciaController {
         return model;
     }
 
-    @PostMapping("/{id}/registrar")
-    public ModelAndView carregarNovoFormParaRegistro(@PathVariable String id){
-        ModelAndView formRegistro = view.novaView("denuncia/registroTicketDenuncia");
-        Denuncia den = denuncias.obter(Long.parseLong(id));
-        if (den.getId() != null){
-            Denuncia d = den;
-            formRegistro.addObject("resumoDenuncia", "Denúncia feita por "+d.getDenunciante().getNome()+" na data e hora "+d.getDataAbertura().toString());
-            formRegistro.addObject("infoIdDenuncia","Denúncia de num. "+d.getId());
-            formRegistro.addObject("denunciaId",d.getId());
-            formRegistro.addObject("usuarioDenuncianteId",d.getDenunciante().getId());
-        } else {
-            formRegistro.addObject("resumoDenuncia", "Sem registros");
-            formRegistro.addObject("infoIdDenuncia","A iniciar nova Denuncia");
-            formRegistro.addObject("denunciaId",0L);
-            formRegistro.addObject("usuarioDenuncianteId",0L);
-        }
-        return formRegistro;
-    }
+//    @PostMapping("/{id}/registrar")
+//    public ModelAndView carregarNovoFormParaRegistro(@PathVariable String id){
+//        ModelAndView formRegistro = view.novaView("denuncia/registroTicketDenuncia");
+//        Denuncia den = denuncias.obter(Long.parseLong(id));
+//        if (den.getId() != null){
+//            Denuncia d = den;
+//            formRegistro.addObject("resumoDenuncia", "Denúncia feita por "+d.getDenunciante().getNome()+" na data e hora "+d.getDataAbertura().toString());
+//            formRegistro.addObject("infoIdDenuncia","Denúncia de num. "+d.getId());
+//            formRegistro.addObject("denunciaId",d.getId());
+//            formRegistro.addObject("usuarioDenuncianteId",d.getDenunciante().getId());
+//        } else {
+//            formRegistro.addObject("resumoDenuncia", "Sem registros");
+//            formRegistro.addObject("infoIdDenuncia","A iniciar nova Denuncia");
+//            formRegistro.addObject("denunciaId",0L);
+//            formRegistro.addObject("usuarioDenuncianteId",0L);
+//        }
+//        return formRegistro;
+//    }
 
-    @PostMapping("/registrar/salvar")
+    @PostMapping("/registro/salvar")
     public ModelAndView realizarRegistro(RegistroDenunciaJSON json){
         registros.registrar(json);
         ModelAndView model = view.novaView("redirect:/denuncia/"+json.denunciaId()+"/verRegistros");
         return model;
     }
 
-    @PostMapping("/{id}/verRegistros")
+    @GetMapping("/{id}/registro/historico")
     public ModelAndView listarRegistros(@PathVariable String id){
         Denuncia denuncia = denuncias.obter(Long.parseLong(id));
-        ModelAndView model = view.novaView("denuncia/resumoDaDenuncia");
+        ModelAndView model = view.novaView("denuncia/historicoDeRegistroDenuncia");
         model.addObject("denuncia", denuncia);
         model.addObject("registros", registros.listarDaDenuncia(denuncia));
         return model;
     }
+
+    @GetMapping("/{id}/registro/adicionarComentario")
+    public ModelAndView obterFormParaRegistro(@PathVariable String id){
+        Denuncia denuncia = denuncias.obter(Long.parseLong(id));
+        ModelAndView model = view.novaView("denuncia/formRegistroDenuncia");
+        model.addObject("denuncia",denuncia);
+        return model;
+    }
+
+    @PostMapping("/{id}/registro/")
+    public ModelAndView cadastrarComentario(RegistroDenunciaJSON json){
+        return null;
+    }
+
 
 }

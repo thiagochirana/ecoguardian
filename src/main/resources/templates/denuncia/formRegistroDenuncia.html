@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+<body>
+<div th:replace="~{base/head-page :: menu-lateral}"></div>
+<div th:replace="~{base/head-page :: topo-pagina}"></div>
+
+<div class="body-geral">
+    <h4 class="titulo-pagina">Novo comentário</h4>
+    <div th:fragment="formNovoRegistroDenuncia">
+        <form th:action="@{'/denuncia/registrar/salvar'}" method="POST">
+            <input type="hidden" th:value="${denuncia.id}" name="denunciaId">
+            <div class="mb-3">
+                <label for="tituloRegistro" class="form-label">Titulo:</label>
+                <input type="text" class="form-control" id="tituloRegistro" name="titulo">
+            </div>
+            <div class="mb-3">
+                <label for="descricaoRegistro" class="form-label">Comentário:</label>
+                <textarea class="form-control" id="descricaoRegistro" name="descricao"></textarea>
+            </div>
+            <input type="hidden" th:value="${usuarioLogado.id}" name="idUsuario">
+            <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                <div class="mb-3">
+                    <label for="statusRegistro" class="form-label">Descricão atual:</label>
+                    <select id="statusRegistro" class="form-select" name="statusDenuncia">
+                        <option th:each="status : ${statusDenuncia}" th:value="${status}" th:text="${status.getNome()}"></option>
+                    </select>
+                </div>
+            </div>
+            <button class="salvar-btn btn btn-success">Atualizar Denuncia</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{base/base-elem :: script-padrao}"></div>
+</body>
+</html>

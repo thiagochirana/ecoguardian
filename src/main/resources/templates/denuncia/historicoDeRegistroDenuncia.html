@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+<body>
+<div th:replace="~{base/head-page :: menu-lateral}"></div>
+<div th:replace="~{base/head-page :: topo-pagina}"></div>
+
+<div class="body-geral">
+    <h4 class="titulo-pagina">Histórico</h4>
+    <div id="historico" class="conteudo">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Data registro</th>
+                <th scope="col">Situação</th>
+                <th scope="col">Acões</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="registro : ${registros}">
+                <td th:text="${registro.id}"></td>
+                <td th:text="${registro.titulo}"></td>
+                <td th:text="${registro.dataHoraRegistro}"></td>
+                <td th:text="${registro.statusAtual.getNome()}"></td>
+                <td><!--Adicionar botao de editar e excluir--></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{base/base-elem :: script-padrao}"></div>
+</body>
+</html>
