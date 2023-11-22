@@ -90,6 +90,21 @@
                 <textarea id="descricao" class="form-control" name="descricao"></textarea>
             </div>
 
+            <div class="mb-3 row">
+                <div class="col-md-auto">
+                    <label for="categoria" class="form-label obrigatorio">Categoria:</label>
+                    <select id="categoria" name="categoriaId" class="form-select" onchange="selecionarNomeEstado()">
+                        <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.getNome()}"></option>
+                    </select>
+                </div>
+                <div class="col-md-auto">
+                    <label for="subcategoria" class="form-label obrigatorio">Subcategoria:</label>
+                    <select id="subcategoria" name="subcategoriaId" class="form-select" onchange="selecionarNomeEstado()">
+                        <!--Vai ser preenchido via ajax-->
+                    </select>
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label for="formFile" class="form-label obrigatorio">Fotos</label>
                     <input class="form-control" type="file" id="formFile" name="fotos">

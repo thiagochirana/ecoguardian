@@ -43,6 +43,21 @@ $(document).ready(function () {
     });
 });
 
+//obter subcategoria da categoria selecionada
+$(document).ready(function () {
+    $('#categoria').change(function () {
+        var categoriaId = $(this).val();
+        $.get('/denuncia/categoria/' + categoriaId + '/subcategorias', function (data) {
+            var subcategoriasDropdown = $('#subcategoria');
+            subcategoriasDropdown.empty();
+            console.log(data)
+            $.each(data, function (index, subcat) {
+                subcategoriasDropdown.append('<option value="' + subcat.idSubcategoria + '">' + subcat.descricao + '</option>');
+            });
+        });
+    });
+});
+
 // funcao para add icons automaticamente
 function adicionarIconeAosBotoes(classeBtn, classeIcon) {
     let botoes = document.querySelectorAll(classeBtn);

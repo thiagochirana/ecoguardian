@@ -1,9 +1,13 @@
 package br.com.ecoguardian.controllers;
 
+import br.com.ecoguardian.models.Categoria;
 import br.com.ecoguardian.models.Denuncia;
+import br.com.ecoguardian.models.Subcategoria;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
+import br.com.ecoguardian.models.records.SubcategoriaDTO;
+import br.com.ecoguardian.services.CategoriaService;
 import br.com.ecoguardian.services.DenunciaService;
 import br.com.ecoguardian.services.RegistroDenunciaService;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
@@ -11,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/denuncia")
@@ -21,6 +27,9 @@ public class DenunciaController {
 
     @Autowired
     private SessaoServiceWrapper sessaoServiceWrapper;
+
+    @Autowired
+    private CategoriaService categorias;
 
     @Autowired
     private DenunciaService denuncias;
@@ -42,6 +51,7 @@ public class DenunciaController {
     @GetMapping("/nova")
     public ModelAndView novaDenuncia(){
         ModelAndView model = view.novaView("denuncia/novaDenuncia");
+        model.addObject("categorias",categorias.listar());
         model.addObject("notificacao", new MensagemView(false, false, null, null, null));
         return model;
     }
@@ -114,5 +124,9 @@ public class DenunciaController {
         return null;
     }
 
-
+    @GetMapping("/categoria/{id}/subcategorias")
+    @ResponseBody
+    public List<SubcategoriaDTO> listarSubcategorias(@PathVariable Long id){
+        return categorias.subcategoriasDaCategoriaId(id);
+    }
 }

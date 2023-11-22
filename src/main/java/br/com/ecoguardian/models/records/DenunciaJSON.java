@@ -26,6 +26,10 @@ public record DenunciaJSON(
 
         String descricao,
 
+        Long categoriaId,
+
+        Long subcategoriaId,
+
         String denuncianteId,
 
         String email,
