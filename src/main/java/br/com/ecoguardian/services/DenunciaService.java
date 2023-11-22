@@ -30,6 +30,9 @@ public class DenunciaService {
     @Autowired
     private RegistroDenunciaService registroDenunciaService;
 
+    @Autowired
+    private SessaoServiceWrapper sessaoServiceWrapper;
+
     public Denuncia abrir(DenunciaJSON json){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
         Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
@@ -37,8 +40,8 @@ public class DenunciaService {
         denNova.setLocalizacao(local);
 
         Denuncia denSalva = denuncias.save(denNova);
-        registroDenunciaService.abrir(denSalva);
-        denSalva.adicionarRegistro(registroDenunciaService.abrir(denSalva));
+        RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
+        denSalva.adicionarRegistro(registro);
         return denuncias.save(denSalva);
     }
 
@@ -68,8 +71,12 @@ public class DenunciaService {
         return denuncias.listarTodasDoUsuarioComStatus(usuario, status).orElseGet(ArrayList::new);
     }
 
-    public List<Denuncia> todas(){
-        return denuncias.findAll();
+    public List<Denuncia> todasDoUsuarioLogado(){
+        if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista()){
+            return denuncias.findAll();
+        } else {
+            return denuncias.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado()).orElseGet(ArrayList::new);
+        }
     }
 
 }

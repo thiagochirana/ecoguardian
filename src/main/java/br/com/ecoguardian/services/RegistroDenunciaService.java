@@ -29,6 +29,7 @@ public class RegistroDenunciaService {
     public RegistroDenuncia abrir(Denuncia denuncia){
         RegistroDenuncia registro = new RegistroDenuncia();
         registro.setDenuncia(denuncia);
+        registro.setStatusAtual(StatusDenuncia.ABERTA);
         registro.setTitulo("Abertura de Registro da Denuncia n. "+denuncia.getId());
         registro.setDescricao("Abertura de nova denúncia realizadas às "+denuncia.getDataAbertura()+" pelo usuário "+denuncia.getDenunciante().getNome());
         return this.registrar(registro);

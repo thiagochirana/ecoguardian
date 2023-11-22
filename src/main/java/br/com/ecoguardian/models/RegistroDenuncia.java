@@ -24,7 +24,7 @@ public class RegistroDenuncia {
     @Enumerated(EnumType.STRING)
     private StatusDenuncia statusAtual;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Usuario quemAtualizou;
 
     @Column(columnDefinition = "TEXT")
@@ -35,12 +35,13 @@ public class RegistroDenuncia {
 
     private Date dataHoraRegistro;
 
-    public RegistroDenuncia(String titulo, String descricao, Usuario usuario, Denuncia qualDenuncia){
+    public RegistroDenuncia(String titulo, String descricao, Usuario usuario, Denuncia qualDenuncia, StatusDenuncia statusDenuncia){
         this.dataHoraRegistro = Datas.agora();
         this.titulo = titulo;
         this.descricao = descricao;
         this.quemAtualizou = usuario;
         this.denuncia = qualDenuncia;
+        this.statusAtual = statusDenuncia;
     }
 
     public RegistroDenuncia(){
@@ -53,5 +54,6 @@ public class RegistroDenuncia {
         this.descricao = json.descricao();
         this.quemAtualizou = quemAtualizou;
         this.denuncia = qualDenuncia;
+        this.statusAtual = json.statusDenuncia();
     }
 }

@@ -31,7 +31,12 @@
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Anônimo</th>
+                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                            <th scope="col">Usuário</th>
+                        </div>
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                            <th scope="col">Foi anônimo?</th>
+                        </div>
                         <th scope="col">Título</th>
                         <th scope="col">Municipio</th>
                         <th scope="col">Estado</th>
@@ -43,11 +48,22 @@
                 <tbody>
                     <tr th:each="denuncia : ${todasDenuncias}">
                         <td th:text="${denuncia.id}"></td>
-                        <div th:if="${denuncia.sigilo}">
-                            <td>Sim</td>
+
+                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                            <div th:if="${denuncia.sigilo}">
+                                <td>Anônimo</td>
+                            </div>
+                            <div th:unless="${denuncia.sigilo}">
+                                <td th:text="${denuncia.denunciante.getNome()}"></td>
+                            </div>
                         </div>
-                        <div th:unless="${denuncia.sigilo}">
-                            <td>Não</td>
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                            <div th:if="${denuncia.sigilo}">
+                                <td>Sim</td>
+                            </div>
+                            <div th:unless="${denuncia.sigilo}">
+                                <td>Não</td>
+                            </div>
                         </div>
                         <td th:text="${denuncia.titulo}"></td>
                         <td th:text="${denuncia.localizacao.municipio.nome}"></td>
@@ -60,13 +76,13 @@
                                     <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</button>
                                 </form>
                             </div>
-                            <div th:if="${usuarioLogadoIsAdminOuAnalista}">
-                                <div class="col-md-auto">
-                                    <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/registrar' }" method="post">
-                                        <button type="submit" class="btn btn-success"><i class="bi bi-pencil"></i>Registrar</button>
-                                    </form>
-                                </div>
-                            </div>
+<!--                            <div th:if="${usuarioLogadoIsAdminOuAnalista}">-->
+<!--                                <div class="col-md-auto">-->
+<!--                                    <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/registrar' }" method="post">-->
+<!--                                        <button type="submit" class="btn btn-success"><i class="bi bi-pencil"></i>Registrar</button>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </td>
                     </tr>
                 </tbody>

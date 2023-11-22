@@ -1,20 +1,22 @@
 <div th:fragment="formNovoRegistroDenuncia">
-    <form th:action="@{'/denuncia/registrar/salvar'}" th:method="POST">
+    <form th:action="@{'/denuncia/registrar/salvar'}" method="POST">
         <input type="hidden" th:value="${denuncia.id}" name="denunciaId">
         <div class="mb-3">
             <label for="tituloRegistro" class="form-label">Titulo:</label>
             <input type="text" class="form-control" id="tituloRegistro" name="titulo">
         </div>
         <div class="mb-3">
-            <label for="descricaoRegistro" class="form-label">Descricão atual:</label>
+            <label for="descricaoRegistro" class="form-label">Comentário:</label>
             <textarea class="form-control" id="descricaoRegistro" name="descricao"></textarea>
         </div>
         <input type="hidden" th:value="${usuarioLogado.id}" name="idUsuario">
-        <div class="mb-3">
-            <label for="statusRegistro" class="form-label">Descricão atual:</label>
-            <select id="statusRegistro" class="form-select" name="statusDenuncia">
-                <option th:each="status : ${statusDenuncia}" th:value="${status}" th:text="${status.getNome()}"></option>
-            </select>
+        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+            <div class="mb-3">
+                <label for="statusRegistro" class="form-label">Descricão atual:</label>
+                <select id="statusRegistro" class="form-select" name="statusDenuncia">
+                    <option th:each="status : ${statusDenuncia}" th:value="${status}" th:text="${status.getNome()}"></option>
+                </select>
+            </div>
         </div>
         <button class="salvar-btn btn btn-success">Atualizar Denuncia</button>
     </form>

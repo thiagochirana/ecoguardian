@@ -1,22 +1,16 @@
 package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.Denuncia;
-import br.com.ecoguardian.models.RegistroDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
 import br.com.ecoguardian.services.DenunciaService;
 import br.com.ecoguardian.services.RegistroDenunciaService;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/denuncia")
@@ -40,8 +34,8 @@ public class DenunciaController {
         model.addObject("qtdeDenunciasAbertas",1);
         model.addObject("qtdeDenunciasEmAnalise",4);
         model.addObject("qtdeDenunciasPrecisaAtencao",2);
-        model.addObject("todasDenuncias", denuncias.todas());
-        model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdmin() || sessaoServiceWrapper.getUsuarioLogado().isAnalista());
+        model.addObject("todasDenuncias", denuncias.todasDoUsuarioLogado());
+        model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista());
         return model;
     }
 
@@ -55,7 +49,7 @@ public class DenunciaController {
     @PostMapping("/novo")
     public ModelAndView registrarDenuncia(DenunciaJSON json){
         Denuncia den = denuncias.abrir(json);
-        ModelAndView model = view.novaView("denuncia/denuncia");
+        ModelAndView model = view.novaView("redirect:/denuncia");
         if (den != null){
             model.addObject("notificacao", new MensagemView(true, true, "Denuncia registrada com sucesso", "Aguarde um analista iniciar análise", null));
         } else {
@@ -96,6 +90,7 @@ public class DenunciaController {
         Denuncia denuncia = denuncias.obter(Long.parseLong(id));
         ModelAndView model = view.novaView("denuncia/resumoDaDenuncia");
         model.addObject("denuncia", denuncia);
+        model.addObject("registros", registros.listarDaDenuncia(denuncia));
         return model;
     }
 

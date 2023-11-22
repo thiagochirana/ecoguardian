@@ -2,12 +2,11 @@ package br.com.ecoguardian.models.enums;
 
 public enum StatusDenuncia {
     ABERTA("Aberta"),
-    FECHADA("Fechada"),
-    BLOQUEADA("Bloqueada"),
     ANALISE_INICIADA("Análise Iniciada"),
     EM_ANALISE("Em Análise"),
+    RESOLVIDA("Resolvida"),
     REJEITADA("Rejeitada"),
-    RESOLVIDA("Resolvida");
+    FECHADA("Fechada");
 
     private final String nome;
 

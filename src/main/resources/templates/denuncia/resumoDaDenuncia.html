@@ -17,7 +17,6 @@
                     <input type="text" class="form-control-plaintext" th:value="@{'Anônimo'}" readonly/>
                 </div>
                 <div th:unless="${denuncia.sigilo}">
-                    <td th:text="${denuncia.denunciante.nome}"></td>
                     <input type="text" class="form-control-plaintext" th:value="${denuncia.denunciante.nome}" readonly/>
                 </div>
             </div>

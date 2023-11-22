@@ -33,6 +33,9 @@ public class Usuario {
     @OneToMany
     private List<Denuncia> denunciasFeitas = new ArrayList<>();
 
+    @OneToMany
+    private List<RegistroDenuncia> registrosFeitos = new ArrayList<>();
+
     @Column(nullable = true)
     private String email;
 
@@ -71,12 +74,12 @@ public class Usuario {
         return this.tipoPerfil == TipoPerfil.ADMIN;
     }
 
-    public boolean isDenunciante(){
-        return this.tipoPerfil == TipoPerfil.DENUNCIANTE;
+    public boolean isAdminOuAnalista(){
+        return this.tipoPerfil == TipoPerfil.ANALISTA || this.tipoPerfil == TipoPerfil.ADMIN;
     }
 
-    public boolean isAnonimo(){
-        return this.tipoPerfil == TipoPerfil.ANONIMO;
+    public boolean isDenunciante(){
+        return this.tipoPerfil == TipoPerfil.DENUNCIANTE || this.tipoPerfil == TipoPerfil.ANONIMO;
     }
 
     public String getCPFcomMascara(){
