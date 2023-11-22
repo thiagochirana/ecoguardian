@@ -18,4 +18,7 @@ public interface RegistroDenunciaRepository extends JpaRepository<RegistroDenunc
 
     @Query("FROM RegistroDenuncia WHERE denuncia.denunciante = :usuario")
     Optional<List<RegistroDenuncia>> doUsuario(Usuario usuario);
+
+    @Query("FROM RegistroDenuncia rd WHERE rd.denuncia = :denuncia AND rd.statusAtual <> 'ABERTA' OR rd.statusAtual <> 'AGUARDANDO_ANALISE' ")
+    Optional<List<RegistroDenuncia>> jaEstaEmAnalise(Denuncia denuncia);
 }

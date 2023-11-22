@@ -23,15 +23,21 @@
             </div>
         </div>
         <div>
-            <button onclick="novaDenuncia()" class="novo-btn btn btn-success">Nova</button>
+            <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
         </div>
-        <div>
+        <div class="table-responsive">
             <table class="table table-striped">
                 <h5>Últimas Denúncias registradas</h5>
+                <caption>Lista de Denúncias</caption>
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Anônimo</th>
+                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                            <th scope="col">Usuário</th>
+                        </div>
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                            <th scope="col">Foi anônimo?</th>
+                        </div>
                         <th scope="col">Título</th>
                         <th scope="col">Municipio</th>
                         <th scope="col">Estado</th>
@@ -43,11 +49,22 @@
                 <tbody>
                     <tr th:each="denuncia : ${todasDenuncias}">
                         <td th:text="${denuncia.id}"></td>
-                        <div th:if="${denuncia.sigilo}">
-                            <td>Sim</td>
+
+                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                            <div th:if="${denuncia.sigilo}">
+                                <td>Anônimo</td>
+                            </div>
+                            <div th:unless="${denuncia.sigilo}">
+                                <td th:text="${denuncia.denunciante.getNome()}"></td>
+                            </div>
                         </div>
-                        <div th:unless="${denuncia.sigilo}">
-                            <td>Não</td>
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                            <div th:if="${denuncia.sigilo}">
+                                <td>Sim</td>
+                            </div>
+                            <div th:unless="${denuncia.sigilo}">
+                                <td>Não</td>
+                            </div>
                         </div>
                         <td th:text="${denuncia.titulo}"></td>
                         <td th:text="${denuncia.localizacao.municipio.nome}"></td>
@@ -55,16 +72,12 @@
                         <td th:text="${denuncia.dataAbertura}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
                         <td>
-                            <div class="col-md-auto">
-                                <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/verRegistros' }" method="post">
-                                    <button type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</button>
-                                </form>
-                            </div>
-                            <div th:if="${usuarioLogadoIsAdminOuAnalista}">
+                            <div div class="d-flex">
                                 <div class="col-md-auto">
-                                    <form th:action="@{'/denuncia/' + ${denuncia.id}+ '/registrar' }" method="post">
-                                        <button type="submit" class="btn btn-success"><i class="bi bi-pencil"></i>Registrar</button>
-                                    </form>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</a>
+                                </div>
+                                <div class="col-md-auto">
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success"><i class="bi bi-chat-dots"></i>Novo Comentário</a>
                                 </div>
                             </div>
                         </td>

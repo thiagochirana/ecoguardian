@@ -53,4 +53,8 @@ public class Log {
     public void warn(String warn){
         LOG.warn(warn);
     }
+
+    public void erro(String msg, Exception e){
+        LOG.error(msg, e);
+    }
 }

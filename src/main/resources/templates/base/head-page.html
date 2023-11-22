@@ -1,5 +1,5 @@
 <nav th:fragment="menu-lateral">
-    <div class="menu-lateral">
+    <div class="menu-lateral" style="z-index: 9999">
 
         <ul class="lista-de-itens-menu">
             <li class="item-menu">
@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li class="item-menu">
-                <a href="/denuncia">
+                <a href="/denuncia" method="GET">
                     <span class="icon-item"><i class="bi bi-person-raised-hand"></i></span>
                     <span class="nome-item">Denúncias</span>
                 </a>
