@@ -91,6 +91,21 @@
             </div>
 
             <div class="mb-3">
+                <div class="col-md-auto">
+                    <label for="categoria" class="form-label obrigatorio">Estado:</label>
+                    <select id="categoria" name="categoria" class="form-select" onchange="selecionarNomeEstado()">
+                        <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat.getNome()}"></option>
+                    </select>
+                </div>
+                <div class="col-md-auto">
+                    <label for="subcategoria" class="form-label obrigatorio">Estado:</label>
+                    <select id="subcategoria" name="subcategoria" class="form-select" onchange="selecionarNomeEstado()">
+                        <option th:each="sub : ${subcategorias}" th:value="${sub}" th:text="${sub.getNome()}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
                 <label for="formFile" class="form-label obrigatorio">Fotos</label>
                     <input class="form-control" type="file" id="formFile" name="fotos">
             </div>

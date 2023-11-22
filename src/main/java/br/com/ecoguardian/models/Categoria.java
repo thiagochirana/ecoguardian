@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "categoria")
 public class Categoria {
 
     @Id
@@ -20,31 +19,13 @@ public class Categoria {
     private String nome;
 
     @OneToMany
-    private List<Atividade> atividadeAmbientais;
+    private List<Subcategoria> subcategorias = new ArrayList<>();
 
-    public Categoria(){
-        this.atividadeAmbientais = new ArrayList<>();
+    public Categoria(){}
+
+    public void adicionarSubcategoria(Subcategoria subcategoria){
+        subcategorias.add(subcategoria);
     }
 }
 
 
-@Entity
-@Getter
-@Setter
-@Table(name = "atividade")
-class Atividade {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(columnDefinition = "TEXT")
-    private String descricao;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Atividade(){}
-
-}
