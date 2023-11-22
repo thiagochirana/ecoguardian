@@ -1,5 +1,6 @@
 package br.com.ecoguardian.models;
 
+import br.com.ecoguardian.models.records.SubcategoriaDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,10 @@ public class Subcategoria {
     public Subcategoria(String descricao, Categoria categoria){
         this.descricao = descricao;
         this.categoria = categoria;
+    }
+
+    public SubcategoriaDTO getDTO(){
+        return new SubcategoriaDTO(this.id, this.descricao, this.categoria.getId());
     }
 
 }

@@ -33,12 +33,16 @@ public class DenunciaService {
     @Autowired
     private SessaoServiceWrapper sessaoServiceWrapper;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     public Denuncia abrir(DenunciaJSON json){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
         Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
         denNova.setLocalizacao(local);
-
+        denNova.setCategoria(categoriaService.doId(json.categoriaId()));
+        denNova.setSubcategoria(categoriaService.subcategoriaId(json.subcategoriaId()));
         Denuncia denSalva = denuncias.save(denNova);
         RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
         denSalva.adicionarRegistro(registro);

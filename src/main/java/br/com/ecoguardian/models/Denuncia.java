@@ -37,6 +37,12 @@ public class Denuncia {
     @ManyToOne(cascade = CascadeType.ALL)
     private Usuario denunciante;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Categoria categoria;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Subcategoria subcategoria;
+
     @Column(columnDefinition = "TEXT")
     private String outrasInformacoes;
 

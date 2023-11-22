@@ -23,13 +23,9 @@ public class Geolocalizacao {
         JOpenCageGeocoder jOpenCageGeocoder = new JOpenCageGeocoder(environment.getProperty("geolocalizacao.api.key"));
 
         JOpenCageForwardRequest request = new JOpenCageForwardRequest(tratarEndereco(enderecoCompleto, true));
-        request.setRestrictToCountryCode("br");
         request.setLanguage("pt-BR");
 
-//        request.setMinConfidence(1);
-        request.setNoAnnotations(true);
-        request.setNoDedupe(true);
-
+        request.setPretty(true);
 
         JOpenCageResponse response = jOpenCageGeocoder.forward(request);
         JOpenCageLatLng firstResultLatLng = response.getFirstPosition();
@@ -69,9 +65,12 @@ public class Geolocalizacao {
     }
 
     private static String encodeCaractereEspecial(char c) {
-        if (c == ' '){
-            return "%20";
+        if (c == '+'){
+            return "+";
         }
-        return URLEncoder.encode(String.valueOf(c), StandardCharsets.UTF_8);
+        if (c == ' '){
+            return "+";
+        }
+        return String.valueOf(c);
     }
 }
