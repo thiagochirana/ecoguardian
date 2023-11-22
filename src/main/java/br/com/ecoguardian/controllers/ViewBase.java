@@ -5,6 +5,7 @@ import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
+import br.com.ecoguardian.utils.VersaoUpdater;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class ViewBase {
         modelAndView.addObject("statusDenuncia", List.of(StatusDenuncia.values()));
         modelAndView.addObject("notificacao", new MensagemView(false, true,null, null, null));
         modelAndView.addObject("notificacaoTopDir", new MensagemView(false, true,null, null, null));
+        modelAndView.addObject("appVersion", VersaoUpdater.VersaoManager.getVersaoAtual());
         return modelAndView;
     }
 
