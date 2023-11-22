@@ -7,6 +7,7 @@ import br.com.ecoguardian.services.LoginService;
 import br.com.ecoguardian.services.SessaoServiceWrapper;
 import br.com.ecoguardian.services.UsuarioService;
 import br.com.ecoguardian.utils.Log;
+import br.com.ecoguardian.utils.ParametrosInicializacao;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,12 @@ public class HomeController {
     @Autowired
     private ViewBase view;
 
+    @Autowired
+    private ParametrosInicializacao parametros;
+
     @GetMapping
     public ModelAndView getHomePage() {
+        parametros.validarEPopularBancoPrimeiraInicializacao();
         return view.novaView("login");
     }
 

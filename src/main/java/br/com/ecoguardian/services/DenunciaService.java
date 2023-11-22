@@ -79,4 +79,8 @@ public class DenunciaService {
         }
     }
 
+    public List<Denuncia> listarTodas(){
+        return denuncias.findAll();
+    }
+
 }

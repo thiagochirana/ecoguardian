@@ -102,6 +102,13 @@ public class DenunciaController {
         return model;
     }
 
+    @PostMapping("/registro/adicionarComentario/salvar")
+    public ModelAndView salvarComentarioEmDenuncia(RegistroDenunciaJSON json){
+        registros.registrar(json);
+        ModelAndView model = view.novaView("redirect:/denuncia");
+        return model;
+    }
+
     @PostMapping("/{id}/registro/")
     public ModelAndView cadastrarComentario(RegistroDenunciaJSON json){
         return null;

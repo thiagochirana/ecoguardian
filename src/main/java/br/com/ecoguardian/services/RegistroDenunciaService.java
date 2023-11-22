@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegistroDenunciaService {
@@ -44,6 +45,13 @@ public class RegistroDenunciaService {
         Usuario usuario = usuarios.obterPeloId(json.idUsuario());
         Denuncia denuncia = denuncias.findById(json.denunciaId()).orElseGet(Denuncia::new);
         RegistroDenuncia registro = new RegistroDenuncia(json, usuario, denuncia);
+        if (!usuario.isAdminOuAnalista()){
+            if (jaEstaEmAnalise(denuncia)){
+                registro.setStatusAtual(StatusDenuncia.EM_ANALISE);
+            } else {
+                registro.setStatusAtual(StatusDenuncia.AGUARDANDO_ANALISE);
+            }
+        }
         return registrar(registro);
     }
 
@@ -58,5 +66,14 @@ public class RegistroDenunciaService {
 
     public List<RegistroDenuncia> listarDaDenuncia(Denuncia denuncia){
         return registros.daDenuncia(denuncia).orElseGet(ArrayList::new);
+    }
+
+    private boolean jaEstaEmAnalise(Denuncia denuncia){
+        for (RegistroDenuncia r : listarDaDenuncia(denuncia)){
+            if (r.getStatusAtual() != StatusDenuncia.ABERTA && r.getStatusAtual() != StatusDenuncia.AGUARDANDO_ANALISE){
+                return true;
+            }
+        }
+        return false;
     }
 }

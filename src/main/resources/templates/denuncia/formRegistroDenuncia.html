@@ -8,7 +8,7 @@
 <div class="body-geral">
     <h4 class="titulo-pagina">Novo comentário</h4>
     <div th:fragment="formNovoRegistroDenuncia">
-        <form th:action="@{'/denuncia/registrar/salvar'}" method="POST">
+        <form th:action="@{'/denuncia/registro/adicionarComentario/salvar'}" method="POST">
             <input type="hidden" th:value="${denuncia.id}" name="denunciaId">
             <div class="mb-3">
                 <label for="tituloRegistro" class="form-label">Titulo:</label>
