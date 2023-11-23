@@ -34,7 +34,7 @@ public class RegistroDenunciaService {
         registro.setStatusAtual(StatusDenuncia.ABERTA);
         registro.setQuemAtualizou(usuarios.obterPeloId(1L));
         registro.setTitulo("Abertura de Registro da Denuncia n. "+denuncia.getId());
-        registro.setDescricao("Abertura de nova denúncia realizadas às "+denuncia.getDataAbertura()+" pelo usuário "+denuncia.getDenunciante().getNome());
+        registro.setDescricao("Abertura de nova denúncia realizadas às "+denuncia.dataHoraDeAbertura()+" pelo usuário "+denuncia.getDenunciante().getNome());
         return this.registrar(registro);
     }
 
@@ -47,7 +47,7 @@ public class RegistroDenunciaService {
         Usuario usuario = usuarios.obterPeloId(json.idUsuario());
         Denuncia denuncia = denuncias.findById(json.denunciaId()).orElseGet(Denuncia::new);
         RegistroDenuncia registro = new RegistroDenuncia(json, usuario, denuncia);
-        if (!usuario.isAdminOuAnalista()){
+        if (!usuario.isAdminOuAnalista() || !usuario.temAcessoTotal()){
             if (jaEstaEmAnalise(denuncia)){
                 registro.setStatusAtual(StatusDenuncia.EM_ANALISE);
             } else {
@@ -62,7 +62,7 @@ public class RegistroDenunciaService {
         reg.setStatusAtual(StatusDenuncia.FECHADA);
         reg.setTitulo("Denúncia Encerrada");
         reg.setDataHoraRegistro(Datas.agora());
-        reg.setDescricao("Denúncia encerrada às "+reg.getDataHoraRegistro()+" pelo usuario "+reg.getQuemAtualizou().getNome());
+        reg.setDescricao("Denúncia encerrada às "+reg.dataHoraRegistroFormatada()+" pelo usuario "+reg.getQuemAtualizou().getNome());
         return registrar(reg);
     }
 

@@ -76,7 +76,7 @@ public class DenunciaService {
     }
 
     public List<Denuncia> todasDoUsuarioLogado(){
-        if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista()){
+        if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista() || sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal()){
             return denuncias.findAll();
         } else {
             return denuncias.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado()).orElseGet(ArrayList::new);

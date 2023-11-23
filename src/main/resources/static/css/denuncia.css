@@ -3,6 +3,7 @@
 .quadro-denuncias{
     display: flex;
     gap: 10px;
+    z-index: 1;
 }
 
 .card-denuncia {

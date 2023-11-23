@@ -40,9 +40,6 @@ public class DenunciaController {
     @GetMapping
     public ModelAndView getTelaDashboardDenuncia(){
         ModelAndView model = view.novaView("denuncia/denuncia");
-        model.addObject("qtdeDenunciasAbertas",1);
-        model.addObject("qtdeDenunciasEmAnalise",4);
-        model.addObject("qtdeDenunciasPrecisaAtencao",2);
         model.addObject("todasDenuncias", denuncias.todasDoUsuarioLogado());
         model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista());
         return model;

@@ -22,16 +22,15 @@
             <tr th:each="registro : ${registros}">
                 <td th:text="${registro.id}"></td>
                 <td th:text="${registro.titulo}"></td>
-                <td th:text="${registro.dataHoraRegistro}"></td>
+                <td th:text="${registro.dataHoraRegistroFormatada()}"></td>
                 <td th:text="${registro.statusAtual.getNome()}"></td>
                 <td>
-                    <button id="btnShowModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDetalhes"><i class="bi bi-eye"></i></button>
+                    <button id="btnShowModal" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalDetalhes"><i class="bi bi-eye"></i>Detalhes</button>
                     <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="titulo1" th:text="@{'Denúcia Ticket nº '+ ${registro.denuncia.getId()} + ''}"></h1>
-                                    <h2 class="modal-title fs-5" id="titulo2" th:text="@{'Registro nº ' + ${registro.getId()} }"></h2>
+                                    <h1 class="modal-title fs-5" id="tituloModal" th:text="@{'Denúcia nº '+ ${registro.denuncia.getId()} + ' Registro nº ' + ${registro.getId()}}"></h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -39,15 +38,14 @@
                                     <p th:text="@{${registro.denuncia.getTitulo()}}"></p>
                                     <hr>
                                     <h5>Dados Registro:</h5>
-                                    <span th:text="@{'Data atualização: ' + ${registro.dataHoraRegistro}}"></span>
-                                    <span th:text="@{'Usuario que atualizou: ' + ${registro.quemAtualizou.nome}}"></span>
-                                    <span th:text="@{'Título: ' + ${registro.titulo}}"></span>
-                                    <textarea th:text="@{'Comentário: ' + ${registro.descricao}}" readonly></textarea>
-                                    <span th:text="@{'Status: ' + ${registro.statusAtual.getNome()}}"></span>
+                                    <p th:text="@{'Data atualização: ' + ${registro.dataHoraRegistroFormatada()} } "></p>
+                                    <p th:text="@{'Usuario que atualizou: ' + ${registro.quemAtualizou.nome} }"></p>
+                                    <p th:text="@{'Título: ' + ${registro.titulo}}"></p>
+                                    <p th:text="@{'Comentário: ' + ${registro.descricao}}"></p>
+                                    <p th:text="@{'Status: ' + ${registro.statusAtual.getNome()}}"></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
                                 </div>
                             </div>
                         </div>

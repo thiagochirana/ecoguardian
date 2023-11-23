@@ -80,4 +80,8 @@ public class Denuncia {
         registrosFeitos.add(registro);
     }
 
+    public String dataHoraDeAbertura(){
+        return Datas.dataFormatada(this.dataAbertura);
+    }
+
 }

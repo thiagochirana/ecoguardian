@@ -8,34 +8,21 @@
 
     <div class="body-geral">
         <h4 class="titulo-pagina">Denúncias</h4>
-        <div class="quadro-denuncias">
-            <div class="card-denuncia aberto">
-                <span class="titulo-card-denuncia">Abertas</span>
-                <span class="contagem-denuncia" th:text="${qtdeDenunciasAbertas}"></span>
-            </div>
-            <div class="card-denuncia emAnalise">
-                <span class="titulo-card-denuncia">Em análise</span>
-                <span class="contagem-denuncia" th:text="${qtdeDenunciasEmAnalise}"></span>
-            </div>
-            <div class="card-denuncia precisaAtencao">
-                <span class="titulo-card-denuncia">Precisa de Atenção</span>
-                <span class="contagem-denuncia" th:text="${qtdeDenunciasPrecisaAtencao}"></span>
-            </div>
-        </div>
-        <div>
-            <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
-        </div>
+
         <div class="table-responsive">
+            <div class="direita">
+                <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
+            </div>
             <table class="table table-striped">
                 <h5>Últimas Denúncias registradas</h5>
                 <caption>Lista de Denúncias</caption>
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
-                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <th scope="col">Usuário</th>
                         </div>
-                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <th scope="col">Foi anônimo?</th>
                         </div>
                         <th scope="col">Título</th>
@@ -50,7 +37,7 @@
                     <tr th:each="denuncia : ${todasDenuncias}">
                         <td th:text="${denuncia.id}"></td>
 
-                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <div th:if="${denuncia.sigilo}">
                                 <td>Anônimo</td>
                             </div>
@@ -58,7 +45,7 @@
                                 <td th:text="${denuncia.denunciante.getNome()}"></td>
                             </div>
                         </div>
-                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <div th:if="${denuncia.sigilo}">
                                 <td>Sim</td>
                             </div>
@@ -69,7 +56,7 @@
                         <td th:text="${denuncia.titulo}"></td>
                         <td th:text="${denuncia.localizacao.municipio.nome}"></td>
                         <td th:text="${denuncia.localizacao.municipio.estado.getNome()}"></td>
-                        <td th:text="${denuncia.dataAbertura}"></td>
+                        <td th:text="${denuncia.dataHoraDeAbertura()}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
                         <td>
                             <div div class="d-flex">

@@ -20,7 +20,7 @@
                     <span class="nome-item">Sua Conta</span>
                 </a>
             </li>
-            <div th:if="${usuarioLogado.isAdmin()}">
+            <div th:if="${usuarioLogado.isAdmin() || usuarioLogado.temAcessoTotal()}">
                 <li class="item-menu">
                     <a href="/backOffice">
                         <span class="icon-item"><i class="bi bi-building-lock"></i></span>

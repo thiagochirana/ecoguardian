@@ -16,6 +16,9 @@ public class DashboardController {
     @GetMapping
     public ModelAndView getDashboard(){
         ModelAndView model = base.novaView("dashboard/dashboard");
+        model.addObject("qtdeDenunciasAbertas",1);
+        model.addObject("qtdeDenunciasEmAnalise",4);
+        model.addObject("qtdeDenunciasPrecisaAtencao",2);
         return model;
     }
 

@@ -19,7 +19,7 @@
                 <textarea class="form-control" id="descricaoRegistro" name="descricao"></textarea>
             </div>
             <input type="hidden" th:value="${usuarioLogado.id}" name="idUsuario">
-            <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+            <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                 <div class="mb-3">
                     <label for="statusRegistro" class="form-label">Descricão atual:</label>
                     <select id="statusRegistro" class="form-select" name="statusDenuncia">
