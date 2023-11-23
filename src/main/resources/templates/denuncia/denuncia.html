@@ -10,11 +10,37 @@
         <h4 class="titulo-pagina">Denúncias</h4>
 
         <div class="table-responsive">
-            <div class="direita">
-                <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
+            <div class="btn-direita">
+                <div class="d-flex">
+                    <div class="col-md-auto">
+                        <button id="btnShowModal" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalFiltros"><i class="bi bi-funnel"></i>Filtrar</button>
+                        <div class="modal fade" id="modalFiltros" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="tituloModalFiltros" th:text="@{'Filtrar Denúncias'}"></h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Filtro aqui:</h5>
+<!--                                        <p th:text="@{${registro.denuncia.getTitulo()}}"></p>-->
+                                        <hr>
+                                        <h5>Outros filtros:</h5>
+<!--                                        <p th:text="@{'Data atualização: ' + ${registro.dataHoraRegistroFormatada()} } "></p>-->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
+                    </div>
+                </div>
             </div>
             <table class="table table-striped">
-                <h5>Últimas Denúncias registradas</h5>
                 <caption>Lista de Denúncias</caption>
                 <thead>
                     <tr>
@@ -59,7 +85,7 @@
                         <td th:text="${denuncia.dataHoraDeAbertura()}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
                         <td>
-                            <div div class="d-flex">
+                            <div class="d-flex">
                                 <div class="col-md-auto">
                                     <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</a>
                                 </div>
