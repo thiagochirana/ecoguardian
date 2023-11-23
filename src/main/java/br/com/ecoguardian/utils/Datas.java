@@ -1,6 +1,7 @@
 package br.com.ecoguardian.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -16,5 +17,9 @@ public class Datas {
     public static String dataFormatada(Date data){
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy '-' HH:mm:ss");
         return formato.format(data);
+    }
+
+    public static int getAnoAtual(){
+        return agora().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
     }
 }

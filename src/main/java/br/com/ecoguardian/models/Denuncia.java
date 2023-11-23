@@ -24,6 +24,8 @@ public class Denuncia {
 
     private boolean sigilo = false;
 
+    private String protocolo;
+
     private Date dataAbertura;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -83,5 +85,4 @@ public class Denuncia {
     public String dataHoraDeAbertura(){
         return Datas.dataFormatada(this.dataAbertura);
     }
-
 }

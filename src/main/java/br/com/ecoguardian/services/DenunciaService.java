@@ -5,6 +5,7 @@ import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
+import br.com.ecoguardian.utils.Datas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -85,6 +86,10 @@ public class DenunciaService {
 
     public List<Denuncia> listarTodas(){
         return denuncias.findAll();
+    }
+
+    public void gerarNumeroProtocolo(Denuncia denuncia){
+        denuncia.setProtocolo(denuncia.getId()+"/"+ Datas.getAnoAtual());
     }
 
 }
