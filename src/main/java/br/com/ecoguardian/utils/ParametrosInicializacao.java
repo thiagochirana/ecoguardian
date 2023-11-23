@@ -92,6 +92,16 @@ public class ParametrosInicializacao {
         }
 
         if (usuarioService.listarTodos().isEmpty()){
+            //Usuario Sistema
+            usuarioService.salvar(new NovoUsuarioJSON(
+                    "Eco Guardian",
+                    "00000000000",
+                    "000",
+                    "000@gmail.com",
+                    "000",
+                    TipoPerfil.ECO_GUARDIAN
+            ));
+
             //Usuario Admin
             usuarioService.salvar(new NovoUsuarioJSON(
                     "Administrador",
