@@ -1,6 +1,7 @@
 package br.com.ecoguardian.models.enums;
 
 public enum TipoPerfil {
+    ECO_GUARDIAN("EcoGuardian"),
     ADMIN("Administrador"),
     DENUNCIANTE("Denunciante"),
     ANALISTA("Analista"),

@@ -22,15 +22,56 @@
             <tr th:each="registro : ${registros}">
                 <td th:text="${registro.id}"></td>
                 <td th:text="${registro.titulo}"></td>
-                <td th:text="${registro.dataHoraRegistro}"></td>
+                <td th:text="${registro.dataHoraRegistroFormatada()}"></td>
                 <td th:text="${registro.statusAtual.getNome()}"></td>
-                <td><!--Adicionar botao de editar e excluir--></td>
+                <td>
+                    <button id="btnShowModal" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalDetalhes"><i class="bi bi-eye"></i>Detalhes</button>
+                    <div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="tituloModal" th:text="@{'Registro nº '+ ${registro.getId()} + ' da Denúncia ' + ${registro.denuncia.getProtocolo()}}"></h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Denúncia:</h5>
+                                    <p th:text="@{${registro.denuncia.getTitulo()}}"></p>
+                                    <hr>
+                                    <h5>Dados Registro:</h5>
+                                    <p th:text="@{'Data atualização: ' + ${registro.dataHoraRegistroFormatada()} } "></p>
+                                    <div th:if="@{${registro.quemAtualizou.nome != 'Eco Guardian'}}">
+                                        <p th:text="@{'Usuario que atualizou: ' + ${registro.quemAtualizou.nome} }"></p>
+                                    </div>
+                                    <p th:text="@{'Título: ' + ${registro.titulo}}"></p>
+                                    <p th:text="@{'Comentário: ' + ${registro.descricao}}"></p>
+                                    <p th:text="@{'Status: ' + ${registro.statusAtual.getNome()}}"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
             </tr>
+
             </tbody>
         </table>
     </div>
 </div>
 
+
+
 <div th:replace="~{base/base-elem :: script-padrao}"></div>
+
+<!--<script>-->
+<!--    const myModal = document.getElementById('modalDetalhes')-->
+<!--    const myInput = document.getElementById('btnShowModal')-->
+
+<!--    myModal.addEventListener('shown.bs.modal', () => {-->
+<!--        myInput.focus()-->
+<!--    })-->
+<!--</script>-->
 </body>
 </html>

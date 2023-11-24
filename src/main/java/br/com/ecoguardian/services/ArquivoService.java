@@ -1,6 +1,7 @@
 package br.com.ecoguardian.services;
 
 import br.com.ecoguardian.models.Arquivo;
+import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.repositories.ArquivoRepository;
 import br.com.ecoguardian.utils.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,46 +10,43 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AdministracaoService {
-
-    @Autowired
-    private MunicipioService municipioService;
-
-
-    @Autowired
-    private UsuarioService usuarioService;
+public class ArquivoService {
 
     @Autowired
     private ArquivoRepository arquivosRepository;
 
-    Log LOG = new Log(AdministracaoService.class);
+    Log LOG = new Log(ArquivoService.class);
 
-    public void salvarArquivos(List<MultipartFile> arquivos){
+    public Denuncia salvarArquivosDaDenuncia(Denuncia denuncia, List<MultipartFile> arquivos){
+        denuncia.setImagens(salvarArquivos(arquivos));
+        return denuncia;
+    }
+
+    public List<Arquivo> salvarArquivos(List<MultipartFile> arquivos){
         try {
-            for (MultipartFile arq : arquivos) {
-                if (!arq.isEmpty()) {
+            List<Arquivo> arquivosSalvos = new ArrayList<>();
+            if (!arquivos.isEmpty()){
+                for (MultipartFile arq : arquivos) {
                     String nomeArquivoOriginal = arq.getOriginalFilename();
                     Path path = Paths.get(nomeArquivoOriginal);
                     String nomeSemExtensao = path.getFileName().toString().replaceFirst("[.][^.]+$", "");
                     String formato = path.getFileName().toString().substring(nomeSemExtensao.length() + 1);
                     Arquivo arquivo = new Arquivo(arq.getBytes(), nomeSemExtensao, formato);
-                    arquivosRepository.save(arquivo);
+                    arquivosSalvos.add(arquivosRepository.save(arquivo));
                 }
             }
+            return arquivosSalvos;
         } catch(Exception e) {
             LOG.erro("Houve um erro ao carregar arquivo", e);
+            return new ArrayList<>();
         }
-    }
-
-    public List<Arquivo> listarTodos(){
-        return arquivosRepository.findAll();
     }
 
     public ResponseEntity<byte[]> obterImagem(Long id){
@@ -61,5 +59,9 @@ public class AdministracaoService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public List<Arquivo> listarTodos(){
+        return arquivosRepository.findAll();
     }
 }

@@ -56,4 +56,8 @@ public class RegistroDenuncia {
         this.denuncia = qualDenuncia;
         this.statusAtual = json.statusDenuncia();
     }
+
+    public String dataHoraRegistroFormatada(){
+        return Datas.dataFormatada(this.dataHoraRegistro);
+    }
 }

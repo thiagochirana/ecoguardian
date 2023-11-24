@@ -3,6 +3,7 @@ package br.com.ecoguardian.services;
 import br.com.ecoguardian.models.Criptografia;
 import br.com.ecoguardian.models.Usuario;
 import br.com.ecoguardian.models.enums.ExecucaoCripto;
+import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.models.records.NovoUsuarioJSON;
 import br.com.ecoguardian.models.records.SenhaCriptoDTO;
 import br.com.ecoguardian.repositories.UsuarioRepository;
@@ -31,6 +32,12 @@ public class UsuarioService {
         usuario.setSenha(senhaCripto.texto());
         usuario.setEmail(json.email());
         usuario.setTelefone(json.telefone());
+
+        //Condicao feita para criacao de conta de denunciante, pois a informação no JSON vem com o tipo de Usuario null para cadastro de novos denunciates/usuarios
+        if(usuario.getTipoPerfil() == null){
+            usuario.setTipoPerfil(TipoPerfil.DENUNCIANTE);
+        }
+
         Criptografia cripSalvo = criptografias.salvar(criptografia);
         usuario.adicionarCriptografia(cripSalvo);
         Usuario usSalvo =  usuarios.save(usuario);

@@ -69,3 +69,11 @@ fieldset {
 i {
     margin-right: 10px;
 }
+
+div.btn-direita {
+    float: right;
+}
+
+div.modal {
+    z-index: 9999;
+}

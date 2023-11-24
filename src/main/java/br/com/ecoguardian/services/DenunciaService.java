@@ -5,8 +5,10 @@ import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
+import br.com.ecoguardian.utils.Datas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,10 @@ public class DenunciaService {
     @Autowired
     private CategoriaService categoriaService;
 
-    public Denuncia abrir(DenunciaJSON json){
+    @Autowired
+    private ArquivoService arquivos;
+
+    public Denuncia abrir(DenunciaJSON json, List<MultipartFile> listaArquivos){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
         Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
@@ -45,8 +50,13 @@ public class DenunciaService {
         denNova.setSubcategoria(categoriaService.subcategoriaId(json.subcategoriaId()));
         Denuncia denSalva = denuncias.save(denNova);
         RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
+        gerarNumeroProtocolo(denSalva);
         denSalva.adicionarRegistro(registro);
-        return denuncias.save(denSalva);
+        return denuncias.save(arquivos.salvarArquivosDaDenuncia(denSalva, listaArquivos));
+    }
+
+    public Denuncia abrir(DenunciaJSON json){
+        return this.abrir(json, null);
     }
 
     public Denuncia obter(Long id){
@@ -76,7 +86,7 @@ public class DenunciaService {
     }
 
     public List<Denuncia> todasDoUsuarioLogado(){
-        if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista()){
+        if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista() || sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal()){
             return denuncias.findAll();
         } else {
             return denuncias.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado()).orElseGet(ArrayList::new);
@@ -85,6 +95,19 @@ public class DenunciaService {
 
     public List<Denuncia> listarTodas(){
         return denuncias.findAll();
+    }
+
+    public void gerarNumeroProtocolo(Denuncia denuncia){
+        denuncia.setProtocolo(getIdFormatado(denuncia.getId())+"/"+ Datas.getAnoAtual());
+    }
+
+    private String getIdFormatado(Long id){
+        if (id <= 9){
+            return "00"+id;
+        } else if (id <= 99){
+            return "0"+id;
+        }
+        return id+"";
     }
 
 }

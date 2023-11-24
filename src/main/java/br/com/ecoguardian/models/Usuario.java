@@ -78,6 +78,10 @@ public class Usuario {
         return this.tipoPerfil == TipoPerfil.ANALISTA || this.tipoPerfil == TipoPerfil.ADMIN;
     }
 
+    public boolean temAcessoTotal(){
+        return this.tipoPerfil == TipoPerfil.ECO_GUARDIAN;
+    }
+
     public boolean isDenunciante(){
         return this.tipoPerfil == TipoPerfil.DENUNCIANTE || this.tipoPerfil == TipoPerfil.ANONIMO;
     }

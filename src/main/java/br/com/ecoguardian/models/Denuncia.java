@@ -24,6 +24,8 @@ public class Denuncia {
 
     private boolean sigilo = false;
 
+    private String protocolo;
+
     private Date dataAbertura;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -42,6 +44,9 @@ public class Denuncia {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Subcategoria subcategoria;
+
+    @OneToMany
+    private List<Arquivo> imagens;
 
     @Column(columnDefinition = "TEXT")
     private String outrasInformacoes;
@@ -80,4 +85,7 @@ public class Denuncia {
         registrosFeitos.add(registro);
     }
 
+    public String dataHoraDeAbertura(){
+        return Datas.dataFormatada(this.dataAbertura);
+    }
 }

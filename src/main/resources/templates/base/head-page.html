@@ -1,5 +1,5 @@
 <nav th:fragment="menu-lateral">
-    <div class="menu-lateral" style="z-index: 9999">
+    <div class="menu-lateral">
 
         <ul class="lista-de-itens-menu">
             <li class="item-menu">
@@ -20,7 +20,7 @@
                     <span class="nome-item">Sua Conta</span>
                 </a>
             </li>
-            <div th:if="${usuarioLogado.isAdmin()}">
+            <div th:if="${usuarioLogado.isAdmin() || usuarioLogado.temAcessoTotal()}">
                 <li class="item-menu">
                     <a href="/backOffice">
                         <span class="icon-item"><i class="bi bi-building-lock"></i></span>

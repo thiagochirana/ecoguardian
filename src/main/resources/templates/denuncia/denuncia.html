@@ -8,34 +8,47 @@
 
     <div class="body-geral">
         <h4 class="titulo-pagina">Denúncias</h4>
-        <div class="quadro-denuncias">
-            <div class="card-denuncia aberto">
-                <span class="titulo-card-denuncia">Abertas</span>
-                <span class="contagem-denuncia" th:text="${qtdeDenunciasAbertas}"></span>
-            </div>
-            <div class="card-denuncia emAnalise">
-                <span class="titulo-card-denuncia">Em análise</span>
-                <span class="contagem-denuncia" th:text="${qtdeDenunciasEmAnalise}"></span>
-            </div>
-            <div class="card-denuncia precisaAtencao">
-                <span class="titulo-card-denuncia">Precisa de Atenção</span>
-                <span class="contagem-denuncia" th:text="${qtdeDenunciasPrecisaAtencao}"></span>
-            </div>
-        </div>
-        <div>
-            <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
-        </div>
+
         <div class="table-responsive">
+            <div class="btn-direita">
+                <div class="d-flex">
+                    <div class="col-md-auto">
+                        <button id="btnShowModal" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalFiltros"><i class="bi bi-funnel"></i>Filtrar</button>
+                        <div class="modal fade" id="modalFiltros" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="tituloModalFiltros" th:text="@{'Filtrar Denúncias'}"></h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Filtro aqui:</h5>
+<!--                                        <p th:text="@{${registro.denuncia.getTitulo()}}"></p>-->
+                                        <hr>
+                                        <h5>Outros filtros:</h5>
+<!--                                        <p th:text="@{'Data atualização: ' + ${registro.dataHoraRegistroFormatada()} } "></p>-->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-auto">
+                        <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
+                    </div>
+                </div>
+            </div>
             <table class="table table-striped">
-                <h5>Últimas Denúncias registradas</h5>
                 <caption>Lista de Denúncias</caption>
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                        <th scope="col">Protocolo</th>
+                        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <th scope="col">Usuário</th>
                         </div>
-                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <th scope="col">Foi anônimo?</th>
                         </div>
                         <th scope="col">Título</th>
@@ -48,9 +61,9 @@
                 </thead>
                 <tbody>
                     <tr th:each="denuncia : ${todasDenuncias}">
-                        <td th:text="${denuncia.id}"></td>
+                        <td th:text="${denuncia.protocolo}"></td>
 
-                        <div th:if="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <div th:if="${denuncia.sigilo}">
                                 <td>Anônimo</td>
                             </div>
@@ -58,7 +71,7 @@
                                 <td th:text="${denuncia.denunciante.getNome()}"></td>
                             </div>
                         </div>
-                        <div th:unless="${usuarioLogado.isAdminOuAnalista()}">
+                        <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <div th:if="${denuncia.sigilo}">
                                 <td>Sim</td>
                             </div>
@@ -69,10 +82,10 @@
                         <td th:text="${denuncia.titulo}"></td>
                         <td th:text="${denuncia.localizacao.municipio.nome}"></td>
                         <td th:text="${denuncia.localizacao.municipio.estado.getNome()}"></td>
-                        <td th:text="${denuncia.dataAbertura}"></td>
+                        <td th:text="${denuncia.dataHoraDeAbertura()}"></td>
                         <td th:text="${denuncia.statusDenuncia.nome}"></td>
                         <td>
-                            <div div class="d-flex">
+                            <div class="d-flex">
                                 <div class="col-md-auto">
                                     <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</a>
                                 </div>

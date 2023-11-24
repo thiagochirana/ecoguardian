@@ -92,6 +92,16 @@ public class ParametrosInicializacao {
         }
 
         if (usuarioService.listarTodos().isEmpty()){
+            //Usuario Sistema
+            usuarioService.salvar(new NovoUsuarioJSON(
+                    "Eco Guardian",
+                    "00000000000",
+                    "000",
+                    "000@gmail.com",
+                    "000",
+                    TipoPerfil.ECO_GUARDIAN
+            ));
+
             //Usuario Admin
             usuarioService.salvar(new NovoUsuarioJSON(
                     "Administrador",
@@ -149,7 +159,7 @@ public class ParametrosInicializacao {
                     "Buraco na calçada em frente ao prédio",
                     1L,
                     5L,
-                    "1",
+                    "2",
                     "email1@example.com",
                     "987654321",
                     "Outras informações sobre o problema",
@@ -171,7 +181,7 @@ public class ParametrosInicializacao {
                     "Vazamento na rua causando alagamento",
                     2L,
                     9L,
-                    "2",
+                    "3",
                     "email2@example.com",
                     "987321654",
                     "Outras informações sobre o problema",
@@ -193,7 +203,7 @@ public class ParametrosInicializacao {
                     "Poste de luz apagado há dias",
                     3L,
                     13L,
-                    "3",
+                    "4",
                     "email3@example.com",
                     "987123456",
                     "Outras informações sobre o problema",
@@ -215,7 +225,7 @@ public class ParametrosInicializacao {
                     "Lixo acumulado na calçada",
                     4L,
                     20L,
-                    "4",
+                    "5",
                     "email4@example.com",
                     "987456123",
                     "Outras informações sobre o problema",

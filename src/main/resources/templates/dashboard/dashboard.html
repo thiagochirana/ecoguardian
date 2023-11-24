@@ -7,6 +7,21 @@
 <div class="body-geral">
     <h4 class="titulo-pagina">Dashboard</h4>
 
+    <div class="quadro-denuncias">
+        <div class="card-denuncia aberto">
+            <span class="titulo-card-denuncia">Abertas</span>
+            <span class="contagem-denuncia" th:text="${qtdeDenunciasAbertas}"></span>
+        </div>
+        <div class="card-denuncia emAnalise">
+            <span class="titulo-card-denuncia">Em análise</span>
+            <span class="contagem-denuncia" th:text="${qtdeDenunciasEmAnalise}"></span>
+        </div>
+        <div class="card-denuncia precisaAtencao">
+            <span class="titulo-card-denuncia">Precisa de Atenção</span>
+            <span class="contagem-denuncia" th:text="${qtdeDenunciasPrecisaAtencao}"></span>
+        </div>
+    </div>
+
 </div>
 <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>
