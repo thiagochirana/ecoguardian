@@ -32,7 +32,7 @@ public class ArquivoService {
     public List<Arquivo> salvarArquivos(List<MultipartFile> arquivos){
         try {
             List<Arquivo> arquivosSalvos = new ArrayList<>();
-            if (!arquivos.isEmpty()){
+            if (arquivos != null && !arquivos.isEmpty()){
                 for (MultipartFile arq : arquivos) {
                     String nomeArquivoOriginal = arq.getOriginalFilename();
                     Path path = Paths.get(nomeArquivoOriginal);
