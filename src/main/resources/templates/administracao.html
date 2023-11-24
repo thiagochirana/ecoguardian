@@ -116,6 +116,11 @@
             <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>
         </form>
 
+        <form action="/admin/upload" th:enctype="'multipart/form-data'" method="post">
+            <input type="file" name="arquivos" accept="image/*" multiple>
+            <button type="submit">Enviar Arquivos</button>
+        </form>
+
     </div>
     <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>
