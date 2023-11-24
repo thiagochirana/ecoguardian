@@ -3,6 +3,7 @@ package br.com.ecoguardian.controllers;
 import br.com.ecoguardian.models.records.NovoUsuarioJSON;
 import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.services.AdministracaoService;
+import br.com.ecoguardian.services.ArquivoService;
 import br.com.ecoguardian.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,9 @@ public class AdministracaoController {
 
     @Autowired
     private AdministracaoService admService;
+
+    @Autowired
+    private ArquivoService arquivoService;
 
     @GetMapping
     public ModelAndView getAdminPage(){
@@ -49,7 +53,7 @@ public class AdministracaoController {
     //Exemplo imagens
     @PostMapping("/upload")
     public String salvarArquivo(@RequestParam("arquivos") List<MultipartFile> arquivos){
-        admService.salvarArquivos(arquivos);
+        arquivoService.salvarArquivos(arquivos);
         return "redirect:/admin/imagens";
     }
 

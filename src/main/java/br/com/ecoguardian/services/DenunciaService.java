@@ -8,6 +8,7 @@ import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,10 @@ public class DenunciaService {
     @Autowired
     private CategoriaService categoriaService;
 
-    public Denuncia abrir(DenunciaJSON json){
+    @Autowired
+    private ArquivoService arquivos;
+
+    public Denuncia abrir(DenunciaJSON json, List<MultipartFile> listaArquivos){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
         Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
@@ -48,7 +52,11 @@ public class DenunciaService {
         RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
         gerarNumeroProtocolo(denSalva);
         denSalva.adicionarRegistro(registro);
-        return denuncias.save(denSalva);
+        return denuncias.save(arquivos.salvarArquivosDaDenuncia(denSalva, listaArquivos));
+    }
+
+    public Denuncia abrir(DenunciaJSON json){
+        return this.abrir(json, null);
     }
 
     public Denuncia obter(Long id){

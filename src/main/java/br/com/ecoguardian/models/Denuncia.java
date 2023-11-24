@@ -45,6 +45,9 @@ public class Denuncia {
     @ManyToOne(cascade = CascadeType.ALL)
     private Subcategoria subcategoria;
 
+    @OneToMany
+    private List<Arquivo> imagens;
+
     @Column(columnDefinition = "TEXT")
     private String outrasInformacoes;
 
