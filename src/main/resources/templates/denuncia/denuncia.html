@@ -44,7 +44,7 @@
                 <caption>Lista de Denúncias</caption>
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
+                        <th scope="col">Protocolo</th>
                         <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <th scope="col">Usuário</th>
                         </div>
@@ -61,7 +61,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="denuncia : ${todasDenuncias}">
-                        <td th:text="${denuncia.id}"></td>
+                        <td th:text="${denuncia.protocolo}"></td>
 
                         <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                             <div th:if="${denuncia.sigilo}">

@@ -30,7 +30,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="tituloModal" th:text="@{'Denúcia nº '+ ${registro.denuncia.getId()} + ' Registro nº ' + ${registro.getId()}}"></h1>
+                                    <h1 class="modal-title fs-5" id="tituloModal" th:text="@{'Registro nº '+ ${registro.getId()} + ' da Denúncia ' + ${registro.denuncia.getProtocolo()}}"></h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -39,7 +39,9 @@
                                     <hr>
                                     <h5>Dados Registro:</h5>
                                     <p th:text="@{'Data atualização: ' + ${registro.dataHoraRegistroFormatada()} } "></p>
-                                    <p th:text="@{'Usuario que atualizou: ' + ${registro.quemAtualizou.nome} }"></p>
+                                    <div th:if="@{${registro.quemAtualizou.nome != 'Eco Guardian'}}">
+                                        <p th:text="@{'Usuario que atualizou: ' + ${registro.quemAtualizou.nome} }"></p>
+                                    </div>
                                     <p th:text="@{'Título: ' + ${registro.titulo}}"></p>
                                     <p th:text="@{'Comentário: ' + ${registro.descricao}}"></p>
                                     <p th:text="@{'Status: ' + ${registro.statusAtual.getNome()}}"></p>

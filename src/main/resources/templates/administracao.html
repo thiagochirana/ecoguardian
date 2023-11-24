@@ -111,31 +111,11 @@
 
             </table>
         </div>
-        <div style="padding: 20px">
-            <form action="/admin/novoUsuario" method="post">
-                <label for="nome" class="form-label">Nome:</label>
-                <input type="text" class="form-control" id="nome" name="nome"/>
 
-                <label for="cpf" class="form-label">CPF:</label>
-                <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this)"/>
+        <form action="/admin/novoUsuario" method="post">
+            <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>
+        </form>
 
-                <label for="senha" class="form-label">Senha:</label>
-                <input type="password" class="form-control" id="senha" name="senha"/>
-
-                <label for="email" class="form-label">Email:</label>
-                <input type="text" class="form-control" id="email" name="email"/>
-
-                <label for="telefone" class="form-label">Telefone:</label>
-                <input type="text" class="form-control" id="telefone" name="telefone"/>
-
-                <label for="perfil" class="form-label">Perfil:</label>
-                <select id="perfil" name="tipoPerfil">
-                    <option th:each="perfil : ${tiposPerfil}" th:value="${perfil}" th:text="${perfil.getNome()}"></option>
-                </select>
-
-                <button type="submit">Cadastrar Usuario</button>
-            </form>
-        </div>
     </div>
     <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>

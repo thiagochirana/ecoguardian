@@ -46,6 +46,7 @@ public class DenunciaService {
         denNova.setSubcategoria(categoriaService.subcategoriaId(json.subcategoriaId()));
         Denuncia denSalva = denuncias.save(denNova);
         RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
+        gerarNumeroProtocolo(denSalva);
         denSalva.adicionarRegistro(registro);
         return denuncias.save(denSalva);
     }
@@ -89,7 +90,16 @@ public class DenunciaService {
     }
 
     public void gerarNumeroProtocolo(Denuncia denuncia){
-        denuncia.setProtocolo(denuncia.getId()+"/"+ Datas.getAnoAtual());
+        denuncia.setProtocolo(getIdFormatado(denuncia.getId())+"/"+ Datas.getAnoAtual());
+    }
+
+    private String getIdFormatado(Long id){
+        if (id <= 9){
+            return "00"+id;
+        } else if (id <= 99){
+            return "0"+id;
+        }
+        return id+"";
     }
 
 }
