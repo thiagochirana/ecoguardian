@@ -1,18 +1,28 @@
 <div th:fragment="camposFormCriarUsuario">
-    <label for="nome" class="form-label">Nome:</label>
-    <input type="text" class="form-control" id="nome" name="nome"/>
-
-    <label for="cpf" class="form-label">CPF:</label>
-    <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this)"/>
-
-    <label for="senha" class="form-label">Senha:</label>
-    <input type="password" class="form-control" id="senha" name="senha"/>
-
-    <label for="email" class="form-label">Email:</label>
-    <input type="text" class="form-control" id="email" name="email"/>
-
-    <label for="telefone" class="form-label">Telefone:</label>
-    <input type="text" class="form-control" id="telefone" name="telefone"/>
+    <div class="col-md-auto">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" class="form-control" id="nome" name="nome"/>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-md-auto">
+            <label for="cpf" class="form-label">CPF:</label>
+            <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this)"/>
+        </div>
+        <div class="col-md-auto">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" class="form-control" id="email" name="email"/>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-md-auto">
+            <label for="senha" class="form-label">Senha:</label>
+            <input type="password" class="form-control" id="senha" name="senha"/>
+        </div>
+        <div class="col-md-auto">
+            <label for="telefone" class="form-label">Telefone:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone"/>
+        </div>
+    </div>
 
 
     <div th:if="${usuarioLogado}">
@@ -22,5 +32,5 @@
         </select>
     </div>
 
-    <button type="submit">Cadastrar</button>
+    <button type="submit" class="btn btn-success">Cadastrar</button>
 </div>

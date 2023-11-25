@@ -64,4 +64,12 @@ public class ArquivoService {
     public List<Arquivo> listarTodos(){
         return arquivosRepository.findAll();
     }
+
+    public List<Arquivo> listarTodosDaDenuncia(Denuncia denuncia){
+        List<Arquivo> lista = new ArrayList<>();
+        for (Arquivo ar : denuncia.getImagens()){
+            lista.add(arquivosRepository.findById(ar.getId()).get());
+        }
+        return lista;
+    }
 }

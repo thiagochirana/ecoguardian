@@ -1,5 +1,6 @@
 package br.com.ecoguardian.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -15,6 +16,9 @@ public class VersaoUpdater implements ApplicationRunner{
 
     private static Log LOG = new Log(VersaoUpdater.class);
 
+    @Value("${gerar.versionamento.ao.iniciar.app}")
+    private boolean gerarVersaoAoReiniciar;
+
     private static final String FILE_PATH = "file_version";
 
     private final ResourceLoader resourceLoader;
@@ -25,7 +29,9 @@ public class VersaoUpdater implements ApplicationRunner{
 
     @Override
     public void run(ApplicationArguments args) {
-        gerarVersao();
+        if (gerarVersaoAoReiniciar){
+            gerarVersao();
+        }
     }
 
 

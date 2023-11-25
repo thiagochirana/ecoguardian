@@ -8,6 +8,7 @@ import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
 import br.com.ecoguardian.models.records.SubcategoriaDTO;
 import br.com.ecoguardian.services.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,16 @@ public class DenunciaController {
         ModelAndView model = view.novaView("denuncia/denuncia");
         model.addObject("todasDenuncias", denuncias.todasDoUsuarioLogado());
         model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista());
+        return model;
+    }
+
+    @Transactional
+    @GetMapping("/{id}/visualizar")
+    public ModelAndView visualizarDenuncia(@PathVariable Long id){
+        ModelAndView model = view.novaView("denuncia/visualizarDenuncia");
+        Denuncia den = denuncias.obter(id);
+        model.addObject("imagens", arquivos.listarTodosDaDenuncia(den));
+        model.addObject("denuncia", den);
         return model;
     }
 

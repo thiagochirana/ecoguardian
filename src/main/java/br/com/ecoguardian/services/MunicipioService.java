@@ -37,8 +37,12 @@ public class MunicipioService {
         if (munOpt.isPresent()){
             return munOpt.get();
         }
-        Municipio m = new Municipio(requestAPI.obterMunicipioByIdIBGE(idIBGE));
-        return this.salvar(m);
+        MunicipioDTO munDTO = requestAPI.obterMunicipioByIdIBGE(idIBGE);
+        if (munDTO != null){
+            return this.salvar(new Municipio(munDTO));
+        } else {
+            return new Municipio();
+        }
     }
 
     public List<Municipio> listarMunicipiosDaUF(String id){

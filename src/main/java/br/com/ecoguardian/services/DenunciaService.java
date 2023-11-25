@@ -43,7 +43,7 @@ public class DenunciaService {
 
     public Denuncia abrir(DenunciaJSON json, List<MultipartFile> listaArquivos){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
-        Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
+        Denuncia denNova = new Denuncia(json, json.sigilo() ? usuarioService.obterPeloId(5L) : usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
         denNova.setLocalizacao(local);
         denNova.setCategoria(categoriaService.doId(json.categoriaId()));

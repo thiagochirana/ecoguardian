@@ -87,11 +87,15 @@
                         <td>
                             <div class="d-flex">
                                 <div class="col-md-auto">
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success"><i class="bi bi-eye"></i>Visualizar</a>
+                                </div>
+                                <div class="col-md-auto">
                                     <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</a>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success"><i class="bi bi-chat-dots"></i>Novo Comentário</a>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success"><i class="bi bi-chat-dots"></i>Comentário</a>
                                 </div>
+
                             </div>
                         </td>
                     </tr>

@@ -30,8 +30,8 @@ public class ParametrosInicializacao {
     private CategoriaService categorias;
 
     public void validarEPopularBancoPrimeiraInicializacao(){
-        LOG.info("Primeira inicialização, vou popular o banco com dados padrões");
         if (categorias.listar().isEmpty()){
+            LOG.info("Primeira inicialização, vou popular o banco com dados padrões");
             // FAUNA
             Categoria fauna = new Categoria();
             fauna.setNome("FAUNA");
@@ -236,7 +236,7 @@ public class ParametrosInicializacao {
             denuncias.abrir(denunciaReal2);
             denuncias.abrir(denunciaReal3);
             denuncias.abrir(denunciaReal4);
+            LOG.info("Banco de dados populado com sucesso de informaçoes templates");
         }
-        LOG.info("Banco de dados populado com sucesso de informaçoes templates");
     }
 }
