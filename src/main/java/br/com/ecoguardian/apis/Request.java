@@ -71,7 +71,7 @@ public class Request {
 
             return response.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.erro("Houve um erro ao tentar realizar uma request "+metodo+" na URL "+urlApi, e);
             return null;
         }
     }

@@ -4,9 +4,12 @@ import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.utils.Datas;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +48,7 @@ public class Denuncia {
     @ManyToOne(cascade = CascadeType.ALL)
     private Subcategoria subcategoria;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Arquivo> imagens;
 
     @Column(columnDefinition = "TEXT")
@@ -87,5 +90,10 @@ public class Denuncia {
 
     public String dataHoraDeAbertura(){
         return Datas.dataFormatada(this.dataAbertura);
+    }
+
+    @Transactional
+    public List<Arquivo> getImagens(){
+        return this.imagens;
     }
 }

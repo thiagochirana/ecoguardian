@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+<body>
+<div th:replace="~{base/head-page :: menu-lateral}"></div>
+<div th:replace="~{base/head-page :: topo-pagina}"></div>
+
+<div class="body-geral">
+    <div>
+        <div th:replace="~{imagens/imagens :: carrossel-imagens}"></div>
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Protocolo</label>
+                <p th:text="${denuncia.protocolo}"></p>
+            </div>
+            <div class="col-md-auto">
+                <label>Data e Hora da abertura</label>
+                <p th:text="${denuncia.dataHoraDeAbertura}"></p>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Titulo</label>
+                <p th:text="${denuncia.titulo}"></p>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Categoria</label>
+                <p th:text="${denuncia.categoria.nome}"></p>
+            </div>
+            <div class="col-md-auto">
+                <label>Subcategoria</label>
+                <p th:text="${denuncia.subcategoria.descricao}"></p>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Descrição</label>
+                <p th:text="${denuncia.descricao}"></p>
+            </div>
+        </div>
+
+        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+            <div class="mb-3 row">
+                <div class="col-md-auto">
+                    <label>Denunciante</label>
+                    <p th:text="${denuncia.denunciante.nome}"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Municipio</label>
+                <p th:text="${denuncia.localizacao.municipio.nome}"></p>
+            </div>
+            <div class="col-md-auto">
+                <label>Estado</label>
+                <p th:text="${denuncia.localizacao.municipio.estado.getNome()}"></p>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Logradouro</label>
+                <p th:text="${denuncia.localizacao.endereco.logradouro}"></p>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Bairro</label>
+                <p th:text="${denuncia.localizacao.endereco.bairro}"></p>
+            </div>
+            <div class="col-md-auto">
+                <label>Numero</label>
+                <p th:text="${denuncia.localizacao.endereco.numero}"></p>
+            </div>
+            <div class="col-md-auto">
+                <label>CEP</label>
+                <p th:text="${denuncia.localizacao.endereco.CEP}"></p>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-md-auto">
+                <label>Ponto de Referencia</label>
+                <p th:text="${denuncia.localizacao.endereco.pontoDeReferencia}"></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{base/base-elem :: script-padrao}"></div>
+</body>
+</html>

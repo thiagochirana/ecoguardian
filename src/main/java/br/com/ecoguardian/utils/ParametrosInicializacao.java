@@ -1,24 +1,28 @@
 package br.com.ecoguardian.utils;
 
-import br.com.ecoguardian.models.Categoria;
-import br.com.ecoguardian.models.Denuncia;
-import br.com.ecoguardian.models.Subcategoria;
-import br.com.ecoguardian.models.Usuario;
+import br.com.ecoguardian.models.*;
+import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.NovoUsuarioJSON;
 import br.com.ecoguardian.services.CategoriaService;
 import br.com.ecoguardian.services.DenunciaService;
+import br.com.ecoguardian.services.MunicipioService;
 import br.com.ecoguardian.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class ParametrosInicializacao {
 
-    Log LOG = new Log(ParametrosInicializacao.class);
+    static Log LOG = new Log(ParametrosInicializacao.class);
 
     @Autowired
     private UsuarioService usuarioService;
@@ -29,9 +33,12 @@ public class ParametrosInicializacao {
     @Autowired
     private CategoriaService categorias;
 
+    @Autowired
+    private MunicipioService municipios;
+
     public void validarEPopularBancoPrimeiraInicializacao(){
-        LOG.info("Primeira inicialização, vou popular o banco com dados padrões");
         if (categorias.listar().isEmpty()){
+            LOG.info("Primeira inicialização, vou popular o banco com dados padrões");
             // FAUNA
             Categoria fauna = new Categoria();
             fauna.setNome("FAUNA");
@@ -143,6 +150,8 @@ public class ParametrosInicializacao {
             ));
         }
 
+        validarMunicipiosPreenchidos();
+
         List<Denuncia> listarTodasDenuncias = denuncias.listarTodas();
         if (listarTodasDenuncias.isEmpty()){
             DenunciaJSON denunciaReal1 = new DenunciaJSON(
@@ -236,7 +245,44 @@ public class ParametrosInicializacao {
             denuncias.abrir(denunciaReal2);
             denuncias.abrir(denunciaReal3);
             denuncias.abrir(denunciaReal4);
+            LOG.info("Banco de dados populado com sucesso de informaçoes templates");
         }
-        LOG.info("Banco de dados populado com sucesso de informaçoes templates");
+
+    }
+
+    public void validarMunicipiosPreenchidos(){
+        if (municipios.listarTodos().isEmpty()){
+            try{
+                LOG.info("Vou popular a tabela de Municipios, de acordo com dados locais nos resources da aplicação");
+                List<Municipio> lista = new ArrayList<>();
+                BufferedReader br = new BufferedReader(new FileReader(getCSVMunicipios()));
+                String linha = "";
+                while ((linha = br.readLine()) != null){
+                    String[] row = linha.split(",");
+                    for (Estado est : Estado.values()){
+                        if (row[5].equals(String.valueOf(est.getId()))){
+                            lista.add(new Municipio(row[1], Long.parseLong(row[0]), est));
+                            break;
+                        }
+                    }
+                }
+                municipios.salvarTodos(lista);
+                LOG.info("Municipios preenchidos no banco de dados local");
+            } catch (Exception e){
+                LOG.erro("Houve um erro ao tentar obter os municipios do arquivo municipio.csv", e);
+            }
+        } else {
+            LOG.info("Não será necessário preencher dados de Município na table correspondente.");
+        }
+    }
+
+    private static String getCSVMunicipios() {
+        try {
+            Resource resource = new ClassPathResource("files/municipio.csv");
+            return resource.getFile().getAbsolutePath();
+        } catch (Exception e) {
+            LOG.erro("Houve um erro ao tentar obter o caminho do arquivo municipio.csv", e);
+        }
+        return null;
     }
 }

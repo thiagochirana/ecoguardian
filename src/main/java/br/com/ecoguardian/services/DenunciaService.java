@@ -6,6 +6,7 @@ import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
+import br.com.ecoguardian.utils.ParametrosInicializacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +44,7 @@ public class DenunciaService {
 
     public Denuncia abrir(DenunciaJSON json, List<MultipartFile> listaArquivos){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
-        Denuncia denNova = new Denuncia(json,usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
+        Denuncia denNova = new Denuncia(json, json.sigilo() ? usuarioService.obterPeloId(5L) : usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
         denNova.setLocalizacao(local);
         denNova.setCategoria(categoriaService.doId(json.categoriaId()));

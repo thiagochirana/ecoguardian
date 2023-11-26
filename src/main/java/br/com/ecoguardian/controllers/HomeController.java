@@ -40,6 +40,7 @@ public class HomeController {
     @GetMapping
     public ModelAndView getHomePage() {
         parametros.validarEPopularBancoPrimeiraInicializacao();
+        sessao.setUsuarioLogado(null);
         return view.novaView("login");
     }
 

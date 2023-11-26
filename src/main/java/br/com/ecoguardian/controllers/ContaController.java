@@ -1,6 +1,7 @@
 package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.records.NovoUsuarioJSON;
+import br.com.ecoguardian.services.SessaoServiceWrapper;
 import br.com.ecoguardian.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class ContaController {
     @Autowired
     private UsuarioService usuarios;
 
+    @Autowired
+    private SessaoServiceWrapper sessao;
+
     @GetMapping
     public ModelAndView minhaConta(){
         ModelAndView model = view.novaView("contas/minhaConta");
@@ -27,6 +31,7 @@ public class ContaController {
 
     @GetMapping("/criar")
     public ModelAndView criarConta(){
+        sessao.setUsuarioLogado(null);
         return view.novaView("contas/criarConta");
     }
 
