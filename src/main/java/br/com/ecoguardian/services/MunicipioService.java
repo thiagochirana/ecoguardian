@@ -2,6 +2,7 @@ package br.com.ecoguardian.services;
 
 import br.com.ecoguardian.apis.Request;
 import br.com.ecoguardian.models.Municipio;
+import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.records.MunicipioDTO;
 import br.com.ecoguardian.repositories.MunicipioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,10 @@ public class MunicipioService {
         }
     }
 
+    public void salvarTodos(List<Municipio> municipiosLista){
+        municipios.saveAll(municipiosLista);
+    }
+
     public Municipio obterMunicipio(String idIBGE){
         Optional<Municipio> munOpt = municipios.obterByIdIBGE(Long.parseLong(idIBGE));
         if (munOpt.isPresent()){
@@ -45,11 +50,28 @@ public class MunicipioService {
         }
     }
 
-    public List<Municipio> listarMunicipiosDaUF(String id){
+    public List<Municipio> listarMunicipiosDaUF(String UF){
         List<Municipio> lista = new ArrayList<>();
-        for (MunicipioDTO m : requestAPI.municipiosDoEstado(id)){
+
+        for (Estado e : Estado.values()){
+            if (e.getSigla().equals(UF)){
+                lista = municipios.findByEstado(e).orElseGet(ArrayList::new);
+                break;
+            }
+        }
+
+        if (!lista.isEmpty()){
+            return lista;
+        }
+
+        //Se chegou aqui é porque não tem, então pega da API do IBGE
+        for (MunicipioDTO m : requestAPI.municipiosDoEstado(UF)){
             lista.add(new Municipio(m));
         }
         return lista;
+    }
+
+    public List<Municipio> listarTodos(){
+        return municipios.findAll();
     }
 }
