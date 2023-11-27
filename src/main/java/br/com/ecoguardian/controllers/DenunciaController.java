@@ -1,5 +1,6 @@
 package br.com.ecoguardian.controllers;
 
+import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.models.Categoria;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.Subcategoria;
@@ -53,7 +54,8 @@ public class DenunciaController {
     public ModelAndView visualizarDenuncia(@PathVariable Long id){
         ModelAndView model = view.novaView("denuncia/visualizarDenuncia");
         Denuncia den = denuncias.obter(id);
-        model.addObject("imagens", arquivos.listarTodosDaDenuncia(den));
+        List<Arquivo> imagens = arquivos.listarTodosDaDenuncia(den);
+        model.addObject("imagens", imagens);
         model.addObject("denuncia", den);
         return model;
     }
