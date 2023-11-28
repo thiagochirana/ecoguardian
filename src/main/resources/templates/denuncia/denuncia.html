@@ -87,13 +87,15 @@
                         <td>
                             <div class="d-flex">
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success me-2"><i class="bi bi-eye"></i>Visualizar</a>
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Visualizar Denúncia">
+                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-eye"></i></a>
+                                    </span>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2"><i class="bi bi-search"></i>Ver Registros</a>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-search"></i>Ver Registros</a>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2"><i class="bi bi-chat-dots"></i>Comentário</a>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-chat-dots"></i>Comentário</a>
                                 </div>
 
                             </div>
@@ -104,12 +106,11 @@
         </div>
     </div>
 
-    <script>
-        function novaDenuncia() {
-            window.location.href = "/denuncia/nova";
-        }
-    </script>
-
 <div th:replace="~{base/base-elem :: script-padrao}"></div>
+<script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
+
 </body>
 </html>

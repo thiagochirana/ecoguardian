@@ -6,6 +6,7 @@ import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
+import br.com.ecoguardian.utils.Log;
 import br.com.ecoguardian.utils.ParametrosInicializacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,25 @@ public class DenunciaService {
     @Autowired
     private ArquivoService arquivos;
 
+    Log LOG = new Log(DenunciaService.class);
+
     public Denuncia abrir(DenunciaJSON json, List<MultipartFile> listaArquivos){
         Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
         Denuncia denNova = new Denuncia(json, json.sigilo() ? usuarioService.obterPeloId(5L) : usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
+        Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
+        denNova.setLocalizacao(local);
+        denNova.setCategoria(categoriaService.doId(json.categoriaId()));
+        denNova.setSubcategoria(categoriaService.subcategoriaId(json.subcategoriaId()));
+        Denuncia denSalva = denuncias.save(denNova);
+        RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
+        gerarNumeroProtocolo(denSalva);
+        denSalva.adicionarRegistro(registro);
+        return denuncias.save(arquivos.salvarArquivosDaDenuncia(denSalva, listaArquivos));
+    }
+
+    public Denuncia abrirDenunciaAnonima(DenunciaJSON json, List<MultipartFile> listaArquivos){
+        Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
+        Denuncia denNova = new Denuncia(json, usuarioService.obterNovoAnonimo(), municipio);
         Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
         denNova.setLocalizacao(local);
         denNova.setCategoria(categoriaService.doId(json.categoriaId()));
@@ -87,10 +104,15 @@ public class DenunciaService {
     }
 
     public List<Denuncia> todasDoUsuarioLogado(){
-        if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista() || sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal()){
-            return denuncias.findAll();
-        } else {
-            return denuncias.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado()).orElseGet(ArrayList::new);
+        try{
+            if (sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista() || sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal()){
+                return denuncias.findAll();
+            } else {
+                return denuncias.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado()).orElseGet(ArrayList::new);
+            }
+        } catch (NullPointerException nulo){
+            LOG.warn("Usuario Logado está nulo", nulo);
+            return new ArrayList<>();
         }
     }
 

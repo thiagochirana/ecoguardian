@@ -45,4 +45,27 @@ public record DenunciaJSON(
 
         String provavelAutorDescricao
 ) {
+    public DenunciaJSON getJSONparaAnonimo(){
+        return new DenunciaJSON(
+                true,
+                this.logradouro,
+                this.numero,
+                this.CEP,
+                this.bairro,
+                this.idIBGE,
+                this.latitude,
+                this.longitude,
+                this.pontoDeReferencia,
+                this.titulo,
+                this.descricao,
+                this.categoriaId,
+                this.subcategoriaId,
+               "5",  // Id usuario anônimo
+                this.email,
+                this.telefone,
+                this.outrasInformacoes,
+                this.provavelAutorNome,
+                this.provavelAutorDescricao
+        );
+    }
 }

@@ -4,6 +4,7 @@ import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.models.Categoria;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.Subcategoria;
+import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
@@ -127,6 +128,20 @@ public class DenunciaController {
     @ResponseBody
     public ResponseEntity<byte[]> exibirImagem(@PathVariable Long id){
         return arquivos.obterImagem(id);
+    }
+
+    @GetMapping("/anonima")
+    public ModelAndView getViewDenunciaAnonima(){
+        ModelAndView model = new ModelAndView("denuncia/denunciaAnonima");
+        model.addObject("estados", Estado.values());
+        model.addObject("categorias",categorias.listar());
+        return model;
+    }
+
+    @PostMapping("/anonima")
+    public String salvarDenunciaAnonima(DenunciaJSON json,  @RequestParam("imagens") List<MultipartFile> imagens){
+        denuncias.abrirDenunciaAnonima(json.getJSONparaAnonimo(), imagens);
+        return "redirect:/login";
     }
 
 

@@ -46,6 +46,12 @@ public class UsuarioService {
         return usSalvo;
     }
 
+    public Usuario obterNovoAnonimo(){
+        Usuario usuario = new Usuario("Anônimo", TipoPerfil.ANONIMO);
+
+        return usuarios.save(usuario);
+    }
+
     public Usuario salvar(Usuario usuario){
         return usuarios.save(usuario);
     }

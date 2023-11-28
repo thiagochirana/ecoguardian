@@ -32,13 +32,17 @@
 }
 
 .aberto {
-    background-color: var(--verde-fundo);
+    background-color: var(--verde-fundo-card-dashboard);
 }
 
 .emAnalise{
-    background-color: var(--vermelho-fundo);
+    background-color: var(--azul-fundo);
 }
 
 .precisaAtencao {
     background-color: var(--vermelho-fundo);
+}
+
+a.sem-borda{
+    border: none;
 }

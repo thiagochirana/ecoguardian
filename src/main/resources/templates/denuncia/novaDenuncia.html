@@ -21,50 +21,52 @@
                     </select>
                 </div>
 
-                <div class="mb-3 row">
-                    <div class="col-sm-8">
-                        <label for="logradouro-den" class="form-label obrigatorio">Logradouro:</label>
-                        <input type="text" class="form-control" id="logradouro-den" name="logradouro" oninput="formatarEndereco(this)" placeholder="Rua, Avenida, Beco, Via, etc..."/>
+                <div th:fragment="form-denuncia-dados-endereco">
+                    <div class="mb-3 row">
+                        <div class="col-sm-8">
+                            <label for="logradouro-den" class="form-label obrigatorio">Logradouro:</label>
+                            <input type="text" class="form-control" id="logradouro-den" name="logradouro" oninput="formatarEndereco(this)" placeholder="Rua, Avenida, Beco, Via, etc..."/>
+                        </div>
+                        <div class="col col-lg-2">
+                            <label for="numero-endereco-den" class="form-label obrigatorio">Número:</label>
+                            <input type="number" class="form-control" id="numero-endereco-den" name="numero"  placeholder="0, se não tiver"/>
+                        </div>
+                        <div class="col col-lg-2">
+                            <label for="cep-den" class="form-label">CEP:</label>
+                            <input type="text" class="form-control" id="cep-den" name="CEP"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="bairro-den" class="form-label obrigatorio">Bairro:</label>
+                            <input type="text" class="form-control" id="bairro-den" name="bairro" oninput="formatarEndereco(this)" placeholder="Somente o nome do bairro"/>
+                        </div>
                     </div>
-                    <div class="col col-lg-2">
-                        <label for="numero-endereco-den" class="form-label obrigatorio">Número:</label>
-                        <input type="number" class="form-control" id="numero-endereco-den" name="numero"  placeholder="0, se não tiver"/>
-                    </div>
-                    <div class="col col-lg-2">
-                        <label for="cep-den" class="form-label">CEP:</label>
-                        <input type="text" class="form-control" id="cep-den" name="CEP"/>
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="bairro-den" class="form-label obrigatorio">Bairro:</label>
-                        <input type="text" class="form-control" id="bairro-den" name="bairro" oninput="formatarEndereco(this)" placeholder="Somente o nome do bairro"/>
-                    </div>
-                </div>
 
-                <div class="mb-3">
-                    <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
-                    <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia" oninput="formatarEndereco(this)" placeholder="ao lado, em frente, atrás, etc..."/>
-                </div>
+                    <div class="mb-3">
+                        <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
+                        <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia" oninput="formatarEndereco(this)" placeholder="ao lado, em frente, atrás, etc..."/>
+                    </div>
 
-                <div class="mb-3 row">
-                    <div class="col-md-auto">
-                        <label for="estado" class="form-label obrigatorio">Estado:</label>
-                        <select id="estado" name="estado" class="form-select" onchange="selecionarNomeEstado()">
-                            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
-                        </select>
-                        <input type="hidden" id="estado-nome" value="">
+                    <div class="mb-3 row">
+                        <div class="col-md-auto">
+                            <label for="estado" class="form-label obrigatorio">Estado:</label>
+                            <select id="estado" name="estado" class="form-select" onchange="selecionarNomeEstado()">
+                                <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
+                            </select>
+                            <input type="hidden" id="estado-nome" value="">
+                        </div>
+                        <div class="col-md-auto">
+                            <label for="idIBGE" class="form-label obrigatorio">Municipio:</label>
+                            <select id="idIBGE" class="form-select" name="idIBGE" onchange="selecionarNomeMunicipio()">
+                                <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
+                            </select>
+                            <input id="municipio-nome" type="hidden" value=""/>
+                        </div>
+                        <span class="legenda">Escolha primeiramente o Estado para depois escolher o Município</span>
                     </div>
-                    <div class="col-md-auto">
-                        <label for="idIBGE" class="form-label obrigatorio">Municipio:</label>
-                        <select id="idIBGE" class="form-select" name="idIBGE" onchange="selecionarNomeMunicipio()">
-                            <option th:each="municipio : ${municipios}" th:value="${municipio.id}" th:text="${municipio.nome}"></option>
-                        </select>
-                        <input id="municipio-nome" type="hidden" value=""/>
-                    </div>
-                    <span class="legenda">Escolha primeiramente o Estado para depois escolher o Município</span>
                 </div>
             </fieldset>
 
-            <div class="mb-3 row">
+            <div class="mb-3 row" th:fragment="form-denuncia-lat-long">
                 <div class="col-md-auto">
                     <label for="latitude" class="form-label">Latitude:</label>
                     <input type="text" class="form-control" id="latitude" name="latitude"/>
@@ -80,34 +82,36 @@
                 <span class="legenda">Obtenha as coordenadas automaticamente clicando no botão ou senão fique a vontade para preencher</span>
             </div>
 
-            <div class="mb-3">
-                <label for="titulo" class="form-label obrigatorio">Título:</label>
-                <input id="titulo" class="form-control" name="titulo"/>
-            </div>
-
-            <div class="mb-3">
-                <label for="descricao" class="form-label obrigatorio">Descrição da Denúncia:</label>
-                <textarea id="descricao" class="form-control" name="descricao"></textarea>
-            </div>
-
-            <div class="mb-3 row">
-                <div class="col-md-auto">
-                    <label for="categoria" class="form-label obrigatorio">Categoria:</label>
-                    <select id="categoria" name="categoriaId" class="form-select" onchange="selecionarNomeEstado()">
-                        <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.getNome()}"></option>
-                    </select>
+            <div th:fragment="form-denuncia-descricao">
+                <div class="mb-3">
+                    <label for="titulo" class="form-label obrigatorio">Título:</label>
+                    <input id="titulo" class="form-control" name="titulo"/>
                 </div>
-                <div class="col-md-auto">
-                    <label for="subcategoria" class="form-label obrigatorio">Subcategoria:</label>
-                    <select id="subcategoria" name="subcategoriaId" class="form-select" onchange="selecionarNomeEstado()">
-                        <!--Vai ser preenchido via ajax-->
-                    </select>
-                </div>
-            </div>
 
-            <div class="mb-3">
-                <label for="formFile" class="form-label obrigatorio">Fotos</label>
-                <input class="form-control" type="file" id="formFile" name="imagens" multiple>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label obrigatorio">Descrição da Denúncia:</label>
+                    <textarea id="descricao" class="form-control" name="descricao"></textarea>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col-md-auto">
+                        <label for="categoria" class="form-label obrigatorio">Categoria:</label>
+                        <select id="categoria" name="categoriaId" class="form-select" onchange="selecionarNomeEstado()">
+                            <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.getNome()}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-auto">
+                        <label for="subcategoria" class="form-label obrigatorio">Subcategoria:</label>
+                        <select id="subcategoria" name="subcategoriaId" class="form-select" onchange="selecionarNomeEstado()">
+                            <!--Vai ser preenchido via ajax-->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label obrigatorio">Fotos</label>
+                    <input class="form-control" type="file" id="formFile" name="imagens" multiple>
+                </div>
             </div>
 
             <input type="hidden" th:value="${usuarioLogado.id}" name="denuncianteId">
@@ -122,19 +126,21 @@
                 <input th:value="${usuarioLogado.telefone}" type="text" class="form-control" id="telefone" name="telefone"/>
             </div>
 
-            <div class="mb-3">
-                <label for="provavelAutorNome" class="form-label">Nome do(a) provável autor:</label>
-                <input type="text" class="form-control" id="provavelAutorNome" name="provavelAutorNome"/>
-            </div>
+            <div th:fragment="form-denuncia-provavel-autor-dados">
+                <div class="mb-3">
+                    <label for="provavelAutorNome" class="form-label">Nome do(a) provável autor:</label>
+                    <input type="text" class="form-control" id="provavelAutorNome" name="provavelAutorNome"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="provavelAutorDescricao" class="form-label">Informaçoes sobre ele(a):</label>
-                <input type="text" class="form-control" id="provavelAutorDescricao" name="provavelAutorDescricao"/>
-            </div>
+                <div class="mb-3">
+                    <label for="provavelAutorDescricao" class="form-label">Informaçoes sobre ele(a):</label>
+                    <input type="text" class="form-control" id="provavelAutorDescricao" name="provavelAutorDescricao"/>
+                </div>
 
-            <div class="mb-3">
-                <label for="outrasInformacoes" class="form-label">Outras Informações:</label>
-                <textarea id="outrasInformacoes" class="form-control" name="outrasInformacoes"></textarea>
+                <div class="mb-3">
+                    <label for="outrasInformacoes" class="form-label">Outras Informações:</label>
+                    <textarea id="outrasInformacoes" class="form-control" name="outrasInformacoes"></textarea>
+                </div>
             </div>
 
             <button class="salvar-btn btn btn-success">Registrar Denuncia</button>
