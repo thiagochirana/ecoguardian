@@ -7,7 +7,7 @@
 <body>
 <h1>Lista de Imagens</h1>
     <div th:each="imagem : ${imagens}">
-        <img th:src="@{'/admin/verImagem/' + ${imagem.id}}" alt="Imagem"/>
+        <img th:src="@{'/backOffice/verImagem/' + ${imagem.id}}" alt="Imagem"/>
         <p th:text="${imagem.nome}"></p>
     </div>
 </body>
