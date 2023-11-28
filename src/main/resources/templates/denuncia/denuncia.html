@@ -92,10 +92,14 @@
                                     </span>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-search"></i>Ver Registros</a>
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Visualizar registros">
+                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-search"></i></a>
+                                    </span>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-chat-dots"></i>Comentário</a>
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Adicione um comentário">
+                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-chat-dots"></i></a>
+                                    </span>
                                 </div>
 
                             </div>

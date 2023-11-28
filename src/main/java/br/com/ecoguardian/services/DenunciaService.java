@@ -77,6 +77,20 @@ public class DenunciaService {
         return this.abrir(json, null);
     }
 
+    public Denuncia abrirComArquivos(DenunciaJSON json, List<Arquivo> imagens){
+        Municipio municipio = municipioService.obterMunicipio(json.idIBGE());
+        Denuncia denNova = new Denuncia(json, json.sigilo() ? usuarioService.obterPeloId(5L) : usuarioService.obterPeloId(Long.parseLong(json.denuncianteId())), municipio);
+        Localizacao local = localizacaoService.salvar(denNova.getLocalizacao());
+        denNova.setLocalizacao(local);
+        denNova.setCategoria(categoriaService.doId(json.categoriaId()));
+        denNova.setSubcategoria(categoriaService.subcategoriaId(json.subcategoriaId()));
+        Denuncia denSalva = denuncias.save(denNova);
+        RegistroDenuncia registro = registroDenunciaService.abrir(denSalva);
+        gerarNumeroProtocolo(denSalva);
+        denSalva.adicionarRegistro(registro);
+        return denuncias.save(arquivos.salvarArquivosTratadosDaDenuncia(denSalva, imagens));
+    }
+
     public Denuncia obter(Long id){
         return denuncias.findById(id).orElseGet(Denuncia::new);
     }

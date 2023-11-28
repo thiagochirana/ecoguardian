@@ -29,6 +29,16 @@ public class ArquivoService {
         return denuncia;
     }
 
+    public Denuncia salvarArquivosTratadosDaDenuncia(Denuncia denuncia, List<Arquivo> arquivos){
+        denuncia.setImagens(salvarArquivosTratados(arquivos));
+        return denuncia;
+    }
+
+
+    public List<Arquivo> salvarArquivosTratados(List<Arquivo> arquivos){
+        return arquivosRepository.saveAll(arquivos);
+    }
+
     public List<Arquivo> salvarArquivos(List<MultipartFile> arquivos){
         try {
             List<Arquivo> arquivosSalvos = new ArrayList<>();
