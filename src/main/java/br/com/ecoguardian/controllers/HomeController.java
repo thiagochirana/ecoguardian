@@ -70,7 +70,7 @@ public class HomeController {
             Usuario user = usuarioLogado.get();
             sessao.setUsuarioLogado(user);
             LOG.info("Realizando login do usuário "+user.getNome());
-            return view.novaView("dashboard/dashboard");
+            mav.setViewName("redirect:/dashboard");
         } else {
             mav.setViewName("login"); // Página de login
             msg = new MensagemView(true, false, "Ops! Ocorreu um erro", "Credenciais inválidas", null);

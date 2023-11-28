@@ -13,7 +13,7 @@
             <div class="btn-direita">
                 <div class="d-flex">
                     <div class="col-md-auto">
-                        <button id="btnShowModal" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalFiltros"><i class="bi bi-funnel"></i>Filtrar</button>
+                        <button id="btnShowModal" type="button" class="btn btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#modalFiltros"><i class="bi bi-funnel"></i>Filtrar</button>
                         <div class="modal fade" id="modalFiltros" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -56,7 +56,7 @@
                         <th scope="col">Estado</th>
                         <th scope="col">Abertura</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Ações</th>
+                        <th scope="col" class="text-start">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,13 +87,13 @@
                         <td>
                             <div class="d-flex">
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success"><i class="bi bi-eye"></i>Visualizar</a>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success me-2"><i class="bi bi-eye"></i>Visualizar</a>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success"><i class="bi bi-search"></i>Ver Registros</a>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2"><i class="bi bi-search"></i>Ver Registros</a>
                                 </div>
                                 <div class="col-md-auto">
-                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success"><i class="bi bi-chat-dots"></i>Comentário</a>
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2"><i class="bi bi-chat-dots"></i>Comentário</a>
                                 </div>
 
                             </div>
