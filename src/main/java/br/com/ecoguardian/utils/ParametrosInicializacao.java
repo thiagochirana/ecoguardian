@@ -12,10 +12,15 @@ import br.com.ecoguardian.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,10 +246,10 @@ public class ParametrosInicializacao {
                     "Teste4",
                     "Descrição do Autor 4"
             );
-            denuncias.abrir(denunciaReal1);
-            denuncias.abrir(denunciaReal2);
-            denuncias.abrir(denunciaReal3);
-            denuncias.abrir(denunciaReal4);
+            denuncias.abrirComArquivos(denunciaReal1, carregarImagensDoResource());
+            denuncias.abrirComArquivos(denunciaReal2, carregarImagensDoResource());
+            denuncias.abrirComArquivos(denunciaReal3, carregarImagensDoResource());
+            denuncias.abrirComArquivos(denunciaReal4, carregarImagensDoResource());
             LOG.info("Banco de dados populado com sucesso de informaçoes templates");
         }
 
@@ -284,5 +289,26 @@ public class ParametrosInicializacao {
             LOG.erro("Houve um erro ao tentar obter o caminho do arquivo municipio.csv", e);
         }
         return null;
+    }
+
+    public List<Arquivo> carregarImagensDoResource()  {
+        List<Arquivo> arquivos = new ArrayList<>();
+        try{
+            ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource[] resources = resolver.getResources("classpath:files/*.jpg");
+            for (Resource resource : resources) {
+                String nome = resource.getFilename();
+                String formato = resource.getFile().toPath().getFileName().toString().substring(nome.lastIndexOf('.') + 1);
+                byte[] imageBytes = convertResourceToByteArray(resource);
+                arquivos.add(new Arquivo(imageBytes, nome, formato));
+            }
+        } catch (IOException io){
+            LOG.warn("Ocorreu um erro ao tentar carregar arquivos imagens templates", io);
+        }
+        return arquivos;
+    }
+
+    private byte[] convertResourceToByteArray(Resource resource) throws IOException {
+        return Files.readAllBytes(resource.getFile().toPath());
     }
 }

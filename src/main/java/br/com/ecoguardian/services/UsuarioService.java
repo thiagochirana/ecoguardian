@@ -9,6 +9,7 @@ import br.com.ecoguardian.models.records.SenhaCriptoDTO;
 import br.com.ecoguardian.repositories.UsuarioRepository;
 import br.com.ecoguardian.utils.CPFUtils;
 import br.com.ecoguardian.utils.Cripto;
+import br.com.ecoguardian.utils.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class UsuarioService {
 
     @Autowired
     private CriptografiaService criptografias;
+
+    Log LOG = new Log(UsuarioService.class);
 
     public Usuario salvar(NovoUsuarioJSON json){
         Usuario usuario = new Usuario(json.nome(), json.tipoPerfil());
@@ -46,6 +49,11 @@ public class UsuarioService {
         return usSalvo;
     }
 
+    public Usuario obterNovoAnonimo(){
+        Usuario usuario = new Usuario("Anônimo#"+(usuarios.ultimoId()+1L), TipoPerfil.ANONIMO); // O nome dessa maneira é para diferenciar um user anonimo de outro
+        return usuarios.save(usuario);
+    }
+
     public Usuario salvar(Usuario usuario){
         return usuarios.save(usuario);
     }
@@ -59,12 +67,7 @@ public class UsuarioService {
             return Optional.empty();
         }
         var user = usuarios.findByCPF(CPFUtils.retirarMascara(cpf));
-        if (user.isEmpty()){
-            return Optional.empty();
-        } else {
-
-        }
-        return Optional.of(user.get());
+        return user;
     }
 
     public Usuario obterPeloId(Long id){
