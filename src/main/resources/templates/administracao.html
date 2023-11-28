@@ -55,10 +55,10 @@
 <!--            </form>-->
 
 <!--        </div>-->
-        <div style="padding: 20px">
+        <div class="container mt-4">
+            <h4>Usuários</h4>
             <table class="table table-striped">
-                <h4>Usuarios</h4>
-                <thead>
+                <thead class="table">
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Nome</th>
@@ -68,7 +68,7 @@
                     <th scope="col">Telefone</th>
                     <th scope="col">Perfil</th>
                     <th scope="col">Ativo?</th>
-                    <th scope="col">Mais Acões</th>
+                    <th scope="col">Mais Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,47 +81,44 @@
                     <td th:text="${usuario.telefone}"></td>
                     <td th:text="${usuario.tipoPerfil.getNome()}"></td>
                     <td>
-                        <div th:if="${usuario.ativo}">
-                            <p>Sim</p>
-                        </div>
-                        <div th:unless="${usuario.ativo}">
-                            <p>Não</p>
-                        </div>
+                        <span th:if="${usuario.ativo}" class="text-success">Sim</span>
+                        <span th:unless="${usuario.ativo}" class="text-danger">Não</span>
                     </td>
                     <td>
-                        <div th:if="${usuario.ativo}">
-                            <form th:action="@{'/usuarios/desativar/' + ${usuario.id} }" method="post">
-                                <button type="submit" class="btn btn-danger">Desativar</button>
-                            </form>
-                        </div>
-                        <div th:unless="${usuario.ativo}">
-                            <form th:action="@{'/usuarios/ativar/' + ${usuario.id} }" method="post">
-                                <button type="submit" class="btn btn-success">Ativar</button>
-                            </form>
-                        </div>
-
-                        <div>
+                        <div class="d-flex">
+                            <div th:if="${usuario.ativo}">
+                                <form th:action="@{'/usuarios/desativar/' + ${usuario.id} }" method="post" class="me-1">
+                                    <button type="submit" class="btn btn-sm btn-warning">Desativar</button>
+                                </form>
+                            </div>
+                            <div th:unless="${usuario.ativo}">
+                                <form th:action="@{'/usuarios/ativar/' + ${usuario.id} }" method="post" class="me-1">
+                                    <button type="submit" class="btn btn-sm btn-success">Ativar</button>
+                                </form>
+                            </div>
                             <form th:action="@{'/usuarios/' + ${usuario.id} }" method="post">
-                                <button type="submit" class="btn btn-danger">Excluir</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                             </form>
                         </div>
                     </td>
+
                 </tr>
                 </tbody>
-
             </table>
+
+            <form action="/admin/novoUsuario" method="post" class="mt-4 mb-5">
+                <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>
+            </form>
+
+            <form action="/admin/upload" th:enctype="'multipart/form-data'" method="post" class="mt-4 mb-5">
+                <input class="form-control" type="file" name="arquivos" accept="image/*" multiple>
+                <button type="button" class="btn btn-primary mt-3">
+                    Enviar Arquivos
+                </button>
+
+            </form>
+
         </div>
-
-        <form action="/admin/novoUsuario" method="post">
-            <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>
-        </form>
-
-        <form action="/admin/upload" th:enctype="'multipart/form-data'" method="post">
-            <input type="file" name="arquivos" accept="image/*" multiple>
-            <button type="submit">Enviar Arquivos</button>
-        </form>
-
+        <div th:replace="~{base/base-elem :: script-padrao}"></div>
     </div>
-    <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>
-</html>
