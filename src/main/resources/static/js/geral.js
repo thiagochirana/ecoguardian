@@ -19,6 +19,33 @@ function formatarEndereco(inputEndereco){
     inputEndereco.value = resultado;
 }
 
+function inputFormatado(value) {
+    if (!value) return value;
+
+    const numeroTelefone = value.replace(/[^\d]/g, '');
+    const tamanhoNumero = numeroTelefone.length;
+
+    if (tamanhoNumero <= 2) {
+        return `(${numeroTelefone}`;
+    }
+
+    if (tamanhoNumero <= 6) {
+        return `(${numeroTelefone.slice(0, 2)}) ${numeroTelefone.slice(2)}`;
+    }
+
+    if (tamanhoNumero <= 11) {
+        return `(${numeroTelefone.slice(0, 2)}) ${numeroTelefone.slice(2, 6)}-${numeroTelefone.slice(6)}`;
+    }
+
+    return `(${numeroTelefone.slice(0, 2)}) ${numeroTelefone.slice(2, 7)}-${numeroTelefone.slice(7, 11)}`;
+}
+
+
+function formatadorTelefone() {
+    const inputNormal = document.getElementById('telefone');
+    const inputFormatadoValue = inputFormatado(inputNormal.value);
+    inputNormal.value = inputFormatadoValue;
+}
 
 
 let cpfInputs = document.getElementsByClassName("cpf");
