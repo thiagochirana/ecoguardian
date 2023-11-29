@@ -13,10 +13,9 @@ function formatarCPF(input) {
 }
 
 function formatarEndereco(inputEndereco){
-    let resultado = inputEndereco.value.replace(/,\s*([^,\s])|,/g, (match, group1) => {
+        inputEndereco.value = inputEndereco.value.replace(/,\s*([^,\s])|,/g, (match, group1) => {
         return group1 ? ', ' + group1 : ',';
     });
-    inputEndereco.value = resultado;
 }
 
 function inputFormatado(value) {
@@ -43,8 +42,7 @@ function inputFormatado(value) {
 
 function formatadorTelefone() {
     const inputNormal = document.getElementById('telefone');
-    const inputFormatadoValue = inputFormatado(inputNormal.value);
-    inputNormal.value = inputFormatadoValue;
+    inputNormal.value = inputFormatado(inputNormal.value);
 }
 
 
