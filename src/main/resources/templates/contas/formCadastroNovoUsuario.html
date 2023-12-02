@@ -1,26 +1,26 @@
 <div th:fragment="camposFormCriarUsuario">
     <div class="col-md-auto">
         <label for="nome" class="form-label">Nome:</label>
-        <input type="text" class="form-control" id="nome" name="nome"/>
+        <input type="text" class="form-control" id="nome" name="nome" onblur="habilitarBotaoCadastrar()"/>
     </div>
     <div class="mb-3 row">
         <div class="col-md-auto">
             <label for="cpf" class="form-label">CPF:</label>
-            <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this)"/>
+            <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this); habilitarBotaoCadastrar()"/>
         </div>
         <div class="col-md-auto">
             <label for="email" class="form-label">Email:</label>
-            <input type="text" class="form-control" id="email" name="email"/>
+            <input type="text" class="form-control" id="email" name="email" onblur="validarEmailOnExit(this); habilitarBotaoCadastrar()"/>
         </div>
     </div>
     <div class="mb-3 row">
         <div class="col-md-auto">
             <label for="senha" class="form-label">Senha:</label>
-            <input type="password" class="form-control" id="senha" name="senha"/>
+            <input type="password" class="form-control" id="senha" name="senha" oninput="habilitarBotaoCadastrar()"/>
         </div>
         <div class="col-md-auto">
             <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" name="telefone"/>
+            <input type="text" class="form-control" id="telefone" name="telefone" oninput="formatarTelefone(this); habilitarBotaoCadastrar()"/>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         </select>
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">
+    <button type="submit" class="btn btn-success mt-3" disabled>
         Cadastrar
     </button>
 </div>
