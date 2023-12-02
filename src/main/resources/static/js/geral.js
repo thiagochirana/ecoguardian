@@ -44,11 +44,12 @@ function validarEmailOnExit(input) {
     }
 }
 
-
-
-
 function formatarTelefone(input) {
     var telefone = input.value.replace(/\D/g, '');
+
+    if (telefone.length > 11) {
+        telefone = telefone.slice(0, 11);
+    }
 
     if (telefone.length > 0) {
         telefone = telefone.replace(/^(\d{2})/, '($1');
@@ -62,6 +63,9 @@ function formatarTelefone(input) {
 
     input.value = telefone;
 }
+
+
+
 
 
 
@@ -275,3 +279,36 @@ function selecionarNomeEstado(){
 // ============================================
 // FIM --- OBTER LATITUDE E LONGITUDE
 // ============================================
+
+//Validação dos campos na tela de criar conta (desativar botão)
+function verificarCampos() {
+    const nome = document.getElementById('nome').value;
+    const cpf = document.getElementById('cpf').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const telefone = document.getElementById('telefone').value;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const telefoneRegex = /\(\d{2}\)\s\d{5}-\d{4}/;
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+
+    const camposPreenchidos = nome && cpf && email && senha && telefone;
+    const emailValido = emailRegex.test(email);
+    const telefoneValido = telefoneRegex.test(telefone);
+    const cpfValido = cpfRegex.test(cpf);
+
+    return camposPreenchidos && emailValido && telefoneValido && cpfValido;
+}
+
+//Usa a função de cima para com o retorno dos campos válidos
+function habilitarBotaoCadastrar() {
+    const botaoCadastrar = document.querySelector('.btn-success'); // Seletor do botão "Cadastrar"
+    const camposValidos = verificarCampos();
+
+    if (camposValidos) {
+        botaoCadastrar.disabled = false; // Habilita o botão
+    } else {
+        botaoCadastrar.disabled = true; // Desabilita o botão
+    }
+}
+
