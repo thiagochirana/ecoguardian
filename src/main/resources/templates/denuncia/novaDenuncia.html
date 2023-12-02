@@ -11,16 +11,25 @@
     <div class = "body-geral">
         <h4 style="padding-bottom: 25px">Nova Denúncia</h4>
         <form action="/denuncia/novo" method="post" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Endereço da ocorrência</legend>
-                <div class="mb-3">
+
+            <div class="mb-3 row d-flex align-items-stretch">
+                <div class="col-md-auto">
                     <label for="sigilo" class="form-label obrigatorio">Sigilo:</label>
-                    <select id="sigilo" name="sigilo">
+                    <select id="sigilo" class="form-select" name="sigilo">
                         <option value="true">Sim</option>
-                        <option value="false">Não</option>
+                        <option value="false" selected>Não</option>
                     </select>
                 </div>
+                <div class="col-md-auto">
+                    <div class="mensagem-fixa">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Se marcado com "Sim" denúncia será anônima e você não irá acompanhar o progresso da mesma</span>
+                    </div>
+                </div>
+            </div>
 
+            <fieldset>
+                <h5>Endereço da ocorrência</h5>
                 <div th:fragment="form-denuncia-dados-endereco">
                     <div class="mb-3 row">
                         <div class="col-sm-8">
@@ -75,11 +84,7 @@
                     <label for="longitude" class="form-label">Longitude:</label>
                     <input type="text" class="form-control" id="longitude" name="longitude"/>
                 </div>
-<!--                <div class="col-md-auto">-->
-<!--                    <label for="obterCoordenadasBtn" class="form-label">Ação:</label>-->
-<!--                    <button id="obterCoordenadasBtn" class="btn btn-outline-success"><i class="bi bi-compass" style="margin-left: 4px"></i>Obter Coordenadas</button>-->
-<!--                </div>-->
-                <span class="legenda">Obtenha as coordenadas automaticamente clicando no botão ou senão fique a vontade para preencher</span>
+                <span class="legenda">Obtenha as coordenadas automaticamente ao preencher o endereço corretamente acima</span>
             </div>
 
             <div th:fragment="form-denuncia-descricao">

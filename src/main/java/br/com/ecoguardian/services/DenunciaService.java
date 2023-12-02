@@ -7,6 +7,7 @@ import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
 import br.com.ecoguardian.utils.Log;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 @Service
+@Transactional
 public class DenunciaService {
 
     @Autowired

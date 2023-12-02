@@ -90,3 +90,15 @@ div.btn-direita {
 div.modal {
     z-index: 9999;
 }
+
+div.mensagem-fixa{
+    padding: 8px;
+    background-color: #d4ffcf;
+    color: #0b560b;
+    border-radius: 8px;
+}
+
+hr {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}

@@ -4,6 +4,7 @@ import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.repositories.ArquivoRepository;
 import br.com.ecoguardian.utils.Log;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ArquivoService {
 
     @Autowired
