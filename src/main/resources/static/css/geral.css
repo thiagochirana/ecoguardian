@@ -29,13 +29,24 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 10vw;
+    margin-top: 5vw;
     margin-left: 40vw;
     margin-right: 40vw;
 }
 
 .div-form-centralizado{
     margin-bottom: 10px;
+}
+
+.top-bar-geral {
+    margin-bottom: 10px;
+    background-color: #ecfff4;
+    color: #0b560b;
+    padding: 10px;
+    box-shadow: 2px 0 0 var(--linhas-bordas);
+    container: fluid text-center;
+    width: 100%;
+    text-align: center;
 }
 
 .box {

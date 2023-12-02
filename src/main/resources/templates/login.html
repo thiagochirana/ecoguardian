@@ -2,28 +2,39 @@
 <html lang="pt-BR">
 <head th:replace="~{base/base-elem :: head-padrao}"></head>
 <body>
-    <div th:replace="~{base/mensagem :: notificacao}"></div>
-    <div class="formulario">
-        <div class="div-form box bordas-radius form-centralizado">
-            <form id="login-form" action="/login" method="post">
-                <div class="div-form-centralizado">
-                    <label for="cpf-login" class="form-label">CPF:</label>
-                    <input type="text" class="form-control cpf" id="cpf-login" name="cpf" oninput="formatarCPF(this)"/>
-                </div>
 
-                <div class="div-form-centralizado">
-                    <label for="senha-login" class="form-label">Senha:</label>
-                    <input type="password" class="form-control" id="senha-login" name="senha"/>
-                </div>
-
-                <div class="div-form-centralizado">
-                    <a th:href="@{'/minhaConta/criar'}" class="btn btn-outline-secondary" >Criar Conta</a>
-                    <button class="btn btn-success">Login</button>
-                </div>
-            </form>
+<div class="top-bar-geral">
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>EcoGuardian</h1>
         </div>
-        <a type="button" class="btn" th:href="@{'/denuncia/anonima'}">Denúncia Anônima</a>
     </div>
-    <div th:replace="~{base/base-elem :: script-padrao}"></div>
+</div>
+<div th:replace="~{base/mensagem :: notificacao}"></div>
+<div class="formulario">
+    <div class="div-form box bordas-radius form-centralizado">
+        <form id="login-form" action="/login" method="post">
+            <div class="div-form-centralizado">
+                <div class="mb-3">
+                    <p class="fs-5 text-center">Proteja o Ambiente com o EcoGuardian: Sua Voz para um Futuro Sustentável!</p>
+                </div>
+                <label for="cpf-login" class="form-label">CPF:</label>
+                <input type="text" class="form-control cpf" id="cpf-login" name="cpf" oninput="formatarCPF(this)"/>
+            </div>
+
+            <div class="div-form-centralizado">
+                <label for="senha-login" class="form-label">Senha:</label>
+                <input type="password" class="form-control" id="senha-login" name="senha"/>
+            </div>
+
+            <div class="div-form-centralizado d-grid gap-2">
+                <button class="btn btn-success">Login</button>
+                <a th:href="@{'/minhaConta/criar'}" class="btn btn-outline-secondary">Criar Conta</a>
+                <a type="button" class="btn btn-outline-primary" th:href="@{'/denuncia/anonima'}">Denúncia Anônima</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>
 </html>

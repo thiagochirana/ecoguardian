@@ -286,18 +286,51 @@ function verificarCampos() {
     const cpf = document.getElementById('cpf').value;
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
     const telefone = document.getElementById('telefone').value;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const telefoneRegex = /\(\d{2}\)\s\d{5}-\d{4}/;
     const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
 
-    const camposPreenchidos = nome && cpf && email && senha && telefone;
+    const camposPreenchidos = nome && cpf && email && senha && confirmarSenha && telefone;
     const emailValido = emailRegex.test(email);
     const telefoneValido = telefoneRegex.test(telefone);
     const cpfValido = cpfRegex.test(cpf);
+    const senhasCoincidem = senha === confirmarSenha;
 
-    return camposPreenchidos && emailValido && telefoneValido && cpfValido;
+    return camposPreenchidos && emailValido && telefoneValido && cpfValido && senhasCoincidem;
+}
+
+
+//Usa a função de cima para com o retorno dos campos válidos
+function habilitarBotaoCadastrar() {
+    const botaoCadastrar = document.querySelector('.btn-success'); // Seletor do botão "Cadastrar"
+    const camposValidos = verificarCampos();
+    if (camposValidos) {
+        botaoCadastrar.disabled = false; // Habilita o botão
+    } else {
+        botaoCadastrar.disabled = true; // Desabilita o botão
+    }
+}
+
+function validarSenha() {
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+    const msgErroSenha = document.getElementById('msgErroSenha');
+    const btnCadastrar = document.getElementById('btnCadastrar');
+    const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (senha !== confirmarSenha || senha === '' || confirmarSenha === '') {
+        msgErroSenha.textContent = 'As senhas não coincidem ou estão vazias.';
+        btnCadastrar.disabled = true;
+    } else if (!regexSenha.test(senha)) {
+        msgErroSenha.textContent = 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial.';
+        btnCadastrar.disabled = true;
+    } else {
+        msgErroSenha.textContent = '';
+        btnCadastrar.disabled = false;
+    }
 }
 
 //Usa a função de cima para com o retorno dos campos válidos
