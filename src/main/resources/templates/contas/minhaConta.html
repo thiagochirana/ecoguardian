@@ -7,8 +7,15 @@
     <div th:replace="~{base/head-page :: topo-pagina}"></div>
 
     <div class="body-geral">
-        <div th:replace="~{base/base-elem :: hello-criar-conta}"></div>
+        <h4 class="titulo-pagina">Minha conta</h4>
+
+        <form action="/minhaConta/salvar" method="post">
+            <div th:replace="~{contas/formMinhaConta :: detalhesUsuario}"></div>
+        </form>
+
     </div>
+
+
     <div th:replace="~{base/base-elem :: script-padrao}"></div>
 </body>
 
