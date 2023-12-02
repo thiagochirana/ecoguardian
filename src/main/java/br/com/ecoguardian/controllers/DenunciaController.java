@@ -69,16 +69,9 @@ public class DenunciaController {
     }
 
     @PostMapping("/novo")
-    public ModelAndView registrarDenuncia(DenunciaJSON json,  @RequestParam("imagens") List<MultipartFile> imagens){
-        Denuncia den = denuncias.abrir(json, imagens);
-        ModelAndView model = view.novaView("redirect:/denuncia");
-        if (den != null){
-            model.addObject("notificacao", new MensagemView(true, true, "Denuncia registrada com sucesso", "Aguarde um analista iniciar análise", null));
-        } else {
-
-            model.addObject("notificacao", new MensagemView(true, false, "Denuncia não foi registrada", "Ocorreu algo, tente mais tarde", null));
-        }
-        return model;
+    public String registrarDenuncia(DenunciaJSON json,  @RequestParam("imagens") List<MultipartFile> imagens){
+        denuncias.abrir(json, imagens);
+        return "redirect:/denuncia";
     }
 
     @PostMapping("/registro/salvar")

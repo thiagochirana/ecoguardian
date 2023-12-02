@@ -8,12 +8,14 @@ import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.repositories.RegistroDenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class RegistroDenunciaService {
 
     @Autowired
@@ -42,6 +44,9 @@ public class RegistroDenunciaService {
         Usuario usuario = usuarios.obterPeloId(json.idUsuario());
         Denuncia denuncia = denuncias.findById(json.denunciaId()).orElseGet(Denuncia::new);
         RegistroDenuncia registro = new RegistroDenuncia(json, usuario, denuncia);
+        if (registro.getStatusAtual() == StatusDenuncia.REJEITADA || registro.getStatusAtual() == StatusDenuncia.RESOLVIDA){
+            return encerrar(registro);
+        }
         if (!usuario.isAdminOuAnalista() || !usuario.temAcessoTotal()){
             StatusDenuncia status;
             if (jaEstaEmAnalise(denuncia)){
@@ -58,11 +63,12 @@ public class RegistroDenunciaService {
 
     public RegistroDenuncia encerrar(RegistroDenuncia registro){
         RegistroDenuncia reg = salvarAlteracoes(registro);
-        reg.setStatusAtual(StatusDenuncia.FECHADA);
-        reg.setTitulo("Denúncia Encerrada");
-        reg.setDataHoraRegistro(Datas.agora());
-        reg.setDescricao("Denúncia encerrada às "+reg.dataHoraRegistroFormatada()+" pelo usuario "+reg.getQuemAtualizou().getNome());
-        return salvarAlteracoes(reg);
+        RegistroDenuncia novoReg = new RegistroDenuncia();
+        novoReg.setStatusAtual(StatusDenuncia.FECHADA);
+        novoReg.setTitulo("Denúncia protocolo "+reg.getDenuncia().getProtocolo()+" Encerrada");
+        novoReg.setDescricao("Denúncia "+reg.getStatusAtual().getNome()+" às "+reg.dataHoraRegistroFormatada()+" pelo usuario "+sessao.getUsuarioLogado().getNome());
+        novoReg.setDenuncia(reg.getDenuncia());
+        return salvarAlteracoes(novoReg);
     }
 
     private RegistroDenuncia salvarAlteracoes(RegistroDenuncia registro){
