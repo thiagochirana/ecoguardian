@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-auto">
             <label for="email" class="form-label">Email:</label>
-            <input type="text" class="form-control" id="email" name="email"/>
+            <input type="text" class="form-control" id="email" name="email" onblur="validarEmailOnExit(this)"/>
         </div>
     </div>
     <div class="mb-3 row">
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-auto">
             <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" name="telefone"/>
+            <input type="text" class="form-control" id="telefone" name="telefone" oninput="formatarTelefone(this)"/>
         </div>
     </div>
 
