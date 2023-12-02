@@ -319,9 +319,13 @@ function validarSenha() {
     const confirmarSenha = document.getElementById('confirmarSenha').value;
     const msgErroSenha = document.getElementById('msgErroSenha');
     const btnCadastrar = document.getElementById('btnCadastrar');
+    const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (senha !== confirmarSenha || senha === '' || confirmarSenha === '') {
-        msgErroSenha.textContent = 'As senhas não coincidem';
+        msgErroSenha.textContent = 'As senhas não coincidem ou estão vazias.';
+        btnCadastrar.disabled = true;
+    } else if (!regexSenha.test(senha)) {
+        msgErroSenha.textContent = 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial.';
         btnCadastrar.disabled = true;
     } else {
         msgErroSenha.textContent = '';
