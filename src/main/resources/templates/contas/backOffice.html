@@ -68,14 +68,6 @@
                 <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>
             </form>
 
-            <form action="/backOffice/upload" th:enctype="'multipart/form-data'" method="post" class="mt-4 mb-5">
-                <input class="form-control" type="file" name="arquivos" accept="image/*" multiple>
-                <button type="submit" class="btn btn-primary mt-3">
-                    Enviar Arquivos
-                </button>
-
-            </form>
-
         </div>
         <div th:replace="~{base/base-elem :: script-padrao}"></div>
     </div>
