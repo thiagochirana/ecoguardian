@@ -18,14 +18,12 @@
 }
 
 .card-denuncia span.titulo-card-denuncia {
-    position: absolute;
     top: 10px;
     left: 10px;
     font-size: 13px;
 }
 
 .contagem-denuncia span.contagem-denuncia{
-    position: absolute;
     bottom: 10px;
     left: 10px;
     font-size: 16px;
