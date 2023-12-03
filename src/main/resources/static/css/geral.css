@@ -102,3 +102,16 @@ hr {
     margin-top: 7px;
     margin-bottom: 7px;
 }
+
+.separator-line {
+    border-top: 1px solid var(--bs-secondary-color-rgb); /* Define a cor da linha superior */
+    margin: 20px 0; /* Ajusta a margem para espaçamento */
+}
+
+.hide-info {
+    display: none !important;
+}
+
+.btn-custom-border {
+    border-color: #c7c7c7; /* Escolha a cor que deseja para a borda */
+}
