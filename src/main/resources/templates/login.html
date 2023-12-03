@@ -24,9 +24,13 @@
 
             <div class="div-form-centralizado">
                 <label for="senha-login" class="form-label">Senha:</label>
-                <input type="password" class="form-control" id="senha-login" name="senha"/>
+                <div class="d-flex align-items-center">
+                    <input type="password" class="form-control" id="senha-login" name="senha"/>
+                    <button class="btn btn-outline-secondary" type="button" id="mostrarSenha" onclick="toggleMostrarSenha('senha-login');">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
             </div>
-
             <div class="div-form-centralizado d-grid gap-2">
                 <button class="btn btn-success">Login</button>
                 <a th:href="@{'/minhaConta/criar'}" class="btn btn-outline-secondary">Criar Conta</a>
