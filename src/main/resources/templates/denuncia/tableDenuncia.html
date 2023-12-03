@@ -51,13 +51,23 @@
                         </div>
                         <div class="col-md-auto">
                             <div th:if="${denuncia.precisaIniciar()}">
-                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
-                                      data-bs-trigger="hover focus" data-bs-content="Iniciar Análise">
+                                <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                          data-bs-trigger="hover focus" data-bs-content="Iniciar Análise">
+                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}"
+                                           type="submit" class="btn btn-outline-success me-2 sem-borda">
+                                            <i class="bi bi-play-fill"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                          data-bs-trigger="hover focus" data-bs-content="Adicione um comentário">
                                     <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}"
                                        type="submit" class="btn btn-outline-success me-2 sem-borda">
-                                        <i class="bi bi-play-fill"></i>
-                                    </a>
+                                        <i class="bi bi-chat-dots"></i></a>
                                 </span>
+                                </div>
                             </div>
                             <div th:unless="${denuncia.precisaIniciar()}">
                                 <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"

@@ -76,7 +76,7 @@ public class DenunciaController {
 
     @PostMapping("/registro/salvar")
     public ModelAndView realizarRegistro(RegistroDenunciaJSON json){
-        registros.salvarAlteracoes(json);
+        registros.persistirAlteracoes(json);
         ModelAndView model = view.novaView("redirect:/denuncia/"+json.denunciaId()+"/verRegistros");
         return model;
     }
@@ -119,6 +119,12 @@ public class DenunciaController {
     @PostMapping("/registro/adicionarComentario/rejeitar")
     public String rejeitarDenuncia(RegistroDenunciaJSON json){
         registros.rejeitarDenuncia(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/encerrar")
+    public String encerrarDenuncia(RegistroDenunciaJSON json){
+        registros.encerradaPeloUsuario(json);
         return "redirect:/denuncia";
     }
 

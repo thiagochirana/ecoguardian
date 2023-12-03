@@ -34,6 +34,13 @@ public class ViewBase {
         return modelAndView;
     }
 
+    public ModelAndView mensagemDeErro(Exception e, int codigoErro){
+        ModelAndView model = new ModelAndView("errors/showError");
+        model.addObject("mensagemDeErro", e.getMessage());
+        model.addObject("codigo", codigoErro);
+        return model;
+    }
+
     public ModelAndView retornoRequestOrigem(HttpServletRequest request, Map<String, Object> atributos){
         ModelAndView modelAndView = new ModelAndView();
         if (atributos != null) {

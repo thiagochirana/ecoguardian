@@ -37,7 +37,7 @@ public class RegistroDenunciaService {
         registro.setQuemAtualizou(usuarios.obterPeloId(1L));
         registro.setTitulo("Abertura de Registro da Denuncia n. "+denuncia.getId());
         registro.setDescricao("Abertura de nova denúncia realizadas às "+denuncia.dataHoraDeAbertura()+" pelo usuário "+denuncia.getDenunciante().getNome());
-        return this.salvarAlteracoes(registro);
+        return this.persistirAlteracoes(registro);
     }
 
     public RegistroDenuncia salvarComentarioAguardandoAnalise(RegistroDenunciaJSON json){
@@ -48,7 +48,7 @@ public class RegistroDenunciaService {
                 json.idUsuario(),
                 StatusDenuncia.AGUARDANDO_ANALISE
         );
-        return salvarAlteracoes(rdjson);
+        return persistirAlteracoes(rdjson);
     }
 
     public RegistroDenuncia iniciarAnalise(RegistroDenunciaJSON json){
@@ -59,7 +59,7 @@ public class RegistroDenunciaService {
                 json.idUsuario(),
                 StatusDenuncia.ANALISE_INICIADA
         );
-        return salvarAlteracoes(rdjson);
+        return persistirAlteracoes(rdjson);
     }
 
     public RegistroDenuncia analiseResolvida(RegistroDenunciaJSON json){
@@ -70,7 +70,7 @@ public class RegistroDenunciaService {
                 json.idUsuario(),
                 StatusDenuncia.RESOLVIDA
         );
-        return salvarAlteracoes(rdjson);
+        return persistirAlteracoes(rdjson);
     }
 
     public RegistroDenuncia rejeitarDenuncia(RegistroDenunciaJSON json){
@@ -81,7 +81,7 @@ public class RegistroDenunciaService {
                 json.idUsuario(),
                 StatusDenuncia.REJEITADA
         );
-        return salvarAlteracoes(rdjson);
+        return persistirAlteracoes(rdjson);
     }
 
 
@@ -93,10 +93,23 @@ public class RegistroDenunciaService {
                 json.idUsuario(),
                 StatusDenuncia.EM_ANALISE
         );
-        return salvarAlteracoes(rdjson);
+        return persistirAlteracoes(rdjson);
     }
 
-    public RegistroDenuncia salvarAlteracoes(RegistroDenunciaJSON json){
+    public RegistroDenuncia encerradaPeloUsuario(RegistroDenunciaJSON json){
+        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
+                json.denunciaId(),
+                json.titulo(),
+                json.descricao(),
+                json.idUsuario(),
+                StatusDenuncia.ENCERRADA_PELO_DENUNCIANTE
+        );
+        return persistirAlteracoes(rdjson);
+    }
+
+
+
+    public RegistroDenuncia persistirAlteracoes(RegistroDenunciaJSON json){
         Usuario usuario = usuarios.obterPeloId(json.idUsuario());
         Denuncia denuncia = denuncias.findById(json.denunciaId()).orElseGet(Denuncia::new);
         RegistroDenuncia registro = new RegistroDenuncia(json, usuario, denuncia);
@@ -106,44 +119,35 @@ public class RegistroDenunciaService {
         if (registro.getStatusAtual() == StatusDenuncia.ANALISE_INICIADA){
             return startAnalise(registro);
         }
-//        if (!usuario.isAdminOuAnalista() || !usuario.temAcessoTotal()){
-//            StatusDenuncia status;
-//            if (jaEstaEmAnalise(denuncia) && json.statusDenuncia() != StatusDenuncia.ANALISE_INICIADA && json.statusDenuncia() != StatusDenuncia.EM_ANALISE){
-//                status = StatusDenuncia.EM_ANALISE;
-//                registro.setStatusAtual(status);
-//            } else {
-//                status = StatusDenuncia.AGUARDANDO_ANALISE;
-//                registro.setStatusAtual(status);
-//                denuncia.setStatusDenuncia(status);
-//            }
-//        }
-        return salvarAlteracoes(registro);
+        if (registro.getStatusAtual() == StatusDenuncia.ENCERRADA_PELO_DENUNCIANTE){
+            return encerrar(registro);
+        }
+        return persistirAlteracoes(registro);
     }
 
     public RegistroDenuncia startAnalise(RegistroDenuncia registro){
         registro.setTitulo("Análise a denúncia iniciada");
         registro.setQuemAtualizou(sessao.getUsuarioLogado());
         registro.setDescricao("Start da análise às "+registro.dataHoraRegistroFormatada()+" e que será realizada inicialmente pelo analista "+registro.getQuemAtualizou().getNome());
-        return salvarAlteracoes(registro);
+        return persistirAlteracoes(registro);
     }
 
     public RegistroDenuncia encerrar(RegistroDenuncia registro){
-        RegistroDenuncia reg = salvarAlteracoes(registro);
+        RegistroDenuncia reg = persistirAlteracoes(registro);
         RegistroDenuncia novoReg = new RegistroDenuncia();
         novoReg.setStatusAtual(StatusDenuncia.FECHADA);
         novoReg.setTitulo("Denúncia protocolo "+reg.getDenuncia().getProtocolo()+" Encerrada");
         novoReg.setDescricao("Denúncia "+reg.getStatusAtual().getNome()+" às "+reg.dataHoraRegistroFormatada()+" pelo usuario "+sessao.getUsuarioLogado().getNome());
         novoReg.setDenuncia(reg.getDenuncia());
         novoReg.setQuemAtualizou(sessao.getUsuarioLogado());
-        return salvarAlteracoes(novoReg);
+        return persistirAlteracoes(novoReg);
     }
 
     @Transactional
-    public RegistroDenuncia salvarAlteracoes(RegistroDenuncia registro){
+    public RegistroDenuncia persistirAlteracoes(RegistroDenuncia registro){
         registro.setDataHoraRegistro(Datas.agora());
         registro.getDenuncia().setStatusDenuncia(registro.getStatusAtual());
         denuncias.save(registro.getDenuncia());
-//        sessao.limparDetachedUsuarioLogado();
         return registros.save(registro);
     }
 
@@ -155,14 +159,5 @@ public class RegistroDenunciaService {
         Usuario analista = sessao.getUsuarioLogado();
         Set<RegistroDenuncia> listaRegistros = registros.atualizadasPeloAnalista(analista).orElseGet(HashSet::new);
         return listaRegistros.stream().toList();
-    }
-
-    private boolean jaEstaEmAnalise(Denuncia denuncia){
-        for (RegistroDenuncia r : listarDaDenuncia(denuncia)){
-            if (r.getStatusAtual() != StatusDenuncia.ABERTA && r.getStatusAtual() != StatusDenuncia.AGUARDANDO_ANALISE){
-                return true;
-            }
-        }
-        return false;
     }
 }
