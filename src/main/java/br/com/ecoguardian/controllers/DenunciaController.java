@@ -98,11 +98,34 @@ public class DenunciaController {
         return model;
     }
 
+    @PostMapping("/registro/adicionarComentario/aguardandoAnalise")
+    public String salvarComentarioAguardandoAnalise(RegistroDenunciaJSON json){
+        registros.salvarComentarioAguardandoAnalise(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/iniciarAnalise")
+    public String iniciarAnalise(RegistroDenunciaJSON json){
+        registros.iniciarAnalise(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/resolvida")
+    public String encerrarAnalise(RegistroDenunciaJSON json){
+        registros.analiseResolvida(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/rejeitar")
+    public String rejeitarDenuncia(RegistroDenunciaJSON json){
+        registros.rejeitarDenuncia(json);
+        return "redirect:/denuncia";
+    }
+
     @PostMapping("/registro/adicionarComentario/salvar")
-    public ModelAndView salvarComentarioEmDenuncia(RegistroDenunciaJSON json){
-        registros.salvarAlteracoes(json);
-        ModelAndView model = view.novaView("redirect:/denuncia");
-        return model;
+    public String salvarComentarioEmDenuncia(RegistroDenunciaJSON json){
+        registros.adicionarComentarioJaIniciado(json);
+        return "redirect:/denuncia";
     }
 
     @PostMapping("/{id}/registro/")

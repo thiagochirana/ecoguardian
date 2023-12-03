@@ -31,6 +31,8 @@ public class Denuncia {
 
     private Date dataAbertura;
 
+    private Date dataOcorrencia;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Localizacao localizacao;
 
@@ -39,7 +41,7 @@ public class Denuncia {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Usuario denunciante;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -80,6 +82,7 @@ public class Denuncia {
         this.outrasInformacoes = json.outrasInformacoes();
         this.provavelAutorNome = json.provavelAutorNome();
         this.provavelAutorDescricao = json.provavelAutorDescricao();
+        this.dataOcorrencia = Datas.emStringParaDate(json.dataOcorrencia());
         this.statusDenuncia = StatusDenuncia.ABERTA;
     }
 
@@ -95,5 +98,9 @@ public class Denuncia {
     @Transactional
     public List<Arquivo> getImagens(){
         return this.imagens;
+    }
+
+    public boolean precisaIniciar(){
+        return this.statusDenuncia == StatusDenuncia.ABERTA || this.statusDenuncia == StatusDenuncia.AGUARDANDO_ANALISE;
     }
 }

@@ -1,28 +1,23 @@
-
-
 <div th:fragment="table-denuncia(listaDenuncia)">
     <div th:if="${listaDenuncia}">
         <table class="table table-striped">
             <caption></caption>
             <thead>
-                <tr>
-                    <th scope="col">Protocolo</th>
-                    <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                        <th scope="col">Usuário</th>
-                    </div>
-                    <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                        <th scope="col">Foi anônimo?</th>
-                    </div>
-                    <th scope="col">Título</th>
-                    <th scope="col">Municipio</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Abertura</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" class="text-start">Ações</th>
-                </tr>
+            <tr>
+                <th scope="col">Protocolo</th>
+                <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                    <th scope="col">Usuário</th>
+                </div>
+                <th scope="col">Título</th>
+                <th scope="col">Municipio</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Abertura</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-start">Ações</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="denuncia : ${listaDenuncia}">
+            <tr th:each="denuncia : ${listaDenuncia}">
                 <td th:text="${denuncia.protocolo}"></td>
 
                 <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
@@ -33,14 +28,6 @@
                         <td th:text="${denuncia.denunciante.getNome()}"></td>
                     </div>
                 </div>
-                <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                    <div th:if="${denuncia.sigilo}">
-                        <td>Sim</td>
-                    </div>
-                    <div th:unless="${denuncia.sigilo}">
-                        <td>Não</td>
-                    </div>
-                </div>
                 <td th:text="${denuncia.titulo}"></td>
                 <td th:text="${denuncia.localizacao.municipio.nome}"></td>
                 <td th:text="${denuncia.localizacao.municipio.estado.getNome()}"></td>
@@ -49,19 +36,37 @@
                 <td>
                     <div class="d-flex">
                         <div class="col-md-auto">
-                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Visualizar Denúncia">
-                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-eye"></i></a>
-                                    </span>
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                  data-bs-trigger="hover focus" data-bs-content="Visualizar Denúncia">
+                                <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit"
+                                   class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-eye"></i></a>
+                            </span>
                         </div>
                         <div class="col-md-auto">
-                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Visualizar registros">
-                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-search"></i></a>
-                                    </span>
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                  data-bs-trigger="hover focus" data-bs-content="Visualizar registros">
+                                <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit"
+                                   class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-search"></i></a>
+                            </span>
                         </div>
                         <div class="col-md-auto">
-                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Adicione um comentário">
-                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-chat-dots"></i></a>
-                                    </span>
+                            <div th:if="${denuncia.precisaIniciar()}">
+                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                      data-bs-trigger="hover focus" data-bs-content="Iniciar Análise">
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}"
+                                       type="submit" class="btn btn-outline-success me-2 sem-borda">
+                                        <i class="bi bi-play-fill"></i>
+                                    </a>
+                                </span>
+                            </div>
+                            <div th:unless="${denuncia.precisaIniciar()}">
+                                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover"
+                                      data-bs-trigger="hover focus" data-bs-content="Adicione um comentário">
+                                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}"
+                                       type="submit" class="btn btn-outline-success me-2 sem-borda">
+                                        <i class="bi bi-chat-dots"></i></a>
+                                </span>
+                            </div>
                         </div>
 
                     </div>

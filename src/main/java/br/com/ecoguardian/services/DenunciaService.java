@@ -137,7 +137,7 @@ public class DenunciaService {
     public List<Denuncia> todasEmAnaliseDoAnalista(){
         Set<Denuncia> den = new HashSet<>();
         for (RegistroDenuncia rd : registroDenunciaService.todasAtualizadasPeloAnalista()){
-            if (rd.getDenuncia().getStatusDenuncia() == StatusDenuncia.EM_ANALISE){
+            if (rd.getDenuncia().getStatusDenuncia() == StatusDenuncia.EM_ANALISE || rd.getDenuncia().getStatusDenuncia() == StatusDenuncia.ANALISE_INICIADA ){
                 den.add(rd.getDenuncia());
             }
         }

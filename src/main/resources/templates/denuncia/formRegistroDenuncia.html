@@ -20,14 +20,27 @@
             </div>
             <input type="hidden" th:value="${usuarioLogado.id}" name="idUsuario">
             <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                <div class="mb-3">
-                    <label for="statusRegistro" class="form-label">Descricão atual:</label>
-                    <select id="statusRegistro" class="form-select" name="statusDenuncia">
-                        <option th:each="status : ${statusDenuncia}" th:value="${status}" th:text="${status.getNome()}"></option>
-                    </select>
+                <div th:if="${denuncia.precisaIniciar()}">
+                    <div class="mb-3">
+                        <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/aguardandoAnalise', this.form)">Adicionar Comentário</button>
+                        <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/iniciarAnalise', this.form)">Iniciar Analise</button>
+                    </div>
+                </div>
+                <div th:unless="${denuncia.precisaIniciar()}">
+                    <div class="mb-3">
+                        <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/salvar', this.form)">Adicionar Comentário</button>
+                        <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/rejeitar', this.form)">Rejeitar</button>
+                        <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/resolvida', this.form)">Resolvida</button>
+                    </div>
                 </div>
             </div>
-            <button class="salvar-btn btn btn-success">Atualizar Denuncia</button>
+            <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                <div class="mb-3">
+                    <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/salvar', this.form)">Adicionar Comentário</button>
+                    <button class="salvar-btn btn btn-success" onclick="submitFormEmEndpoint('/denuncia/registro/adicionarComentario/encerrar', this.form)">Encerrar Denúncia</button>
+                </div>
+            </div>
+
         </form>
     </div>
 </div>

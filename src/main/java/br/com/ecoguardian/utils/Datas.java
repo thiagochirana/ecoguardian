@@ -1,5 +1,6 @@
 package br.com.ecoguardian.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,5 +22,14 @@ public class Datas {
 
     public static int getAnoAtual(){
         return agora().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear();
+    }
+
+    public static Date emStringParaDate(String data){
+        try {
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            return formato.parse(data);
+        } catch (ParseException e){
+            return agora();
+        }
     }
 }
