@@ -5,10 +5,12 @@
 <div th:replace="~{base/head-page :: menu-lateral}"></div>
 <div th:replace="~{base/head-page :: topo-pagina}"></div>
 <div th:replace="~{base/mensagem :: notificacao}"></div>
-    <div>
-        <div th:replace="~{base/head-page :: menu-lateral}"></div>
+    <div class="body-geral">
+
+        <h4 class="titulo-pagina">Usuários</h4>
+        <hr>
+
         <div class="container mt-4">
-            <h4>Usuários</h4>
             <table class="table table-striped">
                 <thead class="table">
                 <tr>
@@ -57,6 +59,10 @@
                 </tr>
                 </tbody>
             </table>
+
+            <br>
+            <h5>Criar novo usuário</h5>
+            <hr>
 
             <form action="/backOffice/novoUsuario" method="post" class="mt-4 mb-5">
                 <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>

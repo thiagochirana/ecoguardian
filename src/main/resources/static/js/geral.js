@@ -40,9 +40,11 @@ function validarEmailOnExit(input) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formattedEmail) && formattedEmail.length > 0) {
-        alert('Por favor, digite um e-mail válido.');
+        const modal = new bootstrap.Modal(document.getElementById('emailInvalidoModal'));
+        modal.show();
     }
 }
+
 
 function formatarTelefone(input) {
     var telefone = input.value.replace(/\D/g, '');
@@ -344,4 +346,23 @@ function habilitarBotaoCadastrar() {
         botaoCadastrar.disabled = true; // Desabilita o botão
     }
 }
+// Para o campo de senha
+function toggleMostrarSenha(inputId) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
+
+document.getElementById('mostrarSenha').addEventListener('click', function() {
+    toggleMostrarSenha('senha');
+});
+
+document.getElementById('mostrarConfirmarSenha').addEventListener('click', function() {
+    toggleMostrarSenha('confirmarSenha');
+});
+
+
 

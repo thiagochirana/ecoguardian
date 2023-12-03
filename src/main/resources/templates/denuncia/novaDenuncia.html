@@ -9,10 +9,10 @@
     <div th:replace="~{base/mensagem :: notificacao}"></div>
 
     <div class = "body-geral">
-        <h4 style="padding-bottom: 25px">Nova Denúncia</h4>
+        <h3 style="padding-bottom: 25px">Nova Denúncia</h3>
         <form action="/denuncia/novo" method="post" enctype="multipart/form-data">
 
-            <div class="mb-3 row d-flex align-items-stretch">
+            <div class="mb-3 row d-flex align-items-center"> <!-- Modifique align-items-stretch para align-items-center -->
                 <div class="col-md-auto">
                     <label for="sigilo" class="form-label obrigatorio">Sigilo:</label>
                     <select id="sigilo" class="form-select" name="sigilo">
@@ -21,15 +21,18 @@
                     </select>
                 </div>
                 <div class="col-md-auto">
-                    <div class="mensagem-fixa">
+                    <div class="mensagem-fixa" style="display: flex; align-items: center;"> <!-- Adiciona estilo para alinhar verticalmente -->
                         <i class="bi bi-info-circle"></i>
-                        <span>Se marcado com "Sim" denúncia será anônima e você não irá acompanhar o progresso da mesma</span>
+                        <span style="margin-left: 5px;">Se marcado com "Sim" denúncia será anônima e você não irá acompanhar o progresso da mesma</span>
                     </div>
                 </div>
             </div>
 
+
             <fieldset>
+                <hr>
                 <h5>Endereço da ocorrência</h5>
+                <hr>
                 <div th:fragment="form-denuncia-dados-endereco">
                     <div class="mb-3 row">
                         <div class="col-sm-8">
@@ -44,15 +47,17 @@
                             <label for="cep-den" class="form-label">CEP:</label>
                             <input type="text" class="form-control" id="cep-den" name="CEP"/>
                         </div>
-                        <div class="col-sm-4">
+                    </div>
+
+                    <div class="mb-3 row">
+                        <div class="col-sm-6">
                             <label for="bairro-den" class="form-label obrigatorio">Bairro:</label>
                             <input type="text" class="form-control" id="bairro-den" name="bairro" oninput="formatarEndereco(this)" placeholder="Somente o nome do bairro"/>
                         </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
-                        <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia" oninput="formatarEndereco(this)" placeholder="ao lado, em frente, atrás, etc..."/>
+                        <div class="col-sm-6">
+                            <label for="pontoDeReferencia-den" class="form-label obrigatorio">Ponto de Referencia:</label>
+                            <input type="text" class="form-control" id="pontoDeReferencia-den" name="pontoDeReferencia" oninput="formatarEndereco(this)" placeholder="ao lado, em frente, atrás, etc..."/>
+                        </div>
                     </div>
 
                     <div class="mb-3 row">
@@ -78,13 +83,19 @@
             <div class="mb-3 row" th:fragment="form-denuncia-lat-long">
                 <div class="col-md-auto">
                     <label for="latitude" class="form-label">Latitude:</label>
-                    <input type="text" class="form-control" id="latitude" name="latitude"/>
+                    <input type="text" class="form-control" id="latitude" name="latitude" readonly/>
                 </div>
                 <div class="col-md-auto">
                     <label for="longitude" class="form-label">Longitude:</label>
-                    <input type="text" class="form-control" id="longitude" name="longitude"/>
+                    <input type="text" class="form-control" id="longitude" name="longitude" readonly/>
                 </div>
-                <span class="legenda">Obtenha as coordenadas automaticamente ao preencher o endereço corretamente acima</span>
+                <span class="legenda">Coordenadas serão preenchidas automaticamente ao preencher o endereço corretamente acima</span>
+            </div>
+
+            <div th:fragment="denuncia-info">
+                <hr>
+                <h5>Informações sobre a denúncia</h5>
+                <hr>
             </div>
 
             <div th:fragment="form-denuncia-descricao">
@@ -121,14 +132,15 @@
 
             <input type="hidden" th:value="${usuarioLogado.id}" name="denuncianteId">
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input th:value="${usuarioLogado.email}" type="text" class="form-control" id="email" name="email"/>
-            </div>
-
-            <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone:</label>
-                <input th:value="${usuarioLogado.telefone}" type="text" class="form-control" id="telefone" name="telefone"/>
+            <div class="mb-3 row">
+                <div class="col-sm-6">
+                    <label for="email" class="form-label hide-info">Email:</label>
+                    <input th:value="${usuarioLogado.email}" type="text" class="form-control hide-info" id="email" name="email" readonly/>
+                </div>
+                <div class="col-sm-6">
+                    <label for="telefone" class="form-label hide-info">Telefone:</label>
+                    <input th:value="${usuarioLogado.telefone}" type="text" class="form-control hide-info" id="telefone" name="telefone" readonly/>
+                </div>
             </div>
 
             <div th:fragment="form-denuncia-provavel-autor-dados">
