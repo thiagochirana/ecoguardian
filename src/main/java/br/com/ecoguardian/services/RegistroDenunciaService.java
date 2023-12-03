@@ -41,70 +41,28 @@ public class RegistroDenunciaService {
     }
 
     public RegistroDenuncia salvarComentarioAguardandoAnalise(RegistroDenunciaJSON json){
-        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
-                json.denunciaId(),
-                json.titulo(),
-                json.descricao(),
-                json.idUsuario(),
-                StatusDenuncia.AGUARDANDO_ANALISE
-        );
-        return persistirAlteracoes(rdjson);
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.AGUARDANDO_ANALISE));
     }
 
     public RegistroDenuncia iniciarAnalise(RegistroDenunciaJSON json){
-        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
-                json.denunciaId(),
-                json.titulo(),
-                json.descricao(),
-                json.idUsuario(),
-                StatusDenuncia.ANALISE_INICIADA
-        );
-        return persistirAlteracoes(rdjson);
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.ANALISE_INICIADA));
     }
 
     public RegistroDenuncia analiseResolvida(RegistroDenunciaJSON json){
-        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
-                json.denunciaId(),
-                json.titulo(),
-                json.descricao(),
-                json.idUsuario(),
-                StatusDenuncia.RESOLVIDA
-        );
-        return persistirAlteracoes(rdjson);
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.RESOLVIDA));
     }
 
     public RegistroDenuncia rejeitarDenuncia(RegistroDenunciaJSON json){
-        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
-                json.denunciaId(),
-                json.titulo(),
-                json.descricao(),
-                json.idUsuario(),
-                StatusDenuncia.REJEITADA
-        );
-        return persistirAlteracoes(rdjson);
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.REJEITADA));
     }
 
 
     public RegistroDenuncia adicionarComentarioJaIniciado(RegistroDenunciaJSON json){
-        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
-                json.denunciaId(),
-                json.titulo(),
-                json.descricao(),
-                json.idUsuario(),
-                StatusDenuncia.EM_ANALISE
-        );
-        return persistirAlteracoes(rdjson);
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.EM_ANALISE));
     }
 
     public RegistroDenuncia encerradaPeloUsuario(RegistroDenunciaJSON json){
-        RegistroDenunciaJSON rdjson = new RegistroDenunciaJSON(
-                json.denunciaId(),
-                json.titulo(),
-                json.descricao(),
-                json.idUsuario(),
-                StatusDenuncia.ENCERRADA_PELO_DENUNCIANTE
-        );
-        return persistirAlteracoes(rdjson);
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.ENCERRADA_PELO_DENUNCIANTE));
     }
 
 
@@ -159,5 +117,15 @@ public class RegistroDenunciaService {
         Usuario analista = sessao.getUsuarioLogado();
         Set<RegistroDenuncia> listaRegistros = registros.atualizadasPeloAnalista(analista).orElseGet(HashSet::new);
         return listaRegistros.stream().toList();
+    }
+
+    private RegistroDenunciaJSON alterarStatus(RegistroDenunciaJSON json, StatusDenuncia statusNovo){
+        return new RegistroDenunciaJSON(
+                json.denunciaId(),
+                json.titulo(),
+                json.descricao(),
+                json.idUsuario(),
+                statusNovo
+        );
     }
 }

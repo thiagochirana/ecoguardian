@@ -2,15 +2,15 @@ package br.com.ecoguardian.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class Datas {
 
     public static Date agora(){
-        LocalDateTime dataHoraAtual = LocalDateTime.now();
+        LocalDateTime dataHoraAtual = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
         ZoneId zonaDefault = ZoneId.systemDefault();
         return Date.from(dataHoraAtual.atZone(zonaDefault).toInstant());
     }

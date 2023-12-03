@@ -3,6 +3,7 @@ package br.com.ecoguardian.controllers;
 import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.enums.Estado;
+import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.MensagemView;
 import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
@@ -165,5 +166,27 @@ public class DenunciaController {
         return "redirect:/login";
     }
 
+    /**
+     * @Requisito Filtragens de Denúncias
+     * @Params No do Protocolo
+     * @Params Município
+     * @Params Categoria do Crime Ambiental
+     * @Params Data da ocorrência
+     * @Params Data do Cadastro da Denúncia
+     * @Params Status da Denúncia.
+     * */
 
+    @GetMapping("/filtrar")
+    @ResponseBody
+    public ResponseEntity<List<Denuncia>> filtroDeDenuncias(
+            @RequestParam(name = "protocolo", required = false) String protocolo,
+            @RequestParam(name = "municipioId", required = false) Long municipioId,
+            @RequestParam(name = "categoriaId", required = false) Long categoriaId,
+            @RequestParam(name = "dataOcorrencia", required = false) String dataOcorrencia,
+            @RequestParam(name = "dataCadastro", required = false) String dataCadastro,
+            @RequestParam(name = "status", required = false) StatusDenuncia status
+    ) {
+        // Aqui você pode usar os parâmetros para filtrar suas denúncias
+        return denuncias.obterListaDeAcordoComFiltro(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, status);
+    }
 }

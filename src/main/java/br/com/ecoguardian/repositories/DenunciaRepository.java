@@ -1,5 +1,6 @@
 package br.com.ecoguardian.repositories;
 
+import br.com.ecoguardian.models.Categoria;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.Municipio;
 import br.com.ecoguardian.models.Usuario;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -43,4 +45,14 @@ public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
 
     @Query("FROM Denuncia d WHERE d.localizacao in (FROM Localizacao l WHERE l.municipio = :municipio)")
     Optional<List<Denuncia>> doMunicipio(Municipio municipio);
+
+    Optional<Denuncia> findByProtocolo(String protocolo);
+
+    Optional<List<Denuncia>> findByCategoria(Categoria categoria);
+
+    Optional<List<Denuncia>> findByDataAbertura(Date dataAbertura);
+
+    Optional<List<Denuncia>> findByDataOcorrencia(Date dataOcorrencia);
+
+    Optional<List<Denuncia>> findByStatusDenuncia(StatusDenuncia statusDenuncia);
 }

@@ -9,6 +9,7 @@ import br.com.ecoguardian.utils.Datas;
 import br.com.ecoguardian.utils.Log;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -103,9 +104,12 @@ public class DenunciaService {
         return lista.orElseGet(ArrayList::new);
     }
 
-    public List<Denuncia> doMunicipio(Municipio municipio){
-        Optional<List<Denuncia>> lista = denuncias.doMunicipio(municipio);
-        return lista.orElseGet(ArrayList::new);
+    public Optional<List<Denuncia>> doMunicipio(Municipio municipio){
+        return denuncias.doMunicipio(municipio);
+    }
+
+    public List<Denuncia> daCategoria(Categoria categoria){
+        return denuncias.findByCategoria(categoria).orElseGet(ArrayList::new);
     }
 
     public List<Denuncia> doUsuario(Usuario usuario){
@@ -127,6 +131,87 @@ public class DenunciaService {
             LOG.warn("Usuario Logado está nulo", nulo);
             return new ArrayList<>();
         }
+    }
+
+    public ResponseEntity<List<Denuncia>> obterListaDeAcordoComFiltro(String protocolo,
+                                                                      Long municipioId,
+                                                                      Long categoriaId,
+                                                                      String dataOcorrencia,
+                                                                      String dataCadastro,
+                                                                      StatusDenuncia status){
+        Set<Denuncia> listaDenunciaFiltradas = new HashSet<>();
+        if (protocolo != null && !protocolo.trim().isEmpty() && !protocolo.trim().isBlank()){
+            Optional<Denuncia> optionalDenuncia = denuncias.findByProtocolo(protocolo);
+            optionalDenuncia.ifPresent(listaDenunciaFiltradas::add); //se tem algo ele adiciona
+
+            // o return aqui já é imediato, porque protocolo é chave única
+            return respostaLista(listaDenunciaFiltradas);
+        }
+
+        if (municipioId != null && municipioId > 0){
+            Optional<Municipio> munOpt = municipioService.obterPeloId(municipioId);
+            listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, doMunicipio(munOpt.get()));
+        }
+
+        if (categoriaId != null && categoriaId > 0){
+            Categoria categoria = categoriaService.doId(categoriaId);
+            if (categoria.getId() != null){
+                Optional<List<Denuncia>> lista = denuncias.findByCategoria(categoria);
+                listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, lista);
+            }
+        }
+
+        if (dataOcorrencia != null && !dataCadastro.trim().isEmpty() && !dataCadastro.trim().isBlank()){
+            Date data = Datas.emStringParaDate(dataOcorrencia);
+            Optional<List<Denuncia>> listaPorData = denuncias.findByDataOcorrencia(data);
+            listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, listaPorData);
+        }
+
+        if (dataCadastro != null && !dataCadastro.trim().isEmpty() && !dataCadastro.trim().isBlank()){
+            Date data = Datas.emStringParaDate(dataCadastro);
+            Optional<List<Denuncia>> listaPorData = denuncias.findByDataAbertura(data);
+            listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, listaPorData);
+        }
+
+        if (status != null){
+            Optional<List<Denuncia>> listaPorStatus = denuncias.findByStatusDenuncia(status);
+            listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, listaPorStatus);
+        }
+
+        return respostaLista(listaDenunciaFiltradas);
+    }
+
+    private ResponseEntity<List<Denuncia>> respostaLista(Set<Denuncia> listaDenunciaFiltradas){
+        if (!listaDenunciaFiltradas.isEmpty()) {
+            return ResponseEntity.ok(listaDenunciaFiltradas.stream().toList());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Função que serve para apenas para filtrar se o que tem na lista obtida contém na lista principal
+     * Se tiver em ambas, então ele popula listaAux, filtrando ainda mais a lista
+     * No final, ele retorna apenas aquelas que estão nas duas listas, o listaAux, realizando a filtragem
+     */
+    private Set<Denuncia> realizarFiltragem(Set<Denuncia> denunciasPreSalvas, Optional<List<Denuncia>> denunciasObtidas){
+        Set<Denuncia> listaAux = new HashSet<>();
+        if (!denunciasPreSalvas.isEmpty()){
+            if (denunciasObtidas.isPresent()){
+                for(Denuncia d : denunciasPreSalvas){
+                    for (Denuncia d1 : denunciasObtidas.get()) {
+                        if (d1.equals(d)){
+                            listaAux.add(d);
+                        }
+                    }
+                }
+            } else {
+                denunciasObtidas.ifPresent(listaAux::addAll);
+            }
+        } else {
+            denunciasObtidas.ifPresent(listaAux::addAll);
+        }
+        return listaAux;
     }
 
     public List<Denuncia> todasAbertasDoUsuarioLogado(){
