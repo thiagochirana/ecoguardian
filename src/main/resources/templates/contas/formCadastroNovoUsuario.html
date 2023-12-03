@@ -9,6 +9,21 @@
             <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this); habilitarBotaoCadastrar()"/>
         </div>
     </div>
+<!--  Modal do e-mail válido  -->
+    <div class="modal" id="emailInvalidoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-danger bg-danger text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title">Atenção</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Por favor, digite um e-mail válido.
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    -->
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="email" class="form-label">Email:</label>
@@ -22,14 +37,25 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="senha" class="form-label">Senha:</label>
-            <input type="password" class="form-control" id="senha" name="senha" oninput="validarSenha(); habilitarBotaoCadastrar()"/>
+            <div class="input-group">
+                <input type="password" class="form-control" id="senha" name="senha" oninput="validarSenha(); habilitarBotaoCadastrar()"/>
+                <button class="btn btn-outline-secondary" type="button" id="mostrarSenha" onclick="toggleMostrarSenha('senha');">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
         </div>
         <div class="col-md-6">
             <label for="confirmarSenha" class="form-label">Confirmar Senha:</label>
-            <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" oninput="validarSenha(); habilitarBotaoCadastrar()"/>
+            <div class="input-group">
+                <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" oninput="validarSenha(); habilitarBotaoCadastrar()"/>
+                <button class="btn btn-outline-secondary" type="button" id="mostrarConfirmarSenha" onclick="toggleMostrarSenha('confirmarSenha');">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
             <div id="msgErroSenha" class="text-danger"></div>
         </div>
     </div>
+
     <div th:if="${usuarioLogado}">
         <div class="row">
             <div class="col-md-6">
