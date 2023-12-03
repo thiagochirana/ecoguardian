@@ -47,6 +47,7 @@
     container: fluid text-center;
     width: 100%;
     text-align: center;
+    overflow-x: hidden;
 }
 
 .box {
