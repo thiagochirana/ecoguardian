@@ -12,6 +12,65 @@ function formatarCPF(input) {
     input.value = cpf;
 }
 
+//Para o CPF que é carregado na página, o de cima é para input
+document.addEventListener('DOMContentLoaded', function() {
+    // Função para formatar o CPF
+    function formatarCPFPagina() {
+        const cpfInput = document.querySelector('.cpf');
+        if (cpfInput) {
+            const cpfValue = cpfInput.value;
+            // Lógica para formatar o CPF
+            // Exemplo: 12345678900 -> 123.456.789-00
+            // Adapte essa lógica de acordo com a sua necessidade
+            cpfInput.value = cpfValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        }
+    }
+
+    // Chamada da função para formatar o CPF
+    formatarCPFPagina();
+});
+
+function validarEmailOnExit(input) {
+    const email = input.value;
+    const formattedEmail = email.replace(/[^a-zA-Z0-9@._%+-]/g, '');
+
+    if (formattedEmail !== email) {
+        input.value = formattedEmail;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formattedEmail) && formattedEmail.length > 0) {
+        const modal = new bootstrap.Modal(document.getElementById('emailInvalidoModal'));
+        modal.show();
+    }
+}
+
+
+function formatarTelefone(input) {
+    var telefone = input.value.replace(/\D/g, '');
+
+    if (telefone.length > 11) {
+        telefone = telefone.slice(0, 11);
+    }
+
+    if (telefone.length > 0) {
+        telefone = telefone.replace(/^(\d{2})/, '($1');
+    }
+    if (telefone.length > 2) {
+        telefone = telefone.replace(/^(\(\d{2})(\d{5})/, '$1) $2');
+    }
+    if (telefone.length > 7) {
+        telefone = telefone.replace(/^(\(\d{2}\)\s\d{5})(\d{4})/, '$1-$2');
+    }
+
+    input.value = telefone;
+}
+
+
+
+
+
+
 function formatarEndereco(inputEndereco){
         inputEndereco.value = inputEndereco.value.replace(/,\s*([^,\s])|,/g, (match, group1) => {
         return group1 ? ', ' + group1 : ',';
@@ -247,3 +306,88 @@ function selecionarNomeEstado(){
 // ============================================
 // FIM --- OBTER LATITUDE E LONGITUDE
 // ============================================
+
+//Validação dos campos na tela de criar conta (desativar botão)
+function verificarCampos() {
+    const nome = document.getElementById('nome').value;
+    const cpf = document.getElementById('cpf').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+    const telefone = document.getElementById('telefone').value;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const telefoneRegex = /\(\d{2}\)\s\d{5}-\d{4}/;
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+
+    const camposPreenchidos = nome && cpf && email && senha && confirmarSenha && telefone;
+    const emailValido = emailRegex.test(email);
+    const telefoneValido = telefoneRegex.test(telefone);
+    const cpfValido = cpfRegex.test(cpf);
+    const senhasCoincidem = senha === confirmarSenha;
+
+    return camposPreenchidos && emailValido && telefoneValido && cpfValido && senhasCoincidem;
+}
+
+
+//Usa a função de cima para com o retorno dos campos válidos
+function habilitarBotaoCadastrar() {
+    const botaoCadastrar = document.querySelector('.btn-success'); // Seletor do botão "Cadastrar"
+    const camposValidos = verificarCampos();
+    if (camposValidos) {
+        botaoCadastrar.disabled = false; // Habilita o botão
+    } else {
+        botaoCadastrar.disabled = true; // Desabilita o botão
+    }
+}
+
+function validarSenha() {
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmarSenha').value;
+    const msgErroSenha = document.getElementById('msgErroSenha');
+    const btnCadastrar = document.getElementById('btnCadastrar');
+    const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (senha !== confirmarSenha || senha === '' || confirmarSenha === '') {
+        msgErroSenha.textContent = 'As senhas não coincidem ou estão vazias.';
+        btnCadastrar.disabled = true;
+    } else if (!regexSenha.test(senha)) {
+        msgErroSenha.textContent = 'A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial.';
+        btnCadastrar.disabled = true;
+    } else {
+        msgErroSenha.textContent = '';
+        btnCadastrar.disabled = false;
+    }
+}
+
+//Usa a função de cima para com o retorno dos campos válidos
+function habilitarBotaoCadastrar() {
+    const botaoCadastrar = document.querySelector('.btn-success'); // Seletor do botão "Cadastrar"
+    const camposValidos = verificarCampos();
+
+    if (camposValidos) {
+        botaoCadastrar.disabled = false; // Habilita o botão
+    } else {
+        botaoCadastrar.disabled = true; // Desabilita o botão
+    }
+}
+// Para o campo de senha
+function toggleMostrarSenha(inputId) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
+
+document.getElementById('mostrarSenha').addEventListener('click', function() {
+    toggleMostrarSenha('senha');
+});
+
+document.getElementById('mostrarConfirmarSenha').addEventListener('click', function() {
+    toggleMostrarSenha('confirmarSenha');
+});
+
+
+

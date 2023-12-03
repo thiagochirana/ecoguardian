@@ -1,0 +1,33 @@
+<div th:fragment="detalhesUsuario" class="container">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" class="form-control" id="nome" name="nome" th:value="${usuarioLogado.nome}" readonly/>
+        </div>
+        <div class="col-md-6">
+            <label for="cpf" class="form-label">CPF:</label>
+            <input type="text" class="form-control cpf" id="cpf" name="cpf" th:value="${usuarioLogado.CPF}" readonly/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="telefone" class="form-label">Telefone:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" th:value="${usuarioLogado.telefone}" readonly/>
+        </div>
+        <div class="col-md-6">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" class="form-control" id="email" name="email" th:value="${usuarioLogado.email}" readonly/>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="senha" class="form-label">Senha:</label>
+            <input type="password" class="form-control" id="senha" name="senha" th:value="${usuarioLogado.senha}" readonly/>
+        </div>
+        <div class="col-md-6">
+            <label for="perfil" class="form-label">Perfil:</label>
+            <input type="text" class="form-control" id="perfil" name="perfil" th:value="${usuarioLogado.nome}" readonly/>
+        </div>
+    </div>
+
+</div>

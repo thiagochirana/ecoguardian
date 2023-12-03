@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head th:replace="~{base/base-elem :: head-padrao}"></head>
+<body>
+<div th:replace="~{base/head-page :: menu-lateral}"></div>
+<div th:replace="~{base/head-page :: topo-pagina}"></div>
+<div th:replace="~{base/mensagem :: notificacao}"></div>
+    <div class="body-geral">
+
+        <h4 class="titulo-pagina">Usuários</h4>
+        <hr>
+
+        <div class="container mt-4">
+            <table class="table table-striped">
+                <thead class="table">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Senha</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">Perfil</th>
+                    <th scope="col">Ativo?</th>
+                    <th scope="col">Mais Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.id}"></td>
+                    <td th:text="${usuario.nome}"></td>
+                    <td th:text="${usuario.getCPFcomMascara()}"></td>
+                    <td th:text="${usuario.senha}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td th:text="${usuario.telefone}"></td>
+                    <td th:text="${usuario.tipoPerfil.getNome()}"></td>
+                    <td>
+                        <span th:if="${usuario.ativo}" class="text-success">Sim</span>
+                        <span th:unless="${usuario.ativo}" class="text-danger">Não</span>
+                    </td>
+                    <td>
+                        <div class="d-flex">
+                            <div th:if="${usuario.ativo}">
+                                <form th:action="@{'/usuarios/desativar/' + ${usuario.id} }" method="post" class="me-1">
+                                    <button type="submit" class="btn btn-sm btn-warning">Desativar</button>
+                                </form>
+                            </div>
+                            <div th:unless="${usuario.ativo}">
+                                <form th:action="@{'/usuarios/ativar/' + ${usuario.id} }" method="post" class="me-1">
+                                    <button type="submit" class="btn btn-sm btn-success">Ativar</button>
+                                </form>
+                            </div>
+                            <form th:action="@{'/usuarios/' + ${usuario.id} }" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+            <br>
+            <h5>Criar novo usuário</h5>
+            <hr>
+
+            <form action="/backOffice/novoUsuario" method="post" class="mt-4 mb-5">
+                <div th:replace="~{contas/formCadastroNovoUsuario :: camposFormCriarUsuario}"></div>
+            </form>
+
+            <form action="/backOffice/upload" th:enctype="'multipart/form-data'" method="post" class="mt-4 mb-5">
+                <input class="form-control" type="file" name="arquivos" accept="image/*" multiple>
+                <button type="submit" class="btn btn-primary mt-3">
+                    Enviar Arquivos
+                </button>
+
+            </form>
+
+        </div>
+        <div th:replace="~{base/base-elem :: script-padrao}"></div>
+    </div>
+</body>
+
+</html>

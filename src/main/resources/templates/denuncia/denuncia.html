@@ -8,6 +8,7 @@
 
     <div class="body-geral">
         <h4 class="titulo-pagina">Denúncias</h4>
+        <hr>
 
         <div class="table-responsive">
             <div class="btn-direita">
@@ -40,73 +41,28 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-striped">
-                <caption>Lista de Denúncias</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Protocolo</th>
-                        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                            <th scope="col">Usuário</th>
-                        </div>
-                        <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                            <th scope="col">Foi anônimo?</th>
-                        </div>
-                        <th scope="col">Título</th>
-                        <th scope="col">Municipio</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Abertura</th>
-                        <th scope="col">Status</th>
-                        <th scope="col" class="text-start">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="denuncia : ${todasDenuncias}">
-                        <td th:text="${denuncia.protocolo}"></td>
 
-                        <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                            <div th:if="${denuncia.sigilo}">
-                                <td>Anônimo</td>
-                            </div>
-                            <div th:unless="${denuncia.sigilo}">
-                                <td th:text="${denuncia.denunciante.getNome()}"></td>
-                            </div>
-                        </div>
-                        <div th:unless="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
-                            <div th:if="${denuncia.sigilo}">
-                                <td>Sim</td>
-                            </div>
-                            <div th:unless="${denuncia.sigilo}">
-                                <td>Não</td>
-                            </div>
-                        </div>
-                        <td th:text="${denuncia.titulo}"></td>
-                        <td th:text="${denuncia.localizacao.municipio.nome}"></td>
-                        <td th:text="${denuncia.localizacao.municipio.estado.getNome()}"></td>
-                        <td th:text="${denuncia.dataHoraDeAbertura()}"></td>
-                        <td th:text="${denuncia.statusDenuncia.nome}"></td>
-                        <td>
-                            <div class="d-flex">
-                                <div class="col-md-auto">
-                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Visualizar Denúncia">
-                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/visualizar'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-eye"></i></a>
-                                    </span>
-                                </div>
-                                <div class="col-md-auto">
-                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Visualizar registros">
-                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/historico'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-search"></i></a>
-                                    </span>
-                                </div>
-                                <div class="col-md-auto">
-                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Adicione um comentário">
-                                        <a th:href="@{'/denuncia/' + ${denuncia.id} + '/registro/adicionarComentario'}" type="submit" class="btn btn-outline-success me-2 sem-borda"><i class="bi bi-chat-dots"></i></a>
-                                    </span>
-                                </div>
+            <!--Validar se é admin, analista ou acesso total, para mostrar o table de denuncias em analise-->
+            <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                <h5>Denúncias a acompanhar</h5>
+                <div th:if="${#lists.size(denunciasEmAnaliseAnalista) > 0}">
+                    <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasEmAnaliseAnalista})}"></div>
+                </div>
+                <div th:unless="${#lists.size(denunciasEmAnaliseAnalista) > 0}">
+                    <span class="legenda">Não há denúncias a acompanhar! ;)</span>
+                </div>
+            </div>
 
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <!--Table do usuario, suas denuncias feitas-->
+            <h5>Suas Denúncias</h5>
+            <div th:if="${#lists.size(denunciasFeitas) > 0}">
+                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasFeitas})}"></div>
+            </div>
+            <div th:unless="${#lists.size(denunciasFeitas) > 0}">
+                <span class="legenda">Você não tem denúncias registradas ;)</span>
+            </div>
+
+
         </div>
     </div>
 

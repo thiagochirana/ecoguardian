@@ -1,42 +1,76 @@
-<div th:fragment="camposFormCriarUsuario">
-    <div class="col-md-auto">
-        <label for="nome" class="form-label">Nome:</label>
-        <input type="text" class="form-control" id="nome" name="nome"/>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-md-auto">
+<div th:fragment="camposFormCriarUsuario" class="container">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="nome" class="form-label">Nome:</label>
+            <input type="text" class="form-control" id="nome" name="nome" onblur="habilitarBotaoCadastrar()"/>
+        </div>
+        <div class="col-md-6">
             <label for="cpf" class="form-label">CPF:</label>
-            <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this)"/>
+            <input type="text" class="form-control cpf" id="cpf" name="cpf" oninput="formatarCPF(this); habilitarBotaoCadastrar()"/>
         </div>
-        <div class="col-md-auto">
+    </div>
+<!--  Modal do e-mail válido  -->
+    <div class="modal" id="emailInvalidoModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-danger bg-danger text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title">Atenção</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Por favor, digite um e-mail válido.
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    -->
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label for="email" class="form-label">Email:</label>
-            <input type="text" class="form-control" id="email" name="email"/>
+            <input type="text" class="form-control" id="email" name="email" onblur="validarEmailOnExit(this); habilitarBotaoCadastrar()"/>
         </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-md-auto">
-            <label for="senha" class="form-label">Senha:</label>
-            <input type="password" class="form-control" id="senha" name="senha"/>
-        </div>
-
-
-        <div class="col-md-auto">
+        <div class="col-md-6">
             <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" name="telefone" oninput="formatadorTelefone()"/>
+            <input type="text" class="form-control" id="telefone" name="telefone" oninput="formatarTelefone(this); habilitarBotaoCadastrar()"/>
         </div>
-
-
     </div>
-
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="senha" class="form-label">Senha:</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="senha" name="senha" oninput="validarSenha(); habilitarBotaoCadastrar()"/>
+                <button class="btn btn-outline-secondary" type="button" id="mostrarSenha" onclick="toggleMostrarSenha('senha');">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="confirmarSenha" class="form-label">Confirmar Senha:</label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" oninput="validarSenha(); habilitarBotaoCadastrar()"/>
+                <button class="btn btn-outline-secondary" type="button" id="mostrarConfirmarSenha" onclick="toggleMostrarSenha('confirmarSenha');">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+            <div id="msgErroSenha" class="text-danger"></div>
+        </div>
+    </div>
 
     <div th:if="${usuarioLogado}">
-        <label for="perfil" class="form-label">Perfil:</label>
-        <select id="perfil" name="tipoPerfil">
-            <option th:each="perfil : ${tiposPerfil}" th:value="${perfil}" th:text="${perfil.getNome()}"></option>
-        </select>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="perfil" class="form-label">Perfil:</label>
+                <select id="perfil" name="tipoPerfil" class="form-select" onchange="habilitarBotaoCadastrar()">
+                    <option th:each="perfil : ${tiposPerfil}" th:value="${perfil}" th:text="${perfil.getNome()}"></option>
+                </select>
+            </div>
+        </div>
     </div>
-
-    <button type="button" class="btn btn-success mt-3">
-        Cadastrar
-    </button>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success mt-3" id="btnCadastrar" disabled>
+                Cadastrar
+            </button>
+        </div>
+    </div>
 </div>

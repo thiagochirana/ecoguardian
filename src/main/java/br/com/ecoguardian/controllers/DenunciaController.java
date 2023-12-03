@@ -1,9 +1,7 @@
 package br.com.ecoguardian.controllers;
 
 import br.com.ecoguardian.models.Arquivo;
-import br.com.ecoguardian.models.Categoria;
 import br.com.ecoguardian.models.Denuncia;
-import br.com.ecoguardian.models.Subcategoria;
 import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.MensagemView;
@@ -45,13 +43,14 @@ public class DenunciaController {
     @GetMapping
     public ModelAndView getTelaDashboardDenuncia(){
         ModelAndView model = view.novaView("denuncia/denuncia");
-        model.addObject("todasDenuncias", denuncias.todasDoUsuarioLogado());
+        model.addObject("denunciasFeitas", denuncias.todasAbertasDoUsuarioLogado());
+        model.addObject("denunciasEmAnaliseAnalista", denuncias.todasAbertasOuEmAnalise());
         model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista());
         return model;
     }
 
-    @Transactional
     @GetMapping("/{id}/visualizar")
+    @Transactional
     public ModelAndView visualizarDenuncia(@PathVariable Long id){
         ModelAndView model = view.novaView("denuncia/visualizarDenuncia");
         Denuncia den = denuncias.obter(id);
@@ -70,21 +69,14 @@ public class DenunciaController {
     }
 
     @PostMapping("/novo")
-    public ModelAndView registrarDenuncia(DenunciaJSON json,  @RequestParam("imagens") List<MultipartFile> imagens){
-        Denuncia den = denuncias.abrir(json, imagens);
-        ModelAndView model = view.novaView("redirect:/denuncia");
-        if (den != null){
-            model.addObject("notificacao", new MensagemView(true, true, "Denuncia registrada com sucesso", "Aguarde um analista iniciar análise", null));
-        } else {
-
-            model.addObject("notificacao", new MensagemView(true, false, "Denuncia não foi registrada", "Ocorreu algo, tente mais tarde", null));
-        }
-        return model;
+    public String registrarDenuncia(DenunciaJSON json,  @RequestParam("imagens") List<MultipartFile> imagens){
+        denuncias.abrir(json, imagens);
+        return "redirect:/denuncia";
     }
 
     @PostMapping("/registro/salvar")
     public ModelAndView realizarRegistro(RegistroDenunciaJSON json){
-        registros.registrar(json);
+        registros.salvarAlteracoes(json);
         ModelAndView model = view.novaView("redirect:/denuncia/"+json.denunciaId()+"/verRegistros");
         return model;
     }
@@ -108,7 +100,7 @@ public class DenunciaController {
 
     @PostMapping("/registro/adicionarComentario/salvar")
     public ModelAndView salvarComentarioEmDenuncia(RegistroDenunciaJSON json){
-        registros.registrar(json);
+        registros.salvarAlteracoes(json);
         ModelAndView model = view.novaView("redirect:/denuncia");
         return model;
     }

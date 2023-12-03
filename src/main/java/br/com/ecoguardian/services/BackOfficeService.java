@@ -3,32 +3,27 @@ package br.com.ecoguardian.services;
 import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.repositories.ArquivoRepository;
 import br.com.ecoguardian.utils.Log;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AdministracaoService {
+@Transactional
+public class BackOfficeService {
 
-    @Autowired
-    private MunicipioService municipioService;
-
-
-    @Autowired
-    private UsuarioService usuarioService;
 
     @Autowired
     private ArquivoRepository arquivosRepository;
 
-    Log LOG = new Log(AdministracaoService.class);
+    Log LOG = new Log(BackOfficeService.class);
 
     public void salvarArquivos(List<MultipartFile> arquivos){
         try {

@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head th:replace="~{base/base-elem :: head-padrao}"></head>
-<body style="padding-top: 2vh !important;">
+<body>
+
+<div class="top-bar-geral">
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>EcoGuardian</h1>
+        </div>
+    </div>
+</div>
+
 <div class="body-geral">
-    <h4 class="titulo-pagina">Denúncia Anônima</h4>
+
+    <h3 class="titulo-pagina">Denúncia Anônima</h3>
 
     <form action="/denuncia/anonima" method="post" enctype="multipart/form-data">
+        <hr>
         <h5>Endereço da Ocorrência</h5>
+        <hr>
 
         <select id="sigilo" name="sigilo" style="display: none;">
             <option value="true" selected>Sim</option>
@@ -14,19 +26,25 @@
 
         <div th:replace="~{denuncia/novaDenuncia :: form-denuncia-dados-endereco}"></div>
         <div th:replace="~{denuncia/novaDenuncia :: form-denuncia-lat-long}"></div>
+        <div th:replace="~{denuncia/novaDenuncia :: denuncia-info}"></div>
         <div th:replace="~{denuncia/novaDenuncia :: form-denuncia-descricao}"></div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="text" class="form-control" id="email" name="email"/>
-        </div>
-
-        <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" name="telefone"/>
-        </div>
-
         <div th:replace="~{denuncia/novaDenuncia :: form-denuncia-provavel-autor-dados}"></div>
+
+        <hr>
+        <h5>Informações para contato</h5>
+        <hr>
+
+        <div class="mb-3 row">
+            <div class="col-sm-6">
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" class="form-control" id="email" placeholder="Não obrigatório para denúncias anônimas" name="email"/>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input type="text" class="form-control" id="telefone" placeholder="Não obrigatório para denúncias anônimas" name="telefone"/>
+            </div>
+        </div>
 
         <button class="salvar-btn btn btn-success">Registrar Denuncia</button>
     </form>

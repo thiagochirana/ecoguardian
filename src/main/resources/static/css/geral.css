@@ -29,13 +29,24 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 10vw;
+    margin-top: 5vw;
     margin-left: 40vw;
     margin-right: 40vw;
 }
 
 .div-form-centralizado{
     margin-bottom: 10px;
+}
+
+.top-bar-geral {
+    margin-bottom: 10px;
+    background-color: #ecfff4;
+    color: #0b560b;
+    padding: 10px;
+    box-shadow: 2px 0 0 var(--linhas-bordas);
+    container: fluid text-center;
+    width: 100%;
+    text-align: center;
 }
 
 .box {
@@ -78,4 +89,29 @@ div.btn-direita {
 
 div.modal {
     z-index: 9999;
+}
+
+div.mensagem-fixa{
+    padding: 8px;
+    background-color: #d4ffcf;
+    color: #0b560b;
+    border-radius: 8px;
+}
+
+hr {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+.separator-line {
+    border-top: 1px solid var(--bs-secondary-color-rgb); /* Define a cor da linha superior */
+    margin: 20px 0; /* Ajusta a margem para espaçamento */
+}
+
+.hide-info {
+    display: none !important;
+}
+
+.btn-custom-border {
+    border-color: #c7c7c7; /* Escolha a cor que deseja para a borda */
 }
