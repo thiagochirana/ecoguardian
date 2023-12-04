@@ -26,7 +26,8 @@
 .contagem-denuncia span.contagem-denuncia{
     bottom: 10px;
     left: 10px;
-    font-size: 16px;
+    font-size: 50px;
+
 }
 
 .aberto {
@@ -44,3 +45,29 @@
 a.sem-borda{
     border: none;
 }
+
+.card-denuncia span.contagem-denuncia-verde {
+    color: darkgreen;
+    position: absolute;
+    font-size: 35px;
+    right: 30px;
+    bottom: 5px;
+}
+
+.card-denuncia span.contagem-denuncia-azul {
+    color: darkblue;
+    position: absolute;
+    font-size: 35px;
+    right: 30px;
+    bottom: 5px;
+}
+
+.card-denuncia span.contagem-denuncia-vermelho {
+    color: darkred;
+    position: absolute;
+    font-size: 35px;
+    right: 30px;
+    bottom: 5px;
+}
+
+

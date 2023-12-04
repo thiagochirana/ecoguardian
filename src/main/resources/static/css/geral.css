@@ -116,3 +116,9 @@ hr {
 .btn-custom-border {
     border-color: #c7c7c7; /* Escolha a cor que deseja para a borda */
 }
+
+
+.carrossel-imagem {
+    max-width: 100%; /* Ajusta a largura máxima para ocupar o contêiner */
+    height: auto;   /* Mantém a proporção original da imagem */
+}
