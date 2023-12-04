@@ -109,6 +109,12 @@
         </thead>
         <tbody id="tbodyDenunciasTable"></tbody>
     </table>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarTableAoAcessaPagina();
+            carregarTableSuasDenuncias();
+        });
+    </script>
 </div>
 
 <div th:fragment="table-denuncia-do-usuario">
@@ -131,7 +137,6 @@
     </table>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
-            carregarTableAoAcessaPagina();
             carregarTableSuasDenuncias();
         });
     </script>

@@ -7,8 +7,6 @@ function submitFormEmEndpoint(endpoint, form){
 //      Comportamento Table Denúncias
 // -------------------------------------------
 
-endpoint = '/denuncia/filtrar'
-
 function getTablePelosFiltros(){
     let protocolo = $("#protocoloForm");
     let municipioId = $("#estadoForm");
@@ -34,26 +32,25 @@ function getListaDenuncias(urlComParams){
 }
 
 function carregarTableAoAcessaPagina(){
-    console.log('Renderizando table de denuncias geral')
-    renderizarTableDenuncia(getListaDenuncias(this.endpoint), $("#tbodyDenunciasTable"));
+    console.log('Renderizando table de denuncias para Analista ou Admin')
+    renderizarTableDenuncia(getListaDenuncias('/denuncia/filtrar'), $("#tbodyDenunciasTable"));
 }
 
 function carregarTableSuasDenuncias(){
     console.log('Renderizando table de denuncias do usuario...')
-    let tableElement = document.getElementById('tableDenunciasDeUsuario');
-    let tbody = tableElement.querySelector('tbody')
+    let tbody = $("#tbodyDenunciasDoUsuarioTable");
     console.log("Tbody Element da table de denuncias do Usuario:", tbody);
 
-    renderizarTableDenuncia(getListaDenuncias(this.endpoint + '?verSomenteUsuarioLogado=true', tbody));
+    // renderizarTableDenuncia(getListaDenuncias('/denuncia/filtrar?verSomenteUsuarioLogado=true', tbody));
+    renderizarTableDenuncia(getListaDenuncias('/denuncia/filtrar?verSomenteUsuarioLogado=true'), tbody);
 }
 
 function renderizarTableDenuncia(json, tableBody){
     console.log(json)
-    let tabelaBody = tableBody;
     try{
-        tabelaBody.empty();
+        tableBody.empty();
     } catch (e){
-        console.log('Aparentemente table já está vazia...');
+        console.log('Deu ruim em tentar limpar a tbody, talvez esteja vazia...');
     }
 
     json.denuncias.forEach(function (denuncia) {
@@ -105,7 +102,7 @@ function renderizarTableDenuncia(json, tableBody){
 
         tdButtons.append(divDFlex);
         row.append(tdButtons);
-        tabelaBody.append(row);
+        tableBody.append(row);
     });
 
 }
