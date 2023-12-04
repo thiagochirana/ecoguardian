@@ -13,7 +13,7 @@ function getTablePelosFiltros(){
     let categoriaId = $("#categoriaForm");
     let dataOcorrencia = $("#dataOcorrencia");
     let dataCadastro = $("#dataCadastro");
-    let statusDenuncia = $("#dataCadastro");
+    let statusDenuncia = $("#statusDenunciaForm");
 }
 
 function getListaDenuncias(urlComParams){
