@@ -23,14 +23,45 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h5>Filtro aqui:</h5>
-<!--                                        <p th:text="@{${registro.denuncia.getTitulo()}}"></p>-->
+                                        <h5>Selecione as Opções:</h5>
                                         <hr>
-                                        <h5>Outros filtros:</h5>
-<!--                                        <p th:text="@{'Data atualização: ' + ${registro.dataHoraRegistroFormatada()} } "></p>-->
+                                        <label for="protocoloForm" class="form-label">Protocolo</label>
+                                        <input type="text" id="protocoloForm" class="form-control">
+
+                                        <label for="estadoForm" class="form-label obrigatorio">Estado:</label>
+                                        <select id="estadoForm" class="form-select" onchange="filtroListarMunicipios()">
+                                            <option value="">Selecione um Estado</option> <!-- Opção vazia -->
+                                            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
+                                        </select>
+
+                                        <label for="municipioForm" class="form-label obrigatorio">Municipio:</label>
+                                        <select id="municipioForm" class="form-select" >
+
+                                        </select>
+
+                                        <label for="categoriaForm" class="form-label obrigatorio">Categoria:</label>
+                                        <select id="categoriaForm" class="form-select">
+                                            <option value="">Selecione uma opção</option>
+                                            <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.getNome()}"></option>
+                                        </select>
+
+                                        <div class="input-group date" id="datepickerDtOcorrencia">
+                                            <input type="date" class="form-control" id="dataOcorrencia"/>
+                                            <span class="input-group-append">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+
+                                        <div class="input-group date" id="datepickerDtCadastro">
+                                            <input type="date" class="form-control" id="dataCadastro"/>
+                                            <span class="input-group-append">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="getTablePelosFiltros()">Entendido</button>
                                     </div>
                                 </div>
                             </div>
@@ -57,21 +88,23 @@
             <!--Table do usuario, suas denuncias feitas-->
             <h5>Suas Denúncias</h5>
             <div th:if="${#lists.size(denunciasFeitas) > 0}">
-                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasFeitas})}"></div>
-<!--                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia-renderizada}"></div>-->
+<!--                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasFeitas})}"></div>-->
+                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia-do-usuario}"></div>
             </div>
             <div th:unless="${#lists.size(denunciasFeitas) > 0}">
                 <span class="legenda">Você não tem denúncias registradas ;)</span>
             </div>
 
-
         </div>
     </div>
 
 <div th:replace="~{base/base-elem :: script-padrao}"></div>
-<script>
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        carregarTableAoAcessaPagina();
+        carregarTableSuasDenuncias();
+    });
 </script>
 
 </body>

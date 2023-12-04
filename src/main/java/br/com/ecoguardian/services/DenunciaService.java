@@ -140,17 +140,26 @@ public class DenunciaService {
                                                                                              Long categoriaId,
                                                                                              String dataOcorrencia,
                                                                                              String dataCadastro,
-                                                                                             StatusDenuncia status){
+                                                                                             StatusDenuncia status,
+                                                                                             Boolean verSomenteUsuarioLogado){
         Set<Denuncia> listaDenunciaFiltradas = new HashSet<>();
         boolean protocoloPreenchido = protocolo != null && !protocolo.trim().isEmpty() && !protocolo.trim().isBlank();
         boolean municipioIdPreenchido = municipioId != null && municipioId > 0 ;
         boolean categoriaIdPreenchido = categoriaId != null && categoriaId > 0;
         boolean dataOcorrenciaPreenchido = dataOcorrencia != null && !dataOcorrencia.trim().isEmpty() && !dataOcorrencia.trim().isBlank();
         boolean dataCadastroPreenchido = dataCadastro != null && !dataCadastro.trim().isEmpty() && !dataCadastro.trim().isBlank();
+        boolean somenteUserLogado = (verSomenteUsuarioLogado != null) && verSomenteUsuarioLogado;
+
+        if (somenteUserLogado) {
+            return ResponseEntity.ok(new DenunciasTableJSON(
+                    sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal(),
+                    sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista(),
+                    listaToJSON(denuncias.listarTodosDoUsuario(sessaoServiceWrapper.getUsuarioLogado()).orElseGet(ArrayList::new))));
+        }
 
         //Se não tem nenhum parametro, logo, deve retornar todas Denúncias
         if (!protocoloPreenchido && !municipioIdPreenchido && !categoriaIdPreenchido &&
-        !dataOcorrenciaPreenchido && !dataCadastroPreenchido && status != null){
+        !dataOcorrenciaPreenchido && !dataCadastroPreenchido && status == null){
             List<Denuncia> lista = todasDoUsuarioLogado();
             if (!lista.isEmpty()){
                 return ResponseEntity.ok(new DenunciasTableJSON(

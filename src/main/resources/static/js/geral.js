@@ -102,6 +102,22 @@ $(document).ready(function () {
     });
 });
 
+function filtroListarMunicipios(){
+    $('#estadoForm').change(function () {
+        var estadoId = $(this).val();
+        // Fazer chamada AJAX
+        $.get('/municipios/daUF/' + estadoId, function (data) {
+            // Limpar e preencher o dropdown de municípios
+            var municipioDropdown = $('#municipioForm');
+            municipioDropdown.empty();
+            console.log(data)
+            $.each(data, function (index, municipio) {
+                municipioDropdown.append('<option value="' + municipio.idIBGE + '">' + municipio.nome + '</option>');
+            });
+        });
+    });
+}
+
 //obter subcategoria da categoria selecionada
 $(document).ready(function () {
     $('#categoria').change(function () {

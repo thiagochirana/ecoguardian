@@ -44,6 +44,7 @@ public class DenunciaController {
         model.addObject("denunciasFeitas", denuncias.todasAbertasDoUsuarioLogado());
         model.addObject("denunciasEmAnaliseAnalista", denuncias.todasAbertasOuEmAnalise());
         model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista());
+        model.addObject("categorias", categorias.listar());
         return model;
     }
 
@@ -181,9 +182,10 @@ public class DenunciaController {
             @RequestParam(name = "categoriaId", required = false) Long categoriaId,
             @RequestParam(name = "dataOcorrencia", required = false) String dataOcorrencia,
             @RequestParam(name = "dataCadastro", required = false) String dataCadastro,
-            @RequestParam(name = "status", required = false) StatusDenuncia status
+            @RequestParam(name = "status", required = false) StatusDenuncia status,
+            @RequestParam(name = "verSomenteUsuarioLogado", required = false) Boolean verSomenteUsuarioLogado
     ) {
         // Aqui você pode usar os parâmetros para filtrar suas denúncias
-        return denuncias.obterDenunciasParaTableDeAcordoComFiltro(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, status);
+        return denuncias.obterDenunciasParaTableDeAcordoComFiltro(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, status, verSomenteUsuarioLogado);
     }
 }

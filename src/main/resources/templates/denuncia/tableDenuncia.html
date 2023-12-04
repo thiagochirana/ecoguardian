@@ -111,9 +111,26 @@
 
         </tbody>
     </table>
-    <script th:inline="javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            carregarTableAoAcessaPagina();
-        });
-    </script>
+</div>
+
+<div th:fragment="table-denuncia-do-usuario">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Protocolo</th>
+            <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                <th scope="col">Usuário</th>
+            </div>
+            <th scope="col">Título</th>
+            <th scope="col">Municipio</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Abertura</th>
+            <th scope="col">Status</th>
+            <th scope="col" class="text-start">Ações</th>
+        </tr>
+        </thead>
+        <tbody id="tbodyDenunciasDoUsuarioTable">
+
+        </tbody>
+    </table>
 </div>

@@ -8,6 +8,16 @@ function submitFormEmEndpoint(endpoint, form){
 // -------------------------------------------
 
 endpoint = '/denuncia/filtrar'
+
+function getTablePelosFiltros(){
+    let protocolo = $("#protocoloForm");
+    let municipioId = $("#estadoForm");
+    let categoriaId = $("#categoriaForm");
+    let dataOcorrencia = $("#dataOcorrencia");
+    let dataCadastro = $("#dataCadastro");
+    let statusDenuncia = $("#dataCadastro");
+}
+
 function getListaDenuncias(urlComParams){
     let request = new XMLHttpRequest();
     request.open("GET", urlComParams, false);  // Definindo para síncrono
@@ -24,14 +34,27 @@ function getListaDenuncias(urlComParams){
 }
 
 function carregarTableAoAcessaPagina(){
-    renderizarTableDenuncia(getListaDenuncias(this.endpoint));
+    console.log('Renderizando table de denuncias geral')
+    renderizarTableDenuncia(getListaDenuncias(this.endpoint), $("#tbodyDenunciasTable"));
 }
 
-function renderizarTableDenuncia(json){
-    console.log('Renderizando table de denuncias...')
+function carregarTableSuasDenuncias(){
+    console.log('Renderizando table de denuncias do usuario...')
+    var tbodyElement = $("#tbodyDenunciasDoUsuarioTable");
+    console.log("Tbody Element da table de denuncias do Usuario:", tbodyElement);
+
+    renderizarTableDenuncia(getListaDenuncias(this.endpoint + '?verSomenteUsuarioLogado=true', tbodyElement));
+}
+
+function renderizarTableDenuncia(json, tableBody){
     console.log(json)
-    let tabelaBody = $("#tbodyDenunciasTable");
-    tabelaBody.empty();
+    let tabelaBody = tableBody;
+    try{
+        tabelaBody.empty();
+    } catch (e){
+        console.log('Aparentemente table já está vazia...');
+    }
+
     json.denuncias.forEach(function (denuncia) {
         let row = $("<tr>")
         row.append("<td>" + denuncia.protocolo + "</td>");
