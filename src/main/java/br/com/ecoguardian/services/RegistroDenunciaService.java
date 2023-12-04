@@ -45,6 +45,7 @@ public class RegistroDenunciaService {
     }
 
     public RegistroDenuncia iniciarAnalise(RegistroDenunciaJSON json){
+
         return persistirAlteracoes(alterarStatus(json, StatusDenuncia.ANALISE_INICIADA));
     }
 
@@ -105,7 +106,7 @@ public class RegistroDenunciaService {
     public RegistroDenuncia persistirAlteracoes(RegistroDenuncia registro){
         registro.setDataHoraRegistro(Datas.agora());
         registro.getDenuncia().setStatusDenuncia(registro.getStatusAtual());
-        denuncias.save(registro.getDenuncia());
+        registro.setDenuncia(denuncias.save(registro.getDenuncia()));
         return registros.save(registro);
     }
 

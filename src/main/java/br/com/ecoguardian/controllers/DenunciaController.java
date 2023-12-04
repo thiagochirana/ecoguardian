@@ -4,10 +4,7 @@ import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.StatusDenuncia;
-import br.com.ecoguardian.models.records.DenunciaJSON;
-import br.com.ecoguardian.models.records.MensagemView;
-import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
-import br.com.ecoguardian.models.records.SubcategoriaDTO;
+import br.com.ecoguardian.models.records.*;
 import br.com.ecoguardian.services.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,7 +175,7 @@ public class DenunciaController {
 
     @GetMapping("/filtrar")
     @ResponseBody
-    public ResponseEntity<List<Denuncia>> filtroDeDenuncias(
+    public ResponseEntity<DenunciasTableJSON> filtroDeDenuncias(
             @RequestParam(name = "protocolo", required = false) String protocolo,
             @RequestParam(name = "municipioId", required = false) Long municipioId,
             @RequestParam(name = "categoriaId", required = false) Long categoriaId,
@@ -187,6 +184,6 @@ public class DenunciaController {
             @RequestParam(name = "status", required = false) StatusDenuncia status
     ) {
         // Aqui você pode usar os parâmetros para filtrar suas denúncias
-        return denuncias.obterListaDeAcordoComFiltro(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, status);
+        return denuncias.obterDenunciasParaTableDeAcordoComFiltro(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, status);
     }
 }

@@ -2,14 +2,13 @@ package br.com.ecoguardian.models;
 
 import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
+import br.com.ecoguardian.models.records.DenunciaRespJSON;
 import br.com.ecoguardian.utils.Datas;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,5 +101,21 @@ public class Denuncia {
 
     public boolean precisaIniciar(){
         return this.statusDenuncia == StatusDenuncia.ABERTA || this.statusDenuncia == StatusDenuncia.AGUARDANDO_ANALISE;
+    }
+
+    public DenunciaRespJSON getDadosDenuncia(){
+        return new DenunciaRespJSON(
+                this.id,
+                this.sigilo,
+                this.protocolo,
+                this.titulo,
+                this.descricao,
+                Datas.dataFormatada(this.dataAbertura),
+                precisaIniciar(),
+                this.localizacao.getMunicipio().getNome(),
+                this.localizacao.getMunicipio().getEstado().getNome(),
+                this.statusDenuncia.getNome(),
+                this.denunciante.getNome()
+        );
     }
 }

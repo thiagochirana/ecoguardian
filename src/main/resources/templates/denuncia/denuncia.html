@@ -46,7 +46,8 @@
             <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                 <h5>Denúncias a acompanhar</h5>
                 <div th:if="${#lists.size(denunciasEmAnaliseAnalista) > 0}">
-                    <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasEmAnaliseAnalista})}"></div>
+<!--                    <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasEmAnaliseAnalista})}"></div>-->
+                    <div th:replace="~{denuncia/tableDenuncia :: table-denuncia-renderizada}"></div>
                 </div>
                 <div th:unless="${#lists.size(denunciasEmAnaliseAnalista) > 0}">
                     <span class="legenda">Não há denúncias a acompanhar! ;)</span>
@@ -57,6 +58,7 @@
             <h5>Suas Denúncias</h5>
             <div th:if="${#lists.size(denunciasFeitas) > 0}">
                 <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasFeitas})}"></div>
+<!--                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia-renderizada}"></div>-->
             </div>
             <div th:unless="${#lists.size(denunciasFeitas) > 0}">
                 <span class="legenda">Você não tem denúncias registradas ;)</span>

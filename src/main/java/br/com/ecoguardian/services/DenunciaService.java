@@ -4,6 +4,8 @@ import br.com.ecoguardian.models.*;
 import br.com.ecoguardian.models.enums.Estado;
 import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
+import br.com.ecoguardian.models.records.DenunciaRespJSON;
+import br.com.ecoguardian.models.records.DenunciasTableJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
 import br.com.ecoguardian.utils.Log;
@@ -133,27 +135,51 @@ public class DenunciaService {
         }
     }
 
-    public ResponseEntity<List<Denuncia>> obterListaDeAcordoComFiltro(String protocolo,
-                                                                      Long municipioId,
-                                                                      Long categoriaId,
-                                                                      String dataOcorrencia,
-                                                                      String dataCadastro,
-                                                                      StatusDenuncia status){
+    public ResponseEntity<DenunciasTableJSON> obterDenunciasParaTableDeAcordoComFiltro(String protocolo,
+                                                                                             Long municipioId,
+                                                                                             Long categoriaId,
+                                                                                             String dataOcorrencia,
+                                                                                             String dataCadastro,
+                                                                                             StatusDenuncia status){
         Set<Denuncia> listaDenunciaFiltradas = new HashSet<>();
-        if (protocolo != null && !protocolo.trim().isEmpty() && !protocolo.trim().isBlank()){
+        boolean protocoloPreenchido = protocolo != null && !protocolo.trim().isEmpty() && !protocolo.trim().isBlank();
+        boolean municipioIdPreenchido = municipioId != null && municipioId > 0 ;
+        boolean categoriaIdPreenchido = categoriaId != null && categoriaId > 0;
+        boolean dataOcorrenciaPreenchido = dataOcorrencia != null && !dataOcorrencia.trim().isEmpty() && !dataOcorrencia.trim().isBlank();
+        boolean dataCadastroPreenchido = dataCadastro != null && !dataCadastro.trim().isEmpty() && !dataCadastro.trim().isBlank();
+
+        //Se não tem nenhum parametro, logo, deve retornar todas Denúncias
+        if (!protocoloPreenchido && !municipioIdPreenchido && !categoriaIdPreenchido &&
+        !dataOcorrenciaPreenchido && !dataCadastroPreenchido && status != null){
+            List<Denuncia> lista = todasDoUsuarioLogado();
+            if (!lista.isEmpty()){
+                return ResponseEntity.ok(new DenunciasTableJSON(
+                        sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal(),
+                        sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista(),
+                        listaToJSON(filtrarAsQueUsuarioPodeObservar(lista))));
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        }
+
+        if (protocoloPreenchido){
             Optional<Denuncia> optionalDenuncia = denuncias.findByProtocolo(protocolo);
             optionalDenuncia.ifPresent(listaDenunciaFiltradas::add); //se tem algo ele adiciona
 
             // o return aqui já é imediato, porque protocolo é chave única
-            return respostaLista(listaDenunciaFiltradas);
+            return ResponseEntity.ok(new DenunciasTableJSON(
+                    sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal(),
+                    sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista(),
+                    listaToJSON(filtrarAsQueUsuarioPodeObservar(listaDenunciaFiltradas.stream().toList()))
+            ));
         }
 
-        if (municipioId != null && municipioId > 0){
+        if (municipioIdPreenchido){
             Optional<Municipio> munOpt = municipioService.obterPeloId(municipioId);
             listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, doMunicipio(munOpt.get()));
         }
 
-        if (categoriaId != null && categoriaId > 0){
+        if (categoriaIdPreenchido){
             Categoria categoria = categoriaService.doId(categoriaId);
             if (categoria.getId() != null){
                 Optional<List<Denuncia>> lista = denuncias.findByCategoria(categoria);
@@ -161,13 +187,13 @@ public class DenunciaService {
             }
         }
 
-        if (dataOcorrencia != null && !dataCadastro.trim().isEmpty() && !dataCadastro.trim().isBlank()){
+        if (dataOcorrenciaPreenchido){
             Date data = Datas.emStringParaDate(dataOcorrencia);
             Optional<List<Denuncia>> listaPorData = denuncias.findByDataOcorrencia(data);
             listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, listaPorData);
         }
 
-        if (dataCadastro != null && !dataCadastro.trim().isEmpty() && !dataCadastro.trim().isBlank()){
+        if (dataCadastroPreenchido){
             Date data = Datas.emStringParaDate(dataCadastro);
             Optional<List<Denuncia>> listaPorData = denuncias.findByDataAbertura(data);
             listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, listaPorData);
@@ -178,15 +204,32 @@ public class DenunciaService {
             listaDenunciaFiltradas = realizarFiltragem(listaDenunciaFiltradas, listaPorStatus);
         }
 
-        return respostaLista(listaDenunciaFiltradas);
+        return ResponseEntity.ok(new DenunciasTableJSON(
+                sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal(),
+                sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista(),
+                listaToJSON(filtrarAsQueUsuarioPodeObservar(listaDenunciaFiltradas.stream().toList()))));
     }
 
-    private ResponseEntity<List<Denuncia>> respostaLista(Set<Denuncia> listaDenunciaFiltradas){
-        if (!listaDenunciaFiltradas.isEmpty()) {
-            return ResponseEntity.ok(listaDenunciaFiltradas.stream().toList());
-        } else {
-            return ResponseEntity.notFound().build();
+    //Exibir apenas aquelas que o Denunciante pode observar, se for Admin, Analista ou EcoGuardian, pode acessar todas denuncias
+    private List<Denuncia> filtrarAsQueUsuarioPodeObservar(List<Denuncia> lista){
+        if (sessaoServiceWrapper.getUsuarioLogado().temAcessoTotal() || sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista()){
+            return lista;
         }
+        List<Denuncia> viewDen = new ArrayList<>();
+        for (Denuncia den : lista) {
+            if (den.getDenunciante().getId().equals(sessaoServiceWrapper.getUsuarioLogado().getId())){
+                viewDen.add(den);
+            }
+        }
+        return viewDen;
+    }
+
+    private List<DenunciaRespJSON> listaToJSON(List<Denuncia> listaResposta){
+        List<DenunciaRespJSON> json = new ArrayList<>();
+        for (Denuncia d : listaResposta){
+            json.add(d.getDadosDenuncia());
+        }
+        return json;
     }
 
     /**
