@@ -1,0 +1,37 @@
+/* Estilo para a div do carrossel de imagens */
+.carousel-container {
+    max-width: 500px; /* Defina o tamanho máximo para o carrossel */
+    overflow: hidden; /* Esconde o conteúdo extra que possa ultrapassar o tamanho definido */
+}
+
+/* Estilize a posição dos botões de navegação */
+.image-carousel-container .carousel-control-prev,
+.image-carousel-container .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.image-carousel-container .carousel-control-prev {
+    left: 10px;
+}
+
+.image-carousel-container .carousel-control-next {
+    right: 10px;
+}
+
+.fixed-image-size {
+    width: 600px;
+    height: auto;
+}
+
+.image-carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

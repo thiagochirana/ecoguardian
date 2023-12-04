@@ -1,24 +1,21 @@
 <div th:fragment="carrossel-imagens">
-    <div>
+    <div class="image-carousel-container">
         <div id="imgDenuncia" class="carousel slide">
             <div class="carousel-inner">
-                <div th:each="imagem, i : ${imagens}">
-                    <div th:if="${i.index} == 0" class="carousel-item active">
-                        <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}" alt="Imagem" class="d-block w-100">
-                    </div>
-                    <div th:unless="${i.index} == 0" class="carousel-item">
-                        <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}" alt="Imagem" class="d-block w-100">
-                    </div>
+                <div th:each="imagem, i : ${imagens}" class="carousel-item" th:classappend="${i.index == 0} ? 'active'">
+                    <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}" alt="Imagem" class="img-fluid fixed-image-size">
                 </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#imgDenuncia" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#imgDenuncia" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#imgDenuncia" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#imgDenuncia" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
 </div>
+
+
