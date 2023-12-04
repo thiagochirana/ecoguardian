@@ -40,10 +40,11 @@ function carregarTableAoAcessaPagina(){
 
 function carregarTableSuasDenuncias(){
     console.log('Renderizando table de denuncias do usuario...')
-    var tbodyElement = $("#tbodyDenunciasDoUsuarioTable");
-    console.log("Tbody Element da table de denuncias do Usuario:", tbodyElement);
+    let tableElement = document.getElementById('tableDenunciasDeUsuario');
+    let tbody = tableElement.querySelector('tbody')
+    console.log("Tbody Element da table de denuncias do Usuario:", tbody);
 
-    renderizarTableDenuncia(getListaDenuncias(this.endpoint + '?verSomenteUsuarioLogado=true', tbodyElement));
+    renderizarTableDenuncia(getListaDenuncias(this.endpoint + '?verSomenteUsuarioLogado=true', tbody));
 }
 
 function renderizarTableDenuncia(json, tableBody){

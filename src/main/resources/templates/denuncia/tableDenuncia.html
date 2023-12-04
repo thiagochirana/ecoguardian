@@ -107,14 +107,12 @@
             <th scope="col" class="text-start">Ações</th>
         </tr>
         </thead>
-        <tbody id="tbodyDenunciasTable">
-
-        </tbody>
+        <tbody id="tbodyDenunciasTable"></tbody>
     </table>
 </div>
 
 <div th:fragment="table-denuncia-do-usuario">
-    <table class="table table-striped">
+    <table class="table table-striped" id="tableDenunciasDeUsuario">
         <thead>
         <tr>
             <th scope="col">Protocolo</th>
@@ -129,8 +127,12 @@
             <th scope="col" class="text-start">Ações</th>
         </tr>
         </thead>
-        <tbody id="tbodyDenunciasDoUsuarioTable">
-
-        </tbody>
+        <tbody id="tbodyDenunciasDoUsuarioTable"></tbody>
     </table>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarTableAoAcessaPagina();
+            carregarTableSuasDenuncias();
+        });
+    </script>
 </div>
