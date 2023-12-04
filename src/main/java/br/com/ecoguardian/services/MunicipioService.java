@@ -33,6 +33,10 @@ public class MunicipioService {
         }
     }
 
+    public Optional<Municipio> obterPeloId(Long id){
+        return municipios.findById(id);
+    }
+
     public void salvarTodos(List<Municipio> municipiosLista){
         municipios.saveAll(municipiosLista);
     }

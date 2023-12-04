@@ -24,7 +24,7 @@ public class RegistroDenuncia {
     @Enumerated(EnumType.STRING)
     private StatusDenuncia statusAtual;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Usuario quemAtualizou;
 
     @Column(columnDefinition = "TEXT")

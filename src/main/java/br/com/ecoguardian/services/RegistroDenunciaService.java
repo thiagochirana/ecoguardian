@@ -37,44 +37,76 @@ public class RegistroDenunciaService {
         registro.setQuemAtualizou(usuarios.obterPeloId(1L));
         registro.setTitulo("Abertura de Registro da Denuncia n. "+denuncia.getId());
         registro.setDescricao("Abertura de nova denúncia realizadas às "+denuncia.dataHoraDeAbertura()+" pelo usuário "+denuncia.getDenunciante().getNome());
-        return this.salvarAlteracoes(registro);
+        return this.persistirAlteracoes(registro);
     }
 
-    public RegistroDenuncia salvarAlteracoes(RegistroDenunciaJSON json){
+    public RegistroDenuncia salvarComentarioAguardandoAnalise(RegistroDenunciaJSON json){
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.AGUARDANDO_ANALISE));
+    }
+
+    public RegistroDenuncia iniciarAnalise(RegistroDenunciaJSON json){
+
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.ANALISE_INICIADA));
+    }
+
+    public RegistroDenuncia analiseResolvida(RegistroDenunciaJSON json){
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.RESOLVIDA));
+    }
+
+    public RegistroDenuncia rejeitarDenuncia(RegistroDenunciaJSON json){
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.REJEITADA));
+    }
+
+
+    public RegistroDenuncia adicionarComentarioJaIniciado(RegistroDenunciaJSON json){
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.EM_ANALISE));
+    }
+
+    public RegistroDenuncia encerradaPeloUsuario(RegistroDenunciaJSON json){
+        return persistirAlteracoes(alterarStatus(json, StatusDenuncia.ENCERRADA_PELO_DENUNCIANTE));
+    }
+
+
+
+    public RegistroDenuncia persistirAlteracoes(RegistroDenunciaJSON json){
         Usuario usuario = usuarios.obterPeloId(json.idUsuario());
         Denuncia denuncia = denuncias.findById(json.denunciaId()).orElseGet(Denuncia::new);
         RegistroDenuncia registro = new RegistroDenuncia(json, usuario, denuncia);
         if (registro.getStatusAtual() == StatusDenuncia.REJEITADA || registro.getStatusAtual() == StatusDenuncia.RESOLVIDA){
             return encerrar(registro);
         }
-        if (!usuario.isAdminOuAnalista() || !usuario.temAcessoTotal()){
-            StatusDenuncia status;
-            if (jaEstaEmAnalise(denuncia)){
-                status = StatusDenuncia.EM_ANALISE;
-                registro.setStatusAtual(status);
-            } else {
-                status = StatusDenuncia.AGUARDANDO_ANALISE;
-                registro.setStatusAtual(status);
-                denuncia.setStatusDenuncia(status);
-            }
+        if (registro.getStatusAtual() == StatusDenuncia.ANALISE_INICIADA){
+            return startAnalise(registro);
         }
-        return salvarAlteracoes(registro);
+        if (registro.getStatusAtual() == StatusDenuncia.ENCERRADA_PELO_DENUNCIANTE){
+            return encerrar(registro);
+        }
+        return persistirAlteracoes(registro);
+    }
+
+    public RegistroDenuncia startAnalise(RegistroDenuncia registro){
+        registro.setTitulo("Análise a denúncia iniciada");
+        registro.setQuemAtualizou(sessao.getUsuarioLogado());
+        registro.setDescricao("Start da análise às "+registro.dataHoraRegistroFormatada()+" e que será realizada inicialmente pelo analista "+registro.getQuemAtualizou().getNome());
+        return persistirAlteracoes(registro);
     }
 
     public RegistroDenuncia encerrar(RegistroDenuncia registro){
-        RegistroDenuncia reg = salvarAlteracoes(registro);
+        RegistroDenuncia reg = persistirAlteracoes(registro);
         RegistroDenuncia novoReg = new RegistroDenuncia();
         novoReg.setStatusAtual(StatusDenuncia.FECHADA);
         novoReg.setTitulo("Denúncia protocolo "+reg.getDenuncia().getProtocolo()+" Encerrada");
         novoReg.setDescricao("Denúncia "+reg.getStatusAtual().getNome()+" às "+reg.dataHoraRegistroFormatada()+" pelo usuario "+sessao.getUsuarioLogado().getNome());
         novoReg.setDenuncia(reg.getDenuncia());
-        return salvarAlteracoes(novoReg);
+        novoReg.setQuemAtualizou(sessao.getUsuarioLogado());
+        return persistirAlteracoes(novoReg);
     }
 
-    private RegistroDenuncia salvarAlteracoes(RegistroDenuncia registro){
+    @Transactional
+    public RegistroDenuncia persistirAlteracoes(RegistroDenuncia registro){
         registro.setDataHoraRegistro(Datas.agora());
         registro.getDenuncia().setStatusDenuncia(registro.getStatusAtual());
-        denuncias.save(registro.getDenuncia());
+        registro.setDenuncia(denuncias.save(registro.getDenuncia()));
         return registros.save(registro);
     }
 
@@ -88,12 +120,13 @@ public class RegistroDenunciaService {
         return listaRegistros.stream().toList();
     }
 
-    private boolean jaEstaEmAnalise(Denuncia denuncia){
-        for (RegistroDenuncia r : listarDaDenuncia(denuncia)){
-            if (r.getStatusAtual() != StatusDenuncia.ABERTA && r.getStatusAtual() != StatusDenuncia.AGUARDANDO_ANALISE){
-                return true;
-            }
-        }
-        return false;
+    private RegistroDenunciaJSON alterarStatus(RegistroDenunciaJSON json, StatusDenuncia statusNovo){
+        return new RegistroDenunciaJSON(
+                json.denunciaId(),
+                json.titulo(),
+                json.descricao(),
+                json.idUsuario(),
+                statusNovo
+        );
     }
 }

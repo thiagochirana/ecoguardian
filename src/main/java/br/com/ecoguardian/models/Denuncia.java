@@ -2,14 +2,13 @@ package br.com.ecoguardian.models;
 
 import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
+import br.com.ecoguardian.models.records.DenunciaRespJSON;
 import br.com.ecoguardian.utils.Datas;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +30,8 @@ public class Denuncia {
 
     private Date dataAbertura;
 
+    private Date dataOcorrencia;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Localizacao localizacao;
 
@@ -39,7 +40,7 @@ public class Denuncia {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Usuario denunciante;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -80,6 +81,7 @@ public class Denuncia {
         this.outrasInformacoes = json.outrasInformacoes();
         this.provavelAutorNome = json.provavelAutorNome();
         this.provavelAutorDescricao = json.provavelAutorDescricao();
+        this.dataOcorrencia = Datas.emStringParaDate(json.dataOcorrencia());
         this.statusDenuncia = StatusDenuncia.ABERTA;
     }
 
@@ -95,5 +97,25 @@ public class Denuncia {
     @Transactional
     public List<Arquivo> getImagens(){
         return this.imagens;
+    }
+
+    public boolean precisaIniciar(){
+        return this.statusDenuncia == StatusDenuncia.ABERTA || this.statusDenuncia == StatusDenuncia.AGUARDANDO_ANALISE;
+    }
+
+    public DenunciaRespJSON getDadosDenuncia(){
+        return new DenunciaRespJSON(
+                this.id,
+                this.sigilo,
+                this.protocolo,
+                this.titulo,
+                this.descricao,
+                Datas.dataFormatada(this.dataAbertura),
+                precisaIniciar(),
+                this.localizacao.getMunicipio().getNome(),
+                this.localizacao.getMunicipio().getEstado().getNome(),
+                this.statusDenuncia.getNome(),
+                this.denunciante.getNome()
+        );
     }
 }

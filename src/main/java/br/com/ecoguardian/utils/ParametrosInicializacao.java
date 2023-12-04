@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,6 +171,7 @@ public class ParametrosInicializacao {
                     "-46.6789",
                     "Próximo ao MASP",
                     "Problema na calçada",
+                    "01/12/2023",
                     "Buraco na calçada em frente ao prédio",
                     1L,
                     5L,
@@ -192,6 +194,7 @@ public class ParametrosInicializacao {
                     "-46.6543",
                     "Em frente ao restaurante",
                     "Vazamento de água",
+                    "02/12/2023",
                     "Vazamento na rua causando alagamento",
                     2L,
                     9L,
@@ -214,6 +217,7 @@ public class ParametrosInicializacao {
                     "-43.1234",
                     "Próximo ao posto de salva-vidas",
                     "Iluminação pública",
+                    "03/12/2023",
                     "Poste de luz apagado há dias",
                     3L,
                     13L,
@@ -236,6 +240,7 @@ public class ParametrosInicializacao {
                     "-49.5678",
                     "Perto do Jardim Botânico",
                     "Lixo acumulado",
+                    "01/12/2023",
                     "Lixo acumulado na calçada",
                     4L,
                     20L,

@@ -4,6 +4,7 @@ import br.com.ecoguardian.models.Municipio;
 import br.com.ecoguardian.models.Usuario;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record DenunciaJSON(
@@ -26,6 +27,8 @@ public record DenunciaJSON(
         String pontoDeReferencia,
 
         String titulo,
+
+        String dataOcorrencia,
 
         String descricao,
 
@@ -57,6 +60,7 @@ public record DenunciaJSON(
                 this.longitude,
                 this.pontoDeReferencia,
                 this.titulo,
+                this.dataOcorrencia,
                 this.descricao,
                 this.categoriaId,
                 this.subcategoriaId,

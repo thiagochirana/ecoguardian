@@ -3,10 +3,8 @@ package br.com.ecoguardian.controllers;
 import br.com.ecoguardian.models.Arquivo;
 import br.com.ecoguardian.models.Denuncia;
 import br.com.ecoguardian.models.enums.Estado;
-import br.com.ecoguardian.models.records.DenunciaJSON;
-import br.com.ecoguardian.models.records.MensagemView;
-import br.com.ecoguardian.models.records.RegistroDenunciaJSON;
-import br.com.ecoguardian.models.records.SubcategoriaDTO;
+import br.com.ecoguardian.models.enums.StatusDenuncia;
+import br.com.ecoguardian.models.records.*;
 import br.com.ecoguardian.services.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +44,7 @@ public class DenunciaController {
         model.addObject("denunciasFeitas", denuncias.todasAbertasDoUsuarioLogado());
         model.addObject("denunciasEmAnaliseAnalista", denuncias.todasAbertasOuEmAnalise());
         model.addObject("usuarioLogadoIsAdminOuAnalista", sessaoServiceWrapper.getUsuarioLogado().isAdminOuAnalista());
+        model.addObject("categorias", categorias.listar());
         return model;
     }
 
@@ -76,7 +75,7 @@ public class DenunciaController {
 
     @PostMapping("/registro/salvar")
     public ModelAndView realizarRegistro(RegistroDenunciaJSON json){
-        registros.salvarAlteracoes(json);
+        registros.persistirAlteracoes(json);
         ModelAndView model = view.novaView("redirect:/denuncia/"+json.denunciaId()+"/verRegistros");
         return model;
     }
@@ -98,11 +97,40 @@ public class DenunciaController {
         return model;
     }
 
+    @PostMapping("/registro/adicionarComentario/aguardandoAnalise")
+    public String salvarComentarioAguardandoAnalise(RegistroDenunciaJSON json){
+        registros.salvarComentarioAguardandoAnalise(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/iniciarAnalise")
+    public String iniciarAnalise(RegistroDenunciaJSON json){
+        registros.iniciarAnalise(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/resolvida")
+    public String encerrarAnalise(RegistroDenunciaJSON json){
+        registros.analiseResolvida(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/rejeitar")
+    public String rejeitarDenuncia(RegistroDenunciaJSON json){
+        registros.rejeitarDenuncia(json);
+        return "redirect:/denuncia";
+    }
+
+    @PostMapping("/registro/adicionarComentario/encerrar")
+    public String encerrarDenuncia(RegistroDenunciaJSON json){
+        registros.encerradaPeloUsuario(json);
+        return "redirect:/denuncia";
+    }
+
     @PostMapping("/registro/adicionarComentario/salvar")
-    public ModelAndView salvarComentarioEmDenuncia(RegistroDenunciaJSON json){
-        registros.salvarAlteracoes(json);
-        ModelAndView model = view.novaView("redirect:/denuncia");
-        return model;
+    public String salvarComentarioEmDenuncia(RegistroDenunciaJSON json){
+        registros.adicionarComentarioJaIniciado(json);
+        return "redirect:/denuncia";
     }
 
     @PostMapping("/{id}/registro/")
@@ -136,5 +164,28 @@ public class DenunciaController {
         return "redirect:/login";
     }
 
+    /**
+     * @Requisito Filtragens de Denúncias
+     * @Params No do Protocolo
+     * @Params Município
+     * @Params Categoria do Crime Ambiental
+     * @Params Data da ocorrência
+     * @Params Data do Cadastro da Denúncia
+     * @Params Status da Denúncia.
+     * */
 
+    @GetMapping("/filtrar")
+    @ResponseBody
+    public ResponseEntity<DenunciasTableJSON> filtroDeDenuncias(
+            @RequestParam(name = "protocolo", required = false) String protocolo,
+            @RequestParam(name = "municipioId", required = false) Long municipioId,
+            @RequestParam(name = "categoriaId", required = false) Long categoriaId,
+            @RequestParam(name = "dataOcorrencia", required = false) String dataOcorrencia,
+            @RequestParam(name = "dataCadastro", required = false) String dataCadastro,
+            @RequestParam(name = "status", required = false) StatusDenuncia status,
+            @RequestParam(name = "verSomenteUsuarioLogado", required = false) Boolean verSomenteUsuarioLogado
+    ) {
+        // Aqui você pode usar os parâmetros para filtrar suas denúncias
+        return denuncias.obterDenunciasParaTableDeAcordoComFiltro(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, status, verSomenteUsuarioLogado);
+    }
 }

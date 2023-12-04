@@ -7,6 +7,7 @@ public enum StatusDenuncia {
     EM_ANALISE("Em Análise"),
     RESOLVIDA("Resolvida"),
     REJEITADA("Rejeitada"),
+    ENCERRADA_PELO_DENUNCIANTE("Encerrada pelo Denunciante"),
     FECHADA("Fechada");
 
     private final String nome;

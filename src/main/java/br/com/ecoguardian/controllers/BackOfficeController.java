@@ -5,6 +5,7 @@ import br.com.ecoguardian.models.enums.TipoPerfil;
 import br.com.ecoguardian.services.ArquivoService;
 import br.com.ecoguardian.services.BackOfficeService;
 import br.com.ecoguardian.services.UsuarioService;
+import br.com.ecoguardian.utils.ParametrosInicializacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class BackOfficeController {
 
     @Autowired
     private ArquivoService arquivoService;
+
+    @Autowired
+    private ParametrosInicializacao parametros;
 
     @GetMapping
     public ModelAndView getAdminPage(){
@@ -71,6 +75,12 @@ public class BackOfficeController {
         return backOfficeService.obterImagem(id);
     }
 
+    @GetMapping("/popularBanco")
+    @ResponseBody
+    public ResponseEntity<String> popularBanco(){
+        parametros.validarEPopularBancoPrimeiraInicializacao();
+        return ResponseEntity.ok("Populado com sucesso");
+    }
 }
 
 
