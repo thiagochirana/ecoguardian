@@ -343,7 +343,6 @@ function habilitarBotaoCadastrar() {
 
 
 function habilitarBotaoSalvarDenuncia() {
-
     const logradouro = document.getElementById('logradouro-den').value.trim();
     const bairro = document.getElementById('bairro-den').value.trim();
     const pontoDeReferencia = document.getElementById('pontoDeReferencia-den').value.trim();
@@ -356,17 +355,37 @@ function habilitarBotaoSalvarDenuncia() {
     const subcategoria = document.getElementById('subcategoria').value.trim();
     const fotos = document.getElementById('formFile').files;
 
-
     const camposTextoSaoValidos = [logradouro, bairro, pontoDeReferencia, numero, estado, municipio, titulo, descricao, categoria, subcategoria]
         .every(campo => campo !== '');
 
+    const tamanhoMaximo = 50 * 1024 * 1024; // 50 MB em bytes
+    const tamanhoArquivos = calcularTamanhoArquivos(fotos);
 
-    const fotosSaoValidas = fotos.length > 0 && Array.from(fotos).every(file => file.size <= 50 * 1024 * 1024); // 50 MB em bytes
-
+    const fotosSaoValidas = fotos.length > 0 && tamanhoArquivos <= tamanhoMaximo;
 
     const botaoSalvar = document.querySelector('.salvar-btn');
     botaoSalvar.disabled = !(camposTextoSaoValidos && fotosSaoValidas);
+
+    // Exibindo mensagem de erro se ultrapassar o tamanho máximo
+    const mensagemErroArquivos = document.getElementById('mensagemErroArquivos');
+    if (tamanhoArquivos > tamanhoMaximo) {
+        mensagemErroArquivos.innerHTML = 'Tamanho total dos arquivos excede 50MB';
+        mensagemErroArquivos.style.color = 'red';
+    } else {
+        mensagemErroArquivos.innerHTML = '';
+    }
 }
+
+function calcularTamanhoArquivos(arquivos) {
+    let tamanhoTotal = 0;
+
+    for (const arquivo of arquivos) {
+        tamanhoTotal += arquivo.size;
+    }
+
+    return tamanhoTotal;
+}
+
 
 
 
