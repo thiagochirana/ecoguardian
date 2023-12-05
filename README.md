@@ -24,8 +24,8 @@ O EcoGuardian nasceu com a missão de enfrentar desafios ambientais, oferecendo 
 | -------------------------- | -------------------- |
 | PostgreSQL                | Ruby                 |
 | Intellij                  | Java                 |
-|                           | JavaScript           |
-|                           | HTML/CSS             |
+| GitHub                    | JavaScript           |
+| Git                       | HTML/CSS             |
 
 ## Contribua para um Futuro Sustentável! 🌱🌐
 Junte-se a nós no EcoGuardian e faça parte da mudança para um planeta mais verde e saudável. Sua contribuição faz a diferença! 🌟✨
