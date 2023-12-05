@@ -341,6 +341,35 @@ function habilitarBotaoCadastrar() {
     }
 }
 
+
+function habilitarBotaoSalvarDenuncia() {
+
+    const logradouro = document.getElementById('logradouro-den').value.trim();
+    const bairro = document.getElementById('bairro-den').value.trim();
+    const pontoDeReferencia = document.getElementById('pontoDeReferencia-den').value.trim();
+    const numero = document.getElementById('numero-endereco-den').value.trim();
+    const estado = document.getElementById('estado').value.trim();
+    const municipio = document.getElementById('idIBGE').value.trim();
+    const titulo = document.getElementById('titulo').value.trim();
+    const descricao = document.getElementById('descricao').value.trim();
+    const categoria = document.getElementById('categoria').value.trim();
+    const subcategoria = document.getElementById('subcategoria').value.trim();
+    const fotos = document.getElementById('formFile').files;
+
+
+    const camposTextoSaoValidos = [logradouro, bairro, pontoDeReferencia, numero, estado, municipio, titulo, descricao, categoria, subcategoria]
+        .every(campo => campo !== '');
+
+
+    const fotosSaoValidas = fotos.length > 0 && Array.from(fotos).every(file => file.size <= 50 * 1024 * 1024); // 50 MB em bytes
+
+
+    const botaoSalvar = document.querySelector('.salvar-btn');
+    botaoSalvar.disabled = !(camposTextoSaoValidos && fotosSaoValidas);
+}
+
+
+
 function validarSenha() {
     const senha = document.getElementById('senha').value;
     const confirmarSenha = document.getElementById('confirmarSenha').value;
@@ -359,6 +388,10 @@ function validarSenha() {
         btnCadastrar.disabled = false;
     }
 }
+
+
+
+
 
 //Usa a função de cima para com o retorno dos campos válidos
 function habilitarBotaoCadastrar() {

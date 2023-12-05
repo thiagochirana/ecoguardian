@@ -131,7 +131,7 @@
 
                 <div class="mb-3">
                     <label for="formFile" class="form-label obrigatorio">Fotos</label>
-                    <input class="form-control" type="file" id="formFile" name="imagens" multiple>
+                    <input class="form-control" type="file" id="formFile" name="imagens" multiple onchange="habilitarBotaoSalvarDenuncia()">
                 </div>
             </div>
 
@@ -180,10 +180,28 @@
                 </div>
             </div>
 
-            <button class="salvar-btn btn btn-success mt-4 mb-5">Registrar Denuncia</button>
+            <button class="salvar-btn btn btn-success mt-4 mb-5" disabled>Registrar Denuncia</button>
         </form>
 
         <div th:replace="~{base/base-elem :: script-padrao}"></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                habilitarBotaoSalvarDenuncia();
+            });
+            document.getElementById('logradouro-den').addEventListener('input', habilitarBotaoSalvarDenuncia);
+            document.getElementById('bairro-den').addEventListener('input', habilitarBotaoSalvarDenuncia);
+            document.getElementById('numero-endereco-den').addEventListener('input', habilitarBotaoSalvarDenuncia);
+            document.getElementById('cep-den').addEventListener('input', habilitarBotaoSalvarDenuncia);
+            document.getElementById('bairro-den').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('pontoDeReferencia-den').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('estado').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('idIBGE').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('titulo').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('descricao').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('categoria').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('subcategoria').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('formFile').addEventListener('input',habilitarBotaoSalvarDenuncia);
+        </script>
     </div>
 </body>
 </html>
