@@ -4,10 +4,12 @@
             <div class="carousel-inner">
                 <div th:each="imagem, i : ${imagens}">
                     <div th:if="${i.index} == 0" class="carousel-item active">
-                        <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}" alt="Imagem" class="d-block w-100">
+                        <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}"
+                             alt="Imagem" class="d-block w-100 carrossel-imagem">
                     </div>
                     <div th:unless="${i.index} == 0" class="carousel-item">
-                        <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}" alt="Imagem" class="d-block w-100">
+                        <img th:src="@{'/denuncia/verImagem/' + ${imagem.id}}"
+                             alt="Imagem" class="d-block w-100 carrossel-imagem">
                     </div>
                 </div>
             </div>

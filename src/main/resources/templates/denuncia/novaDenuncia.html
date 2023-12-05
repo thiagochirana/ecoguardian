@@ -64,6 +64,7 @@
                         <div class="col-md-auto">
                             <label for="estado" class="form-label obrigatorio">Estado:</label>
                             <select id="estado" name="estado" class="form-select" onchange="selecionarNomeEstado()">
+                                <option value="">Selecione um Estado</option> <!-- Opção vazia -->
                                 <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
                             </select>
                             <input type="hidden" id="estado-nome" value="">
@@ -113,9 +114,13 @@
                     <div class="col-md-auto">
                         <label for="categoria" class="form-label obrigatorio">Categoria:</label>
                         <select id="categoria" name="categoriaId" class="form-select" onchange="selecionarNomeEstado()">
+                            <option value="">Selecione uma opção</option>
                             <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.getNome()}"></option>
                         </select>
+                        <span class="legenda">Escolha primeiramente a Categoria para depois escolher a Subcategoria</span>
                     </div>
+                </div>
+                <div class="mb-3-row">
                     <div class="col-md-auto">
                         <label for="subcategoria" class="form-label obrigatorio">Subcategoria:</label>
                         <select id="subcategoria" name="subcategoriaId" class="form-select" onchange="selecionarNomeEstado()">
@@ -145,7 +150,7 @@
 
             <div th:fragment="form-denuncia-provavel-autor-dados">
                 <div class="mb-3">
-                    <label for="provavelAutorNome" class="form-label">Nome do(a) provável autor:</label>
+                    <label for="provavelAutorNome" class="form-label">Nome do(a) provável autor(a):</label>
                     <input type="text" class="form-control" id="provavelAutorNome" name="provavelAutorNome"/>
                 </div>
 
@@ -160,7 +165,22 @@
                 </div>
             </div>
 
-            <button class="salvar-btn btn btn-success">Registrar Denuncia</button>
+            <hr>
+            <h5>Informações de contato</h5>
+            <hr>
+
+            <div class="mb-3 row">
+                <div class="col-sm-6">
+                    <label for="email" class="form-label hide-info">Email:</label>
+                    <input th:value="${usuarioLogado.email}" type="text" class="form-control" id="email" name="email" readonly/>
+                </div>
+                <div class="col-sm-6">
+                    <label for="telefone" class="form-label hide-info">Telefone:</label>
+                    <input th:value="${usuarioLogado.telefone}" type="text" class="form-control" id="telefone" name="telefone" readonly/>
+                </div>
+            </div>
+
+            <button class="salvar-btn btn btn-success mt-4 mb-5">Registrar Denuncia</button>
         </form>
 
         <div th:replace="~{base/base-elem :: script-padrao}"></div>

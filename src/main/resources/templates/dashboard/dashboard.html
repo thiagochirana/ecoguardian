@@ -11,15 +11,15 @@
     <div class="quadro-denuncias">
         <div class="card-denuncia aberto">
             <span class="titulo-card-denuncia">Abertas</span>
-            <span class="contagem-denuncia" th:text="${qtdeDenunciasAbertas}"></span>
+            <span class="contagem-denuncia contagem-denuncia-verde" th:text="${qtdeDenunciasAbertas}"></span>
         </div>
         <div class="card-denuncia emAnalise">
             <span class="titulo-card-denuncia">Em análise</span>
-            <span class="contagem-denuncia" th:text="${qtdeDenunciasEmAnalise}"></span>
+            <span class="contagem-denuncia contagem-denuncia-azul" th:text="${qtdeDenunciasEmAnalise}"></span>
         </div>
         <div class="card-denuncia precisaAtencao">
             <span class="titulo-card-denuncia">Precisa de Atenção</span>
-            <span class="contagem-denuncia" th:text="${qtdeDenunciasPrecisaAtencao}"></span>
+            <span class="contagem-denuncia contagem-denuncia-vermelho" th:text="${qtdeDenunciasPrecisaAtencao}"></span>
         </div>
     </div>
 
