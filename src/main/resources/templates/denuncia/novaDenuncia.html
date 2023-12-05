@@ -133,6 +133,7 @@
                     <label for="formFile" class="form-label obrigatorio">Fotos</label>
                     <input class="form-control" type="file" id="formFile" name="imagens" multiple onchange="habilitarBotaoSalvarDenuncia()">
                     <div id="mensagemErroArquivos" style="color: red;"></div>
+                    <div id="mensagemErroArquivosTipo" style="color: red;"></div>
                 </div>
             </div>
 
@@ -201,7 +202,10 @@
             document.getElementById('descricao').addEventListener('input',habilitarBotaoSalvarDenuncia);
             document.getElementById('categoria').addEventListener('input',habilitarBotaoSalvarDenuncia);
             document.getElementById('subcategoria').addEventListener('input',habilitarBotaoSalvarDenuncia);
-            document.getElementById('formFile').addEventListener('input',habilitarBotaoSalvarDenuncia);
+            document.getElementById('formFile').addEventListener('change',function () {
+                verificarTiposDeArquivo();
+                habilitarBotaoSalvarDenuncia();
+            });
         </script>
     </div>
 </body>

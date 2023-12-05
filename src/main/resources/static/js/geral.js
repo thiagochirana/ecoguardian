@@ -358,23 +358,31 @@ function habilitarBotaoSalvarDenuncia() {
     const camposTextoSaoValidos = [logradouro, bairro, pontoDeReferencia, numero, estado, municipio, titulo, descricao, categoria, subcategoria]
         .every(campo => campo !== '');
 
-    const tamanhoMaximo = 50 * 1024 * 1024; // 50 MB em bytes
-    const tamanhoArquivos = calcularTamanhoArquivos(fotos);
+    const mensagemErroArquivos = document.getElementById('mensagemErroArquivos');
+    const mensagemErroArquivosTipo = document.getElementById('mensagemErroArquivosTipo');
 
-    const fotosSaoValidas = fotos.length > 0 && tamanhoArquivos <= tamanhoMaximo;
+    if (fotos.length > 0) {
+        verificarTiposDeArquivo();
+
+        const fotosSaoValidas = Array.from(fotos).every(file => file.size <= 50 * 1024 * 1024); // 50 MB em bytes
+
+        if (!fotosSaoValidas || mensagemErroArquivosTipo.innerHTML !== '') {
+            mensagemErroArquivos.innerHTML = 'Certifique-se de que as imagens estão dentro do limite de 50 MB.';
+        } else {
+            mensagemErroArquivos.innerHTML = ''; // Limpa a mensagem de erro se estiver tudo correto
+        }
+    } else {
+        mensagemErroArquivos.innerHTML = ''; // Limpa a mensagem de erro se não há arquivos
+        mensagemErroArquivosTipo.innerHTML = ''; // Limpa a mensagem de erro do tipo de arquivo
+    }
 
     const botaoSalvar = document.querySelector('.salvar-btn');
-    botaoSalvar.disabled = !(camposTextoSaoValidos && fotosSaoValidas);
-
-    // Exibindo mensagem de erro se ultrapassar o tamanho máximo
-    const mensagemErroArquivos = document.getElementById('mensagemErroArquivos');
-    if (tamanhoArquivos > tamanhoMaximo) {
-        mensagemErroArquivos.innerHTML = 'Tamanho total dos arquivos excede 50MB';
-        mensagemErroArquivos.style.color = 'red';
-    } else {
-        mensagemErroArquivos.innerHTML = '';
-    }
+    botaoSalvar.disabled = !(camposTextoSaoValidos && mensagemErroArquivos.innerHTML === '' && mensagemErroArquivosTipo.innerHTML === '');
 }
+
+// Adiciona o evento de input ao formFile para chamar a função habilitarBotaoSalvarDenuncia
+document.getElementById('formFile').addEventListener('input', habilitarBotaoSalvarDenuncia);
+
 
 function calcularTamanhoArquivos(arquivos) {
     let tamanhoTotal = 0;
@@ -386,7 +394,28 @@ function calcularTamanhoArquivos(arquivos) {
     return tamanhoTotal;
 }
 
+function verificarTiposDeArquivo() {
+    const formFileInput = document.getElementById('formFile');
+    const mensagemErroArquivosTipo = document.getElementById('mensagemErroArquivosTipo');
 
+    const tiposPermitidos = ['image/jpeg', 'image/png'];
+
+    const arquivos = formFileInput.files;
+    let tiposInvalidos = false;
+
+    for (const arquivo of arquivos) {
+        if (!tiposPermitidos.includes(arquivo.type)) {
+            tiposInvalidos = true;
+            break;
+        }
+    }
+
+    if (tiposInvalidos) {
+        mensagemErroArquivosTipo.innerHTML = 'Tipos de arquivo inválidos. Apenas arquivos JPEG e PNG são permitidos.';
+    } else {
+        mensagemErroArquivosTipo.innerHTML = '';
+    }
+}
 
 
 function validarSenha() {
