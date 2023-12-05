@@ -13,65 +13,9 @@
         <div class="table-responsive">
             <div class="btn-direita">
                 <div class="d-flex">
-                    <div class="col-md-auto">
-                        <button id="btnShowModal" type="button" class="btn btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#modalFiltros"><i class="bi bi-funnel"></i>Filtrar</button>
-                        <div class="modal fade" id="modalFiltros" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="tituloModalFiltros" th:text="@{'Filtrar Denúncias'}"></h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h5>Selecione as Opções:</h5>
-                                        <hr>
-                                        <label for="protocoloForm" class="form-label">Protocolo</label>
-                                        <input type="text" id="protocoloForm" class="form-control">
 
-                                        <label for="estadoForm" class="form-label">Estado:</label>
-                                        <select id="estadoForm" class="form-select" onchange="filtroListarMunicipios()">
-                                            <option value="">Selecione um Estado</option> <!-- Opção vazia -->
-                                            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado.getNome()}"></option>
-                                        </select>
+                    <div th:replace="~{denuncia/modalFiltroDenuncias :: modalFiltros}"></div>
 
-                                        <label for="municipioForm" class="form-label">Municipio:</label>
-                                        <select id="municipioForm" class="form-select" >
-
-                                        </select>
-
-                                        <label for="categoriaForm" class="form-label">Categoria:</label>
-                                        <select id="categoriaForm" class="form-select">
-                                            <option value="">Selecione uma opção</option>
-                                            <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.getNome()}"></option>
-                                        </select>
-
-                                        <div class="input-group date" id="datepickerDtOcorrencia">
-                                            <input type="date" class="form-control" id="dataOcorrencia"/>
-                                            <span class="input-group-append">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
-
-                                        <div class="input-group date" id="datepickerDtCadastro">
-                                            <input type="date" class="form-control" id="dataCadastro"/>
-                                            <span class="input-group-append">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
-
-                                        <label for="statusDenunciaForm" class="form-label">Status:</label>
-                                        <select id="statusDenunciaForm" class="form-select">
-                                            <option th:each="stat : ${status}" th:value="${stat}" th:text="${stat.getNome()}"></option>
-                                        </select>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="getTablePelosFiltros()">Entendido</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-auto">
                         <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
                     </div>
@@ -92,6 +36,12 @@
 
             <!--Table do usuario, suas denuncias feitas-->
             <h5>Suas Denúncias</h5>
+
+            <!--Botão Filtro de Denúncias para o usuário, se caso houver... -->
+            <div class="btn-direita" th:if="${#lists.size(denunciasFeitas) > 0}">
+                <div th:replace="~{denuncia/modalFiltroDenuncias :: modalFiltros}"></div>
+            </div>
+
             <div th:if="${#lists.size(denunciasFeitas) > 0}">
 <!--                <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasFeitas})}"></div>-->
                 <div th:replace="~{denuncia/tableDenuncia :: table-denuncia-do-usuario}"></div>

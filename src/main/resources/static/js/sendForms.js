@@ -4,17 +4,85 @@ function submitFormEmEndpoint(endpoint, form){
 }
 
 // -------------------------------------------
-//      Comportamento Table Denúncias
+//      FILTRAGEM DE DENUNCIAS
 // -------------------------------------------
 
-function getTablePelosFiltros(){
-    let protocolo = $("#protocoloForm");
-    let municipioId = $("#estadoForm");
-    let categoriaId = $("#categoriaForm");
-    let dataOcorrencia = $("#dataOcorrencia");
-    let dataCadastro = $("#dataCadastro");
-    let statusDenuncia = $("#statusDenunciaForm");
+function filtrarDenunciasAnalista(){
+    let protocolo = $("#protocoloForm").val();
+    let municipioId = $("#estadoForm").val();
+    let categoriaId = $("#categoriaForm").val();
+    let dataOcorrencia = $("#dataOcorrencia").val();
+    let dataCadastro = $("#dataCadastro").val();
+    let statusDenuncia = $("#statusDenunciaForm").val();
+    let tBody = $("#tbodyDenunciasTable");
+    tBody.empty();
+    getTablePelosFiltros(protocolo,municipioId, categoriaId, dataOcorrencia, dataCadastro, statusDenuncia, tBody);
 }
+
+function filtrarDenunciasUser(){
+    let protocolo = $("#protocoloFormUser").val();
+    let municipioId = $("#estadoFormUser").val();
+    let categoriaId = $("#categoriaFormUser").val();
+    let dataOcorrencia = $("#dataOcorrenciaUser").val();
+    let dataCadastro = $("#dataCadastroUser").val();
+    let statusDenuncia = $("#statusDenunciaFormUser").val();
+    let tBody = $("#tbodyDenunciasDoUsuarioTable");
+    tBody.empty();
+    getTablePelosFiltros(protocolo,municipioId, categoriaId, dataOcorrencia, dataCadastro, statusDenuncia, tBody);
+}
+
+//cada campo é um valor
+function getTablePelosFiltros(protocolo, municipioId, categoriaId, dataOcorrencia, dataCadastro, statusDenuncia, tBody){
+
+    params = '';
+
+    if (protocolo != null && protocolo.trim() !== ''){
+        params = adicionarParams(params, 'protocolo='+protocolo)
+    }
+    if (municipioId != null && municipioId > 0 ){
+        params = adicionarParams(params, 'municipioId='+municipioId)
+    }
+    if (categoriaId != null && categoriaId > 0 ){
+        params = adicionarParams(params, 'categoriaId='+categoriaId)
+    }
+    if (dataOcorrencia != null && dataOcorrencia.trim() !== '' && dataOcorrencia !== 'dd/mm/aaaa'){
+        params = adicionarParams(params, 'dataOcorrencia='+formatarData(dataOcorrencia))
+    }
+    if (dataCadastro != null && dataCadastro.trim() !== '' && dataCadastro !== 'dd/mm/aaaa'){
+        params = adicionarParams(params, 'dataCadastro='+formatarData(dataCadastro))
+    }
+    if (statusDenuncia != null && statusDenuncia !== ''){
+        params = adicionarParams(params, 'status='+statusDenuncia)
+    }
+
+    urlReq = '/denuncia/filtrar' + params
+    denuncias = getListaDenuncias(urlReq);
+
+    console.log(urlReq)
+    console.log(denuncias);
+
+    renderizarTableDenuncia(denuncias, tBody);
+}
+
+function adicionarParams(params, valor){
+    if (params !== ''){
+        params += '&' + valor;
+    } else {
+        params += '?' + valor;
+    }
+    return params
+}
+
+function formatarData(dataString){
+    let data = new Date(dataString);
+    return data.getDate() + "/" + (data.getMonth() + 1) + "/" + data.getFullYear();
+}
+
+
+
+// -------------------------------------------
+//      Comportamento Table Denúncias
+// -------------------------------------------
 
 function getListaDenuncias(urlComParams){
     let request = new XMLHttpRequest();

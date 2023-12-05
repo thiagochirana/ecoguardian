@@ -28,6 +28,7 @@ public class ViewBase {
         modelAndView.addObject("tiposPerfil", List.of(TipoPerfil.values()));
         modelAndView.addObject("estados", List.of(Estado.values()));
         modelAndView.addObject("statusDenuncia", statusItens());
+        modelAndView.addObject("todosStatusDenuncia", StatusDenuncia.values());
         modelAndView.addObject("notificacao", new MensagemView(false, true,null, null, null));
         modelAndView.addObject("notificacaoTopDir", new MensagemView(false, true,null, null, null));
         modelAndView.addObject("appVersion", VersaoUpdater.VersaoManager.getVersaoAtual());
