@@ -111,8 +111,9 @@
     </table>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
             carregarTableAoAcessaPagina();
-            carregarTableSuasDenuncias();
         });
     </script>
 </div>
@@ -137,6 +138,8 @@
     </table>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
             carregarTableSuasDenuncias();
         });
     </script>

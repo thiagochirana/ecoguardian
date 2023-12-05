@@ -6,6 +6,7 @@ import br.com.ecoguardian.models.enums.StatusDenuncia;
 import br.com.ecoguardian.models.records.DenunciaJSON;
 import br.com.ecoguardian.models.records.DenunciaRespJSON;
 import br.com.ecoguardian.models.records.DenunciasTableJSON;
+import br.com.ecoguardian.models.records.EditarDenunciaJSON;
 import br.com.ecoguardian.repositories.DenunciaRepository;
 import br.com.ecoguardian.utils.Datas;
 import br.com.ecoguardian.utils.Log;
@@ -97,8 +98,14 @@ public class DenunciaService {
         return denuncias.findById(id).orElseGet(Denuncia::new);
     }
 
-    public Denuncia alterar(Denuncia denuncia){
-        return denuncias.save(denuncia);
+    public void alterar(EditarDenunciaJSON json) {
+        Optional<Denuncia> den = denuncias.findById(json.denunciaId());
+        if (den.isPresent()){
+            Denuncia d = den.get();
+            d.setCategoria(categoriaService.doId(json.categoriaId()));
+            d.setSubcategoria(categoriaService.subcategoriaId(json.subcategoriaId()));
+            denuncias.save(d);
+        }
     }
 
     public List<Denuncia> doEstado(Estado estado){

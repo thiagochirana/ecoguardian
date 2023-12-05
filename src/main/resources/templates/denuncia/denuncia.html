@@ -11,20 +11,20 @@
         <hr>
 
         <div class="table-responsive">
-            <div class="btn-direita">
-                <div class="d-flex">
-
-                    <div th:replace="~{denuncia/modalFiltroDenuncias :: modalFiltros}"></div>
-
-                    <div class="col-md-auto">
-                        <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
-                    </div>
-                </div>
-            </div>
 
             <!--Validar se é admin, analista ou acesso total, para mostrar o table de denuncias em analise-->
             <div th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
                 <h5>Denúncias a acompanhar</h5>
+                <div class="btn-direita">
+                    <div class="d-flex">
+
+                        <div th:replace="~{denuncia/modalFiltroDenuncias :: modalFiltros}"></div>
+
+                        <div class="col-md-auto">
+                            <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
+                        </div>
+                    </div>
+                </div>
                 <div th:if="${#lists.size(denunciasEmAnaliseAnalista) > 0}">
 <!--                    <div th:replace="~{denuncia/tableDenuncia :: table-denuncia(${denunciasEmAnaliseAnalista})}"></div>-->
                     <div th:replace="~{denuncia/tableDenuncia :: table-denuncia-renderizada}"></div>
@@ -38,8 +38,13 @@
             <h5>Suas Denúncias</h5>
 
             <!--Botão Filtro de Denúncias para o usuário, se caso houver... -->
-            <div class="btn-direita" th:if="${#lists.size(denunciasFeitas) > 0}">
-                <div th:replace="~{denuncia/modalFiltroDenuncias :: modalFiltros}"></div>
+            <div class="btn-direita">
+                <div class="d-flex">
+                    <div th:if="${#lists.size(denunciasFeitas) > 0}" th:replace="~{denuncia/modalFiltroDenuncias :: modalFiltrosDenunciaUsuario}" ></div>
+                    <div class="col-md-auto">
+                        <a th:href="@{'/denuncia/nova'}" class="novo-btn btn btn-success"><i class="bi bi-file-earmark-plus"></i>Nova</a>
+                    </div>
+                </div>
             </div>
 
             <div th:if="${#lists.size(denunciasFeitas) > 0}">

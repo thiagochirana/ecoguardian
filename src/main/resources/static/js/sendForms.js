@@ -58,9 +58,6 @@ function getTablePelosFiltros(protocolo, municipioId, categoriaId, dataOcorrenci
     urlReq = '/denuncia/filtrar' + params
     denuncias = getListaDenuncias(urlReq);
 
-    console.log(urlReq)
-    console.log(denuncias);
-
     renderizarTableDenuncia(denuncias, tBody);
 }
 
@@ -75,7 +72,7 @@ function adicionarParams(params, valor){
 
 function formatarData(dataString){
     let data = new Date(dataString);
-    return data.getDate() + "/" + (data.getMonth() + 1) + "/" + data.getFullYear();
+    return data.getDate()+1 + "/" + (data.getMonth() + 1) + "/" + data.getFullYear();
 }
 
 
@@ -106,11 +103,7 @@ function carregarTableAoAcessaPagina(){
 
 function carregarTableSuasDenuncias(){
     console.log('Renderizando table de denuncias do usuario...')
-    let tbody = $("#tbodyDenunciasDoUsuarioTable");
-    console.log("Tbody Element da table de denuncias do Usuario:", tbody);
-
-    // renderizarTableDenuncia(getListaDenuncias('/denuncia/filtrar?verSomenteUsuarioLogado=true', tbody));
-    renderizarTableDenuncia(getListaDenuncias('/denuncia/filtrar?verSomenteUsuarioLogado=true'), tbody);
+    renderizarTableDenuncia(getListaDenuncias('/denuncia/filtrar?verSomenteUsuarioLogado=true'), $("#tbodyDenunciasDoUsuarioTable"));
 }
 
 function renderizarTableDenuncia(json, tableBody){

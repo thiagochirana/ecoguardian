@@ -59,6 +59,27 @@ public class DenunciaController {
         return model;
     }
 
+    @GetMapping("/{id}/editar")
+    @Transactional
+    public ModelAndView getViewEditarDenuncia(@PathVariable Long id){
+        ModelAndView model = view.novaView("denuncia/editarDenuncia");
+        model.addObject("categorias",categorias.listar());
+        Denuncia de = denuncias.obter(id);
+        model.addObject("denuncia", de);
+        try{
+            model.addObject("nomeDenunciante", de.getDenunciante().getNome());
+            model.addObject("emailDenunciante", de.getDenunciante().getEmail());
+            model.addObject("telDenunciante", de.getDenunciante().getTelefone());
+        } catch (Exception ignored){}
+        return model;
+    }
+
+    @PostMapping("/editar")
+    public ModelAndView editarDenuncia(EditarDenunciaJSON json){
+        denuncias.alterar(json);
+        return view.novaView("redirect:/denuncia");
+    }
+
     @GetMapping("/nova")
     public ModelAndView novaDenuncia(){
         ModelAndView model = view.novaView("denuncia/novaDenuncia");

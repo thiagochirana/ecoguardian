@@ -10,6 +10,7 @@ import br.com.ecoguardian.services.DenunciaService;
 import br.com.ecoguardian.services.MunicipioService;
 import br.com.ecoguardian.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -41,6 +42,9 @@ public class ParametrosInicializacao {
 
     @Autowired
     private MunicipioService municipios;
+
+    @Value("${popular.database}")
+    private boolean podePopular;
 
     public void validarEPopularBancoPrimeiraInicializacao(){
         if (categorias.listar().isEmpty()){
@@ -104,7 +108,7 @@ public class ParametrosInicializacao {
             categorias.salvar(administracaoAmbiental);
         }
 
-        if (usuarioService.listarTodos().isEmpty()){
+        if (usuarioService.listarTodos().isEmpty() && podePopular){
             //Usuario Sistema
             usuarioService.salvar(new NovoUsuarioJSON(
                     "Eco Guardian",
@@ -154,12 +158,26 @@ public class ParametrosInicializacao {
                     "444",
                     TipoPerfil.ANONIMO
             ));
+        } else {
+            //Usuario Sistema
+            if (usuarioService.listarTodos().isEmpty()){
+                LOG.info("Irei apenas criar o usuario EcoGuardian");
+                usuarioService.salvar(new NovoUsuarioJSON(
+                        "Eco Guardian",
+                        "00000000000",
+                        "000",
+                        "000@gmail.com",
+                        "000",
+                        TipoPerfil.ECO_GUARDIAN
+                ));
+            }
+
         }
 
         validarMunicipiosPreenchidos();
 
         List<Denuncia> listarTodasDenuncias = denuncias.listarTodas();
-        if (listarTodasDenuncias.isEmpty()){
+        if (listarTodasDenuncias.isEmpty() && podePopular){
             DenunciaJSON denunciaReal1 = new DenunciaJSON(
                     false,
                     "Av. Paulista",

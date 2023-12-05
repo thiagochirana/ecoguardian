@@ -95,6 +95,11 @@
         </div>
         <div class="col-md-auto">
             <div class="carousel-container">
+                <div class="btn-direita" th:if="${usuarioLogado.isAdminOuAnalista() || usuarioLogado.temAcessoTotal()}">
+                    <a th:href="@{'/denuncia/' + ${denuncia.id} + '/editar'}"
+                       type="button" class="btn btn-outline-success me-2 sem-borda">
+                        <i class="bi bi-pencil-square"></i>Editar Categoria</a>
+                </div>
                 <br>
                 <br>
                 <br>
