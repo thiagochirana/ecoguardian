@@ -361,19 +361,14 @@ function habilitarBotaoSalvarDenuncia() {
     const mensagemErroArquivos = document.getElementById('mensagemErroArquivos');
     const mensagemErroArquivosTipo = document.getElementById('mensagemErroArquivosTipo');
 
-    if (fotos.length > 0) {
-        verificarTiposDeArquivo();
+    verificarTiposDeArquivo();
 
-        const fotosSaoValidas = Array.from(fotos).every(file => file.size <= 50 * 1024 * 1024); // 50 MB em bytes
+    const fotosSaoValidas = Array.from(fotos).every(file => file.size <= 50 * 1024 * 1024); // 50 MB em bytes
 
-        if (!fotosSaoValidas || mensagemErroArquivosTipo.innerHTML !== '') {
-            mensagemErroArquivos.innerHTML = 'Certifique-se de que as imagens estão dentro do limite de 50 MB.';
-        } else {
-            mensagemErroArquivos.innerHTML = ''; // Limpa a mensagem de erro se estiver tudo correto
-        }
+    if (!fotosSaoValidas) {
+        mensagemErroArquivos.innerHTML = 'O tamanho total dos arquivos deve ser inferior a 50 MB.';
     } else {
-        mensagemErroArquivos.innerHTML = ''; // Limpa a mensagem de erro se não há arquivos
-        mensagemErroArquivosTipo.innerHTML = ''; // Limpa a mensagem de erro do tipo de arquivo
+        mensagemErroArquivos.innerHTML = '';
     }
 
     const botaoSalvar = document.querySelector('.salvar-btn');
@@ -382,7 +377,6 @@ function habilitarBotaoSalvarDenuncia() {
 
 // Adiciona o evento de input ao formFile para chamar a função habilitarBotaoSalvarDenuncia
 document.getElementById('formFile').addEventListener('input', habilitarBotaoSalvarDenuncia);
-
 
 function calcularTamanhoArquivos(arquivos) {
     let tamanhoTotal = 0;
